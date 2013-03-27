@@ -14,12 +14,23 @@
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="assets/css/docs.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="assets/css/gh-fork-ribbon.css" />
+    <!--[if IE]>
+        <link rel="stylesheet" href="assets/css/gh-fork-ribbon.ie.css" />
+    <![endif]-->
+
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="assets/js/html5shiv.js"></script>
     <![endif]-->
 
     <body data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+
+      <div class="github-fork-ribbon-wrapper right">
+        <div class="github-fork-ribbon">
+            <a href="https://github.com/jmandel/blue-button-plus-pull">Fork me on GitHub</a>
+        </div>
+      </div>
 
       <!-- Navbar
       ================================================== -->
@@ -464,7 +475,7 @@ Host: bbplus-provider.org
                 authorization server includes this value when redirecting the
                 user-agent back to the client.  The parameter SHOULD be used
                 for preventing cross-site request forgery </td>
-                
+
                 </tr>
               </table>
 
@@ -512,7 +523,7 @@ Host: bbplus-provider.org</pre>
                 <td><code>state</code> </td>
 
                 <td>REQUIRED.  The exact value received from the client.</td>
-                
+
                 </tr>
 
               </table>
@@ -554,7 +565,7 @@ Host: bpgrapher.org</pre>
 
                 <tr>
                 <td><code>redirect_uri</code> </td>
-                
+
                 <td>REQIRED.  The same redirect_uri used in the initial
                 authorization request</td>
 
@@ -613,7 +624,7 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth </pre>
 
                 <tr>
                 <td><code>expires_in</code> </td>
-                
+
                 <td>REQUIRED.  The lifetime in seconds of the access token.
                   For example, the value "3600" denotes that the access token
                   will expire in one hour from the time the response was
@@ -689,7 +700,7 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth </pre>
                 authorization server includes this value when redirecting the
                 user-agent back to the client.  The parameter SHOULD be used
                 for preventing cross-site request forgery </td>
-                
+
                 </tr>
               </table>
 
@@ -738,7 +749,7 @@ Host: bbplus-provider.org </pre>
 
                 <tr>
                 <td><code>expires_in</code> </td>
-                
+
                 <td>REQUIRED.  The lifetime in seconds of the access token.
                   For example, the value "3600" denotes that the access token
                   will expire in one hour from the time the response was
@@ -755,7 +766,7 @@ Host: bbplus-provider.org </pre>
                 <td><code>state</code> </td>
 
                 <td>REQUIRED.  The exact value received from the client.</td>
-                
+
                 </tr>
 
               </table>
@@ -786,8 +797,8 @@ state=98wrghuwuogerg97
 Host: bbplus-provider.org </pre>
 
 
- 
-              </section>
+
+</section>
             </div>
           </div>
 
