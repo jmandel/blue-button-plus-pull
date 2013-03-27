@@ -102,7 +102,7 @@
 
           <li>
             <a href="#discovery"><i class="icon-chevron-right"></i>
-            Endpoint Discovery (TODO)</a>
+            Endpoint Discovery</a>
           </li>
 
           <li class="sidenav-indent">
@@ -111,9 +111,8 @@
           </li>
 
           <li class="sidenav-indent">
-            <a href="#discovery-authorizers"><i class=
-            "icon-chevron-right"></i> BB+ Authorizers<br>
-            (Does this need to be separate?)</a>
+            <a href="#discovery-apps"><i class=
+            "icon-chevron-right"></i> BB+ Apps</a>
           </li>
         </ul>
       </div>
@@ -154,7 +153,8 @@
               (described below).
             </div>
 
-            <h4>Registration Parameters</h4>
+            <h3 id="registration-parameters">Registration
+            Parameters</h3>
 
             <table class="table table-striped">
               <tr>
@@ -171,9 +171,7 @@
                 <td><code>string</code></td>
 
                 <td>Human-readable name of the Client to be
-                presented to the user. If omitted, the
-                Authorization Server MAY display to the user the
-                raw "client_id" value instead.</td>
+                presented to the user.</td>
               </tr>
 
               <tr>
@@ -304,7 +302,7 @@
               </tr>
             </table>
 
-            <h4>Example Registration for a Public Client</h4>
+            <h3>Example Registration for a Public Client</h3>
             <pre class="prettyprint lang-js">
 POST /register HTTP/1.1
 Content-Type: application/json
@@ -329,7 +327,7 @@ Host: bbplus-provider.org
 } 
 </pre>
 
-            <h4>Example Registration for a Confidential Client</h4>
+            <h3>Example Registration for a Confidential Client</h3>
             <pre class="prettyprint lang-js">
 POST /register HTTP/1.1
 Content-Type: application/json
@@ -378,7 +376,7 @@ Host: bbplus-provider.org
               trusts is out of scope for this specification, but we
               expect that a central "trust bundle" will be made
               available via <a href=
-              "secure.bluebuttontrust.org">secure.bluebuttontrust.org</a>
+              "https://secure.bluebuttontrust.org">secure.bluebuttontrust.org</a>
               to faciliate this process.
             </div>
 
@@ -496,7 +494,7 @@ Host: bbplus-provider.org
             <h2 id="authorization-code">Authorization Code Grant
             <small>for public or confidential clients</small></h2>
 
-            <h4>1. App-to-Provider Redirection</h4>To initiate an
+            <h3>1. App-to-Provider Redirection</h3>To initiate an
             Authorization Code Grant authorization, the app
             redirects the browser to a BlueButton+ provider's
             Authorization endpoint with the following URL
@@ -565,12 +563,12 @@ state=98wrghuwuogerg97
 Host: bbplus-provider.org
 </pre>
 
-            <h4>2. Provider Authenticates Patient and Obtains
-            Authorization</h4>The mechanism by which providers
+            <h3>2. Provider Authenticates Patient and Obtains
+            Authorization</h3>The mechanism by which providers
             authenticate patients and obtain authorization is out
             of scope for this specification
 
-            <h4>3. Provider-to-App Redirection</h4>
+            <h3>3. Provider-to-App Redirection</h3>
 
             <p>After a successful authorization step, the
             BlueButton+ provider redirects the browser to the app's
@@ -612,8 +610,8 @@ state=98wrghuwuogerg97
 Host: bpgrapher.org
 </pre>
 
-            <h4>4. App exchanges authorization code for access
-            token</h4>
+            <h3>4. App exchanges authorization code for access
+            token</h3>
 
             <p>After receiving an authorization code, the app
             issues a request to the BlueButton+ provider's
@@ -736,7 +734,7 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth
             <h2 id="authorization-implicit">Implicit Grant
             <small>for public clients</small></h2>
 
-            <h4>1. App-to-Provider Redirection</h4>To initiate an
+            <h3>1. App-to-Provider Redirection</h3>To initiate an
             Implicit Grant authorization, the app redirects the
             browser to a BlueButton+ provider's Authorization
             endpoint with the following URL parmeters:
@@ -804,12 +802,12 @@ state=98wrghuwuogerg97
 Host: bbplus-provider.org 
 </pre>
 
-            <h4>2. Provider Authenticates Patient and Obtains
-            Authorization</h4>The mechanism by which providers
+            <h3>2. Provider Authenticates Patient and Obtains
+            Authorization</h3>The mechanism by which providers
             authenticate patients and obtain authorization is out
             of scope for this specification
 
-            <h4>3. Provider-to-App Redirection</h4>
+            <h3>3. Provider-to-App Redirection</h3>
 
             <p>After a successful authorization step, the
             BlueButton+ provider redirects the browser to the app's
@@ -872,6 +870,279 @@ scope=single-patient%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&
 state=98wrghuwuogerg97
 
 Host: bbplus-provider.org 
+</pre>
+          </div>
+        </section>
+
+        <section id="discovery">
+          <div class="page-header">
+            <h1>Provider and App Discovery <small>via Trust Bundle
+            Servers</small></h1>
+
+            <p>BlueButton+ Pull uses <strong>Trust Bundle
+            Servers</strong> to enable discovery of BB+ Providers
+            and BB+ Apps. Each Trust Bundle Server exposes a set of
+            trusted providers and a set of trusted apps at
+            well-known <code>https</code> URLs, using simple
+            <a href="http://json-ld.org/">JSON-LD</a> arrays. In
+            the BB+ ecosystem, apps and providers must be
+            pre-configured with a Trust Bundle Server (or
+            Servers).</p>
+
+            <h5>Why JSON-LD?</h5>
+
+            <div class="well alert-info">
+              <p><strong>JSON-LD</strong> provides a nice balance
+              between idiomatic JSON and well-structured data
+              representations. By combining a JSON payload with a
+              JSON-LD context, properties can be expanded to full
+              URIs so that data can be mixed and matched with other
+              services. For example, the BB+ Provider element below
+              can automatically be:</p>
+
+              <ul>
+                <li>
+                  <a href="http://tinyurl.com/bpz5xsx" target=
+                  "_blank">Expanded to full property URIs</a>
+                </li>
+
+                <li>
+                  <a href="http://tinyurl.com/cp9vmum" target=
+                  "_blank">Normalized in RDF</a>
+                </li>
+              </ul>
+            </div>
+
+            <h2 id="discovery-providers">Provider Discovery</h2>
+
+            <p>A Trust Bundle Server exposes a BB+ Provider
+            Discovery endpoint at:
+            <code>/.well-known/providers.json</code></p>
+
+            <h3>providers.json</h3>
+
+            <p><code>providers.json</code> is a JSON array of
+            Provider elements, expressed as JSON-LD with a default
+            <code>@vocab</code> from <a href=
+            "http://schema.org">http://schema.org</a> and
+            additional properties defined in the <a href=
+            "context-json-ld.js">BB+ JSON-LD Context</a></p>
+
+            <p>While any vocabulary from schema.org may be used in
+            describing a provider, the <strong>following fields are
+            required:</strong></p>
+
+            <table class="table table-striped">
+              <tr>
+                <th>Property</th>
+
+                <th>Description</th>
+              </tr>
+
+              <tr>
+                <td><code>name</code></td>
+
+                <td>Name of the BB+ Data Provider organization</td>
+              </tr>
+
+              <tr>
+                <td><code>url</code></td>
+
+                <td>Primary url of the provider organization</td>
+              </tr>
+
+              <tr>
+                <td><code>patient_signin</code></td>
+
+                <td>URL where a patient can sign in to the
+                Provider</td>
+              </tr>
+
+              <tr>
+                <td><code>oauth2</code></td>
+
+                <td>Collection of OAuth2 endpoints</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>authorize</code></td>
+
+                <td>OAuth2 authorization endpoint</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>token</code></td>
+
+                <td>OAuth2 token endpoint</td>
+              </tr>
+
+              <tr>
+                <td><code>bb_api</code></td>
+
+                <td>Collection of BB+ API endpoints</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>summary</code></td>
+
+                <td>BlueButton+ Clinical Summary endpoint</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>search</code></td>
+
+                <td>BlueButton+ Document Search endpoint</td>
+              </tr>
+            </table>
+
+            <h5>providers.json example</h5>
+            <pre class="prettify">
+Content-Type: application/json
+Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
+
+[
+{
+  "name": "Good Health Clinic",
+  "description": "Serving your health needs since 1999",
+  "url": "http://goodhealthclinic.org",
+  "patient_signin": "http://portal.goodhealthclinic.org",
+  "location": {
+    "geo": {                       
+      "latitude": 42.3591,            // just making the point that we can
+      "longitude": -71.0934           // use arbitrary schema.org properties
+    }
+  },
+  "oauth2": {
+ "authorize_uri": "http://portal.goodhealthclinic.org/authorize",
+   "token_uri": "http://portal.goodhealthclinic.org/token"
+  },
+  "bb_api": {
+    "summary": "http://api.goodhealthclinic.org/patient/documents/summary",
+    "search": "http://api.goodhealthclinic.org/patient/documents/search"
+  }
+},
+{
+ ... (more providers here) ...
+}
+] 
+</pre>
+
+            <h2 id="discovery-apps">App Discovery</h2>
+
+            <p>A Trust Bundle Server exposes a <strong>BB+ App
+            Discovery</strong> endpoint at:
+            <code>/.well-known/apps.json</code></p>
+
+            <h3>apps.json</h3>
+
+            <p><code>apps.json</code> is a JSON array of App
+            elements, expressed as JSON-LD with a default
+            <code>@vocab</code> from <a href=
+            "http://schema.org">http://schema.org</a> and
+            additional properties defined in the <a href=
+            "context-json-ld.js">BB+ JSON-LD Context</a></p>
+
+            <p>While any vocabulary from schema.org may be used in
+            describing a provider, the <strong>following fields are
+            required:</strong></p>
+
+            <div class="well alert-error">
+              JM: I kind of want to require *all* registration
+              parameters to be fixed. We certainly should avoid
+              shenanigans like extracting a JWS from an iPad app
+              and re-registering a new instance with
+              https://attacker.com redirect_uris...
+            </div>
+
+            <table class="table table-striped">
+              <tr>
+                <th>Property</th>
+
+                <th>Description</th>
+              </tr>
+
+              <tr>
+                <td><code>name</code></td>
+
+                <td>Name of the BB+ App</td>
+              </tr>
+
+              <tr>
+                <td><code>url</code></td>
+
+                <td>Primary url of the provider organization</td>
+              </tr>
+
+              <tr>
+                <td><code>fixed_registration_parameters</code></td>
+
+                <td>
+                  JSON structure containing any <a href=
+                  "#registration-parameters">registration
+                  parameters</a> that are fixed across all
+                  instances of this app. A Trusted Registration
+                  request that fails to match identically on any
+                  parameters included here will be rejected.
+                </td>
+              </tr>
+
+              <tr>
+                <td class="subproperty">
+                <code>client_name</code></td>
+
+                <td>client_name must be fixed across all app
+                instances and must match the schema.org name
+                above</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty">
+                <code>client_uri</code></td>
+
+                <td>client_uri must be fixed across all app
+                instances and must match the schema.org url
+                above</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty">
+                <code>redirect_uris</code></td>
+
+                <td>the set of allowable redirect_uris must be
+                fixed across all app instances</td>
+              </tr>
+            </table>
+
+            <h5>apps.json example</h5>
+            <pre class="prettify">
+Content-Type: application/json
+Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
+
+[
+{
+  "url": "https://bpgrapher.org",
+  "name": "Blood Pressure Grapher",
+  "fixed_registration_parameters": {
+      "client_name": "Blood Pressure Grapher",
+      "client_uri": "https://bpgrapher.org",
+      "logo_uri": "http://bpgrapher.org/images/logo.png",
+      "contacts": [
+        "plot-master@bpgrapher.org"
+      ],
+      "tos_uri": "https://bpgrapher.org/tos",
+      "redirect_uris": [
+        "https://bpgrapher.org/after-auth"
+      ],
+      "response_types": ["token"],
+      "grant_types": ["implicit"],
+      "token_endpoint_auth_method": "none",
+      "scope":  "single-patient http://siframework.org/ABBI/endpoint/summary"
+  },
+}
+{
+ ... (more apps here) ...
+}
+] 
 </pre>
           </div>
         </section>

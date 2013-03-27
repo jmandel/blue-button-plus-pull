@@ -1065,3 +1065,8 @@ li.sidenav-indent a  {
     padding-bottom: 20px;
   }
 }
+
+
+td.subproperty {
+   padding-left: 2em;
+}
