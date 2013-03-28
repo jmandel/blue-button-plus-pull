@@ -303,7 +303,7 @@
             </table>
 
             <h3>Example Registration for a Public Client</h3>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 POST /register HTTP/1.1
 Content-Type: application/json
 Accept: application/json
@@ -328,7 +328,7 @@ Host: bbplus-provider.org
 </pre>
 
             <h3>Example Registration for a Confidential Client</h3>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 POST /register HTTP/1.1
 Content-Type: application/json
 Accept: application/json
@@ -552,7 +552,7 @@ Host: bbplus-provider.org
 
             <h5>Example App-to-Provider Redirection (newlines added
             for clarity)</h5>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 /authorize?
 response_type=code&amp;
 client_id=bp-grapher&amp;
@@ -602,7 +602,7 @@ Host: bbplus-provider.org
 
             <h5>Example Provider-to-App Redirection (newlines added
             for clarity)</h5>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 /after-oauth?
 code=j0j9midoe0r9gjwro83h974t8gifb&amp;
 state=98wrghuwuogerg97
@@ -657,7 +657,7 @@ Host: bpgrapher.org
 
             <h5>Example Code-for-Token Exchange Request (Public
             Client)</h5>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 POST /token HTTP/1.1
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -670,7 +670,7 @@ client_id=bp-grapher
 
             <h5>Example Code-for-Token Exchange Request
             (Confidential Client)</h5>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 POST /token HTTP/1.1
 Host: server.example.com
 Authorization: Basic {{TODO: client password auth example}}
@@ -722,7 +722,7 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth
             </table>
 
             <h5>Example Code-for-Token Exchange Response</h5>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 {
   "access_token": "i8hweunweunweofiwweoijewiwe&amp;
   "token_type": "bearer:
@@ -791,7 +791,7 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth
 
             <h5>Example App-to-Provider Redirection (newlines added
             for clarity)</h5>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 /authorize?
 response_type=token&amp;
 client_id=bp-grapher&amp;
@@ -861,7 +861,7 @@ Host: bbplus-provider.org
 
             <h5>Example Provider-to-App Redirection (newlines added
             for clarity)</h5>
-            <pre class="prettyprint lang-js">
+            <pre class="prettyprint ">
 /after-auth#
 access_token=i8hweunweunweofiwweoijewiwe&amp;
 token_type=bearer&amp;
@@ -1008,8 +1008,8 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
   "patient_signin": "http://portal.goodhealthclinic.org",
   "location": {
     "geo": {                       
-      "latitude": 42.3591,            // just making the point that we can
-      "longitude": -71.0934           // use arbitrary schema.org properties
+      "latitude": 42.3591,            # just making the point that we can
+      "longitude": -71.0934           # use arbitrary schema.org properties
     }
   },
   "oauth2": {
@@ -1138,7 +1138,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
       "token_endpoint_auth_method": "none",
       "scope":  "single-patient http://siframework.org/ABBI/endpoint/summary"
   },
-}
+},
 {
  ... (more apps here) ...
 }
@@ -1158,7 +1158,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
   </footer><!-- Le javascript
         ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
-  <script src="./assets/js/jquery.js">
+<script src="./assets/js/jquery.js">
 </script> <script src="./assets/js/bootstrap-transition.js">
 </script> <script src="./assets/js/bootstrap-alert.js">
 </script> <script src="./assets/js/bootstrap-modal.js">
