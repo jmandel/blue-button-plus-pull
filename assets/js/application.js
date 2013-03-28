@@ -5,11 +5,14 @@ $(function(){
   // make code pretty
   window.prettyPrint && prettyPrint()
 
-  // add-ons
-  $('.add-on :checkbox').on('click', function () {
-    var $this = $(this)
-    , method = $this.attr('checked') ? 'addClass' : 'removeClass'
-    $(this).parents('.add-on')[method]('active')
-  })
+  // side bar
+  setTimeout(function () {
+    $('.bs-docs-sidenav').affix({
+      offset: {
+        top: function () { return $window.width() <= 980 ? 290 : 210 }
+        , bottom: 20
+      }
+    })
+  }, 100)
 });
 

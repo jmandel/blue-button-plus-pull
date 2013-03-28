@@ -27,7 +27,7 @@
     <![endif]-->
 </head>
 
-<body data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
   <div class="github-fork-ribbon-wrapper right">
     <div class="github-fork-ribbon">
       <a href=
@@ -54,7 +54,7 @@
 
     <div class="row">
       <div class="span3 bs-docs-sidebar">
-        <ul class="nav nav-list bs-docs-sidenav">
+        <ul class="nav nav-list bs-docs-sidenav" data-offset-top="200">
           <li>
             <a href="#registration"><i class=
             "icon-chevron-right"></i> App Registration</a>
@@ -123,12 +123,12 @@
             <h1>App Registration <small>an up-front, automated
             step</small></h1>
 
-            <p>Before app connects to a BlueButton+ providers, it
-            registers with that provider as an OAuth2 client. The
-            registration process informs the provider what the app
-            is called, where to find it, what permissions it might
-            ask patients for, and how to display an authorization
-            screen to patients.</p>
+            <p>Before an app connects to a BlueButton+ providers,
+            it registers with that provider as an OAuth2 client.
+            The registration process informs the provider what the
+            app is called, where to find it, what permissions it
+            might ask patients for, and how to display an
+            authorization screen to patients.</p>
 
             <p>BB+ apps register with providers using <a href=
             "http://tools.ietf.org/html/draft-ietf-oauth-dyn-reg-08">
@@ -1168,6 +1168,8 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
 </script> <script src="./assets/js/bootstrap-popover.js">
 </script> <script src="./assets/js/bootstrap-button.js">
 </script> <script src="./assets/js/bootstrap-collapse.js">
+</script> <script src="./assets/js/bootstrap-affix.js">
+</script> <script src="./assets/js/bootstrap-scrollspy.js">
 </script> <script src="./assets/js/bootstrap-carousel.js">
 </script> <script src="./assets/js/bootstrap-typeahead.js">
 </script> <script src="./assets/js/holder.js">
