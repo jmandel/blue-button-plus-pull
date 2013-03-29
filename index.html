@@ -114,6 +114,11 @@
             <a href="#discovery-apps"><i class=
             "icon-chevron-right"></i> BB+ Apps</a>
           </li>
+
+          <li>
+            <a href="#push-authorization"><i class=
+            "icon-chevron-right"></i> Push Authorization</a>
+          </li>
         </ul>
       </div>
 
@@ -1144,6 +1149,165 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
 }
 ] 
 </pre>
+          </div>
+        </section>
+
+        <section id="push-authorization">
+          <div class="page-header">
+            <h1>Push Authorization</h1>
+
+            TODO
+            <ul>
+              <li>Add introspection_endpoint to provider discovery</li>
+              <li>Explain word choice of client and user agent (maybe?)</li>
+              <li>Make examples https</li>
+              <li>Eventually do proper HTTP request type formatting, host, auth, content-type, etc.</li>
+            </ul>
+
+            <div class="well alert">
+              Client: BP-Grapher<br />
+              SP: Good Health Clinic
+            </div>
+            
+            <h3>User Authorization Flow:</h3>
+            Client does discovery as listed above (<a href="#discovery-providers">Provider discovery</a> at its trust bundle).
+
+<pre class="prettify">
+{
+  "name": "Good Health Clinic",
+  "description": "Serving your health needs since 1999",
+  "url": "http://goodhealthclinic.org",
+  "patient_signin": "http://portal.goodhealthclinic.org",
+  "location": {
+    "geo": {                       
+      "latitude": 42.3591,            # just making the point that we can
+      "longitude": -71.0934           # use arbitrary schema.org properties
+    }
+  },
+  "oauth2": {
+    "authorize_uri": "http://portal.goodhealthclinic.org/authorize",
+    "token_uri": "http://portal.goodhealthclinic.org/token"
+  },
+  "bb_api": {
+    "summary": "http://api.goodhealthclinic.org/patient/documents/summary",
+    "search": "http://api.goodhealthclinic.org/patient/documents/search"
+  }
+}
+</pre>
+
+            Client allows client-side search, selection, filtering for all of the servers we know how to talk to (client may cache this list of providers based on some rules that the trust bundle communicated through the HTTP normal cache control mechanisms).
+            (Rationale for client-side filtering/search - Maybe your device is more conducive to text or scrolling or blahblahblah. Also allows for user experience customization without leaking privacy information to servers)
+            (Somehow) User selects the service provider from this filtered list. (Note: We need a screenshot of the user selecting a provider here)
+            Then decide if you need to dynamically register
+              Either you already have your OAuth credentials
+              Or you need to dynamically register (<a href="dyn reg above"></a>)
+
+              At trust bundle:
+              (Initial trust bundles are expected to be baked into client at configure time)
+
+<pre class="prettify">
+{
+  "url": "https://bpgrapher.org",
+  "name": "Blood Pressure Grapher",
+  "fixed_registration_parameters": {
+    "client_name": "Blood Pressure Grapher",
+    "client_uri": "https://bpgrapher.org",
+    "logo_uri": "http://bpgrapher.org/images/logo.png",
+    "contacts": [
+      "plot-master@bpgrapher.org"
+    ],
+    "tos_uri": "https://bpgrapher.org/tos",
+    "redirect_uris": [
+      "https://bpgrapher.org/after-auth"
+    ],
+    "response_types": ["code"],
+    "grant_types": ["authorization_code"],
+    "token_endpoint_auth_method": "none",
+    "scope":  "single-patient http://siframework.org/ABBI/endpoint/summary"
+  },
+}
+</pre>
+
+
+From dyn reg:
+<pre class="prettify">
+{
+  "client_id": "bp-grapher-goodhealth",
+  "client_secret": "aser98uw4ijhsdfg9r4"
+  "client_name": "Blood Pressure Grapher",
+  "client_uri": "https://bpgrapher.org",
+  "logo_uri": "http://bpgrapher.org/images/logo.png",
+  "contacts": [
+    "plot-master@bpgrapher.org"
+  ],
+  "tos_uri": "https://bpgrapher.org/tos",
+  "redirect_uris": [
+    "https://bpgrapher.org/after-auth"
+  ],
+  "response_types": ["code"],
+  "grant_types": ["authorization_code"],
+  "token_endpoint_auth_method": "none",
+  "scope":  "single-patient http://siframework.org/ABBI/endpoint/summary"
+}
+</pre>
+
+            Now we have our OAuth credentials.
+
+            Client sends a redirect to Service Provider's authorization endpoint
+            OAuth 2 RFC 6749 Section 4.1 describes code flow
+
+            Request:
+            http://portal.goodhealthclinic.org/authorize
+              &response_type=code
+              &client_id=bp-grapher-goodhealth
+              &redirect_uri=https://bpgrapher.org/after-auth
+              &state=aliawejhwiluaq34hiuow
+              &scope=send_email_to:oip8erjoiaewjoi@direct.bp-grapher.org
+            (Note: send_email_to scope is asking for permission to send e-mail to the given address after the :, using a simple expression language)
+
+            (Screenshot of authorization screen at the provider we chose in discovery step)
+
+              Positive response:
+              Client is redirected to 
+              https://bpgrapher.org/after-auth
+                &state=aliawejhwiluaq34hiuow
+                &code=oafea8i23n
+              (Note: Hypothetically, at this step we've already authorized e-mail to be sent, BUT: the client doesn't know that for sure yet, SO: we do the next step)
+
+              Error response: (Maybe user clicked deny)
+                https://bpgrapher.org/after-auth
+                &state=aliawejhwiluaq34hiuow
+                &error=access_denied (Other error codes are available from 4.1.2.1)
+
+            To verify that the code we got is real, we request a token using the code from the token endpoint
+              POST
+              http://portal.goodhealthclinic.org/token
+                &client_id=bp-grapher-goodhealth
+                &client_secret=aser98uw4ijhsdfg9r4
+                &redirect_uri=https://bpgrapher.org/after-auth (another step to make sure we haven't been hijacked, burden is on endpoint to know what we're doing here)
+                &grant_type=code
+                &code=oafea8i23n
+            If this returns an access token (and not an error), then we know the code was good and that the user actually authorized for us
+            We can also check the scope of the returned token to be sure we get the scopes we requested.
+
+            (Note: this is just verification that we authorized provider to send us e-mail in the previous step)
+
+            tl;dr
+              Goal:
+              Patient data is stored with many providers
+              We, the client application, are helping the user find those providers
+              And then authorize the providers to send the user e-mail at their own direct e-mail address
+
+              In order to do that:
+              We may or may not have initial OAuth client credentials
+                Dynamically seek them out if we don't
+              Client doesn't have user permission yet
+                So use OAuth client credentials at discovered endpoints to obtain it
+
+
+
+            
+
           </div>
         </section>
       </div>
