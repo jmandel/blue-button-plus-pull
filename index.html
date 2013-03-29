@@ -371,18 +371,25 @@ Host: bbplus-provider.org
             defined below.</p>
 
             <div class="well alert-info">
-              <strong>Note</strong>: This Trusted Registration
-              protocol effectively allows an app to sign a
-              registration request with its public key. The app is
-              responsible for submitting a trusted certificate
-              (along with a certificate chain, if necessary) to the
-              BlueButton+ provider. The mechanism by which an app
-              determines which certificates a BlueButton+ provider
-              trusts is out of scope for this specification, but we
-              expect that a central "trust bundle" will be made
-              available via <a href=
-              "https://secure.bluebuttontrust.org">secure.bluebuttontrust.org</a>
-              to faciliate this process.
+              <strong>Note</strong>: This mechanism allows a client to manually pre-register with a trust bundle, potentially fixing some of its client meta data parameters (as defined in OAuth2 Dyn Reg S.2). This preregistration produces a signed token with the following properties:
+
+                 - issued by the trust bundle
+                 - subject is the client (or class of clients)
+                 - signed by the trust bundle
+
+                 This token can then be used in normal dynamic registration processes, allowing the service provider to tie an instance client to a particular trust bundle and discover other information about said client (via the application discovery mechanism <a>here</a>). 
+
+                 The application owner/developer is responsible for pre-registering with the trust bundle.
+
+                 The service provider is responsible for matching dynamic registration claims with the pre-registered claims.
+
+                 Client instances present the token that comes from the pre-registration process as part of a normal dynamic registration with a particular service provider.
+
+                 This technique allows service providers to link together multiple instances of a client based on the tokens used during registration. Service providers are responsible for linking thse client instances together if they so desire. A service provider MAY re-use the same client_id for all instance, or it may issue different client_ids for each instance.
+
+                 Clients are responsible (in all registration cases) for accepting and using the client_id issued to them by each service provider when talking to that service provider.
+
+                 Even a web-server style client is going to need to get different client_id's from every service provider, which means that even a single installation of a client could have multiple "instances" as far as the network is concerned.
             </div>
 
             <h5>JWS Header</h5>
@@ -446,6 +453,33 @@ Host: bbplus-provider.org
               </tr>
 
               <tr>
+                <td><code>iss</code></td>
+
+                <td>Issuer</td>
+
+                <td>Required. URL of the trust bundle where this class
+                  clients was pre-registered.</td>
+              </tr>
+
+              <tr>
+                <td><code>sub</code></td>
+
+                <td>Subject</td>
+
+                <td>Required. Issuer specific identifier of this class
+                of clients.</td>
+              </tr>
+
+              <tr>
+                <td><code>aud</code></td>
+
+                <td>Audience</td>
+
+                <td>Required. Some indicator of the trust bundles network,
+                or the ABBI protocol class itself, or something? TODO.</td>
+              </tr>
+
+              <tr>
                 <td><code>exp</code></td>
 
                 <td>Expiration Time for this claim</td>
@@ -453,18 +487,6 @@ Host: bbplus-provider.org
                 <td>Required. Expressed as an IntDate (number of
                 seconds since epoch). SHOULD be within ten minutes
                 of <code>iat</code>.</td>
-              </tr>
-
-              <tr>
-                <td><code>dynamic_registration_request</code></td>
-
-                <td>Required. Must be a JSON object identical to
-                the registration request POST body accompanying
-                this <code>Authorization</code> header.</td>
-
-                <td>Contains a copy of all registration parameters
-                included in the POST body. This is designed to
-                enforce a signature over the entire request.</td>
               </tr>
             </table>
           </div>TODO: Example JWS and update/revive <a href=
@@ -979,6 +1001,12 @@ Host: bbplus-provider.org
                 <td class="subproperty"><code>token</code></td>
 
                 <td>OAuth2 token endpoint</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>introspect</code></td>
+
+                <td>OAuth2 introspection endpoint (As described in <a href="http://tools.ietf.org/html/draft-richer-oauth-introspection">this draft</a>)</td>
               </tr>
 
               <tr>
