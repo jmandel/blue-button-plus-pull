@@ -105,6 +105,11 @@
           </li>
 
           <li class="sidenav-indent">
+            <a href="#discovery-trustbundle"><i class=
+            "icon-chevron-right"></i> BB+ Trust Bundle</a>
+          </li>
+
+          <li class="sidenav-indent">
             <a href="#discovery-providers"><i class=
             "icon-chevron-right"></i> BB+ Providers</a>
           </li>
@@ -138,7 +143,7 @@
             OAuth2 Dynamic Client Registration</a>. This guide
             walks through the process of registering a client using
             open registration, as well as an example of using
-            trusted registration.</p>
+            trusted registration which leverages trust bundles.</p>
 
             <h2 id="registration-open">Open
             Registration</h2>BlueButton+ providers offer an open
@@ -862,7 +867,79 @@ Host: bbplus-provider.org
                 </li>
               </ul>
             </div>
+            
+            <h2 id="discovery-trustbundle">Trust Bundle Discovery</h2>
+            
+            <p>A Trust Bundle Server exposes a BB+ Trust Bundle discovery endpoint at: <code>/.well-known/bb/trustbundle.json</code></p>
+            
+            <h3>trustbundle.json</h3>
+            
+            <p><code>trustbundle.json</code> is a single TrustBundle element expressed as JSON-LD with a default
+            <code>@vocab</code> from <a href=
+            "http://schema.org">http://schema.org</a> and
+            additional properties defined in the <a href=
+            "context-json-ld.js">BB+ JSON-LD Context</a></p>
+            
+            <p>While any vocabulary from schema.org may be used in
+            describing a trust bundle, the <strong>following fields are
+            required:</strong></p>
 
+            <table class="table table-striped">
+              <tr>
+                <th>Property</th>
+
+                <th>Description</th>
+              </tr>
+
+              <tr>
+                <td><code>name</code></td>
+
+                <td>Human-readable Name of the Trust Bundle</td>
+              </tr>
+
+              <tr>
+                <td><code>url</code></td>
+
+                <td>Root URL of the Trust Bundle</td>
+              </tr>
+
+              <tr>
+                <td><code>jwks_uri</code></td>
+
+                <td>URL to the JSON Web Key (JWK) set for this trust bundle</td>
+              </tr>
+
+              <tr>
+                <td><code>oauth2</code></td>
+
+                <td>Collection of OAuth2 endpoints</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>introspect</code></td>
+
+                <td>RECOMMENDED OAuth2 introspection endpoint (As described in <a href="http://tools.ietf.org/html/draft-richer-oauth-introspection">this draft</a>)</td>
+              </tr>
+              
+            </table>
+
+            <h5>trustbundle.json example</h5>
+            <pre class="prettyprint">
+Content-Type: application/json
+Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
+
+{
+  "name": "The Trust Bundle Foundation",
+  "url": "http://trustbundle.org/",
+  "jwks_uri": "https://trustbundle.org/public_key.jwks",
+  "oauth2": {
+    "introspect": "https://trustbundle.org/oauth/introspect",
+  }
+
+}
+            
+</pre>            
+              
             <h2 id="discovery-providers">Provider Discovery</h2>
 
             <p>A Trust Bundle Server exposes a BB+ Provider
