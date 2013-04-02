@@ -13,6 +13,14 @@ $(function(){
         , bottom: 20
       }
     })
-  }, 100)
+  }, 100);
+
+$(".diagram").each(function(i, d){
+  d=$(d);
+  d.text(d.text().trim());
+});
+window.setTimeout(function(){
+  $(".diagram").sequenceDiagram({theme: 'hand'});
+  }, 1);
 });
 
