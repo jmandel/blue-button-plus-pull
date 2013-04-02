@@ -56,7 +56,7 @@
         <ul class="nav nav-list bs-docs-sidenav" data-offset-top="200">
           <li>
             <a href="#registration"><i class=
-            "icon-chevron-right"></i> App Registration</a>
+            "icon-chevron-right"></i> <span class="label label-success">Common</span> App Registration</a>
           </li>
 
           <li class="sidenav-indent">
@@ -71,7 +71,7 @@
 
           <li>
             <a href="#authorization"><i class=
-            "icon-chevron-right"></i> App Authorization</a>
+            "icon-chevron-right"></i> <span class="label label-info">Pull</span> App Authorization</a>
           </li>
 
           <li class="sidenav-indent">
@@ -86,7 +86,7 @@
 
           <li>
             <a href="#api"><i class="icon-chevron-right"></i>
-            Clinical Data API (TODO)</a>
+            <span class="label label-info">Pull</span>  Clinical Data API (TODO)</a>
           </li>
 
           <li class="sidenav-indent">
@@ -101,7 +101,7 @@
 
           <li>
             <a href="#discovery"><i class="icon-chevron-right"></i>
-            Endpoint Discovery</a>
+             <span class="label label-success">Common</span> Endpoint Discovery </a>
           </li>
 
           <li class="sidenav-indent">
@@ -121,16 +121,23 @@
 
           <li>
             <a href="#push-authorization"><i class=
-            "icon-chevron-right"></i> Push Authorization</a>
+            "icon-chevron-right"></i> <span class="label label-warning">Push</span>  User Authorization</a>
           </li>
         </ul>
       </div>
 
       <div class="span9">
+      
+	<section id="explanation">
+	  <div class="well alert-info">
+	    <strong>Note:</strong> This page collects aspects applicable to both BB+  <span class="label label-warning">Push</span> (signed email transport) and BB+ <span class="label label-info">Pull</span> (HTTP RESTful transport) protocols. It is the goal of this proposal to re-use <span class="label label-success">Common</span> components between both classes of application, even though the underlying systems and protocols are orthoganol to each other. In this way, a system that wanted to implement both the Push and Pull mechaisms would be able to re-use the same code and patterns for common activities such as end-user authorization.
+	  </div>
+	</section>
+      
         <section id="registration">
           <div class="page-header">
             <h1>App Registration <small>an up-front, partially-automated
-            step</small></h1>
+            step</small> <span class="label label-success">Common</span></h1>
 
             <p>Before an app connects to a BlueButton+ provider,
             it registers with that provider as an OAuth2 Client.
@@ -424,7 +431,7 @@ Host: bbplus-provider.org
         <section id="authorization">
           <div class="page-header">
             <h1>App Authorization <small>a runtime, patient-driven
-            step</small></h1>
+            step</small> <span class="label label-info">Pull</span></h1>
 
             <p>BlueButton+ providers allow apps to obtain patient
             authorization to health data using standard OAuth2
@@ -832,7 +839,7 @@ Host: bbplus-provider.org
         <section id="discovery">
           <div class="page-header">
             <h1>Provider and App Discovery <small>via Trust Bundle
-            Servers</small></h1>
+            Servers</small> <span class="label label-success">Common</span></h1>
 
             <p>BlueButton+ Pull uses <strong>Trust Bundle
             Servers</strong> to enable discovery of BB+ Providers
@@ -1182,7 +1189,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
 
         <section id="push-authorization">
           <div class="page-header">
-            <h1>Push Authorization</h1>
+            <h1>User Authorization <span class="label label-warning">Push</span></h1>
             <p>
               Patient data is stored with many providers and manually requesting an update from each one can be difficult for a patient.
               It is expected that client applications will use this workflow to help the user find those providers and setup automation for receiving updates.
@@ -1383,7 +1390,7 @@ http://portal.goodhealthclinic.org/token
           </div>
           
           
-          <div class="well alert-info"><h1>Alternative Push Authorization</h1>An alternative to this whole approach would be to have the Client be Good Health Clinit and the Provider be BP-Grapher, with the protected data being the email address to send things to. This is more in line with OAuth's REST-friendly model and the traditional definition of roles, but it doesn't fit as well with the PUSH methods we're trying to enable here.</div>
+          <div class="well alert-info"><h1>Alternative Push Authorization <span class="label label-warning">Push</span></h1>An alternative to this whole approach would be to have the Client be Good Health Clinit and the Provider be BP-Grapher, with the protected data being the email address to send things to. This is more in line with OAuth's REST-friendly model and the traditional definition of roles, but it doesn't fit as well with the PUSH methods we're trying to enable here.</div>
           
         </section>
       </div>
