@@ -837,7 +837,7 @@ Host: bbplus-provider.org
             <a href="http://json-ld.org/">JSON-LD</a> arrays. In
             the BB+ ecosystem, apps and providers must be
             pre-configured with a Trust Bundle Server (or
-            Servers).</p>
+            Servers). All discovery endpoints are organized beneath <code>.well-known/bb/</code> at the server's root.</p>
 
             <h5>Why JSON-LD?</h5>
 
@@ -867,7 +867,7 @@ Host: bbplus-provider.org
 
             <p>A Trust Bundle Server exposes a BB+ Provider
             Discovery endpoint at:
-            <code>/.well-known/providers.json</code></p>
+            <code>/.well-known/bb/providers.json</code></p>
 
             <h3>providers.json</h3>
 
@@ -987,7 +987,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
 
             <p>A Trust Bundle Server exposes a <strong>BB+ App
             Discovery</strong> endpoint at:
-            <code>/.well-known/apps.json</code></p>
+            <code>/.well-known/bb/apps.json</code></p>
 
             <h3>apps.json</h3>
 
