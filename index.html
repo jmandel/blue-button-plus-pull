@@ -1099,14 +1099,6 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
             describing a provider, the <strong>following fields are
             required:</strong></p>
 
-            <div class="well alert-error">
-              JM: I kind of want to require *all* registration
-              parameters to be fixed. We certainly should avoid
-              shenanigans like extracting a JWS from an iPad app
-              and re-registering a new instance with
-              https://attacker.com redirect_uris...
-            </div>
-
             <table class="table table-striped">
               <tr>
                 <th>Property</th>
@@ -1217,7 +1209,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
                   <dt>Service Provider</dt>
                     <dd>Good Health Clinic</dd>
                   <dt>Scope</dt>
-                    <dd>"single-patient" to describe the authorization for one patient's health information.</dd>
+                    <dd><code>send-email-to</code> is a special, structured scope that is used to indicate the DIRECT email to send information to for this user</dd>
                 </dl>
               </p>
             </div>
@@ -1297,7 +1289,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
     "response_types": ["code"],
     "grant_types": ["authorization_code"],
     "token_endpoint_auth_method": "none",
-    "scope":  "single-patient http://siframework.org/ABBI/endpoint/summary"
+    "scope":  "send-email-to"
   },
 }
 </pre>
@@ -1320,16 +1312,10 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
   "response_types": ["code"],
   "grant_types": ["authorization_code"],
   "token_endpoint_auth_method": "none",
-  "scope":  "single-patient http://siframework.org/ABBI/endpoint/summary"
+  "scope":  "send-email-to"
 }
 </pre>
 
-            <div class="well alert">
-              <p>
-                <strong>Note:</strong> The idea of the "single-patient" scope is just an example and is not currently standardized.
-              </p>
-            </div>
-            
             <h4>4. Authorization request</h4>
             <p>
               By this step, the client has its OAuth 2 credentials. The client will use that data to send the user to the service provider's authorization endpoint.
@@ -1347,7 +1333,7 @@ http://portal.goodhealthclinic.org/authorize
 
             <div class="well alert">
               <p>
-                <strong>Note:</strong> The send_email_to scope is asking for permission to send e-mail to the given address after the :, using a simple expression language)
+                <strong>Note:</strong> The send_email_to scope construct above is asking for permission to send e-mail to the given address after the :, using a simple expression language as part of the structured scope.
               </p>
             </div>
 
