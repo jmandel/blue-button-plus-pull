@@ -130,7 +130,7 @@
       
 	<section id="explanation">
 	  <div class="well alert-info">
-	    <strong>Note:</strong> This page collects aspects applicable to both BB+  <span class="label label-warning">Push</span> (signed email transport) and BB+ <span class="label label-info">Pull</span> (HTTP RESTful transport) protocols. It is the goal of this proposal to re-use <span class="label label-success">Common</span> components between both classes of application, even though the underlying systems and protocols are orthoganol to each other. In this way, a system that wanted to implement both the Push and Pull mechaisms would be able to re-use the same code and patterns for common activities such as end-user authorization.
+	    <strong>Note:</strong> This page collects aspects applicable to both BB+  <span class="label label-warning">Push</span> (signed email transport) and BB+ <span class="label label-info">Pull</span> (HTTP RESTful transport) protocols. It is the goal of this proposal to re-use <span class="label label-success">Common</span> components between both classes of application, even though the underlying systems and protocols are orthoganol to each other. In this way, a system that wanted to implement both the Push and Pull mechaisms would be able to re-use the same code and patterns for common activities such as end-user authorization, dynamic client registration, and service discovery.
 	  </div>
 	</section>
       
@@ -163,7 +163,7 @@
               appropriate for new and experimental apps, but
               patient-facing authorization screens should display a
               warning indicating that an app's identity has not
-              been verified. To provive a higher level of
+              been verified. To provide a higher level of
               assurance, apps can perform a Trusted Registration
               (described below).
             </div>
@@ -374,13 +374,11 @@ Host: bbplus-provider.org
             <p>In addition to open registration, BlueButton+
             providers support a Trusted Registration option. When
             performing a Trusted Registration, apps follow the
-            protocol described above, with the addition of an
-            <code>Authorization</code> header that includes a
-            bearer token that the provider trusts.
-            This trusted bearer token is a <a href=
+            protocol described above, with the addition of a
+            bearer token from a Trust Bundle that the provder trusts.
+            This trusted bearer token is a JSON Web Token signed with <a href=
             "http://tools.ietf.org/html/draft-jones-json-web-signature">
-            JSON Web Signature</a> with a header and body as
-            defined below.</p>
+            JSON Web Signature</a> and is verifiable by the service provider.</p>
 
 	    <p>Process:
 	      <ol>
@@ -410,6 +408,7 @@ Host: bbplus-provider.org
 	      <li><code>iss</code>: issuer is the URL of the trust bundle provider</li>
 	      <li><code>sub</code>: subject is an identifier from the trust bundle that uniquely identifies this class of clients. This <strong>should</strong> be the same as a client's homepage URI</li>
 	      <li><code>iat</code>: timestamp of when this pre-registration information was last updated (and this token was issued)</li>
+	      <li><code>exp</code>: optional timestamp of when this pre-registration token is no longer valid</li>
 	      <li>asymmetrically signed by the trust bundle, signature can be validated from the trust bundle's published public key (published as a JWK)</li>
 	    </ul>
             
@@ -1126,8 +1125,9 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
                   "#registration-parameters">registration
                   parameters</a> that are fixed across all
                   instances of this app. A Trusted Registration
-                  request that fails to match identically on any
-                  parameters included here will be rejected.
+                  request that fails to match (NOTE: need matching mechanisms defined here) on any
+                  parameters included here will be rejected. 
+                  This may contain any valid client metadata reistration parameters, and it is RECOMMENDED that the following ones be particularly locked down.
                 </td>
               </tr>
 
@@ -1222,7 +1222,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
                 <li>Discovery as described above (<a href="#discovery-providers">provider discovery</a> at its trust bundle).</li>
                 <li>Search, filter, and optionally cache discovered service providers. The user will select one or more to authorize.</li>
                 <li><a href="#registration-trusted">Dynamically register</a> if the client doesn't already have their OAuth 2 credentials for the chosen service provider.</li>
-                <li>Send the user to the service provider's authorization endpoint. They have the option to authorize this provider to push their data.</li>
+                <li>Send the user (in a web browser) to the service provider's authorization endpoint. They have the option to authorize this provider to push their data.</li>
                 <li>Verify success by requesting a token from the service provider's token endpoint to ensure the user's selection succeeded.</li>
               </ol>
             </p>
@@ -1349,8 +1349,8 @@ Client is redirected to:
 https://bpgrapher.org/after-auth
   &state=aliawejhwiluaq34hiuow
   &code=oafea8i23n
+</pre>
 
-  </pre>
 <p>Error response: (e.g. user clicked deny):</p>
 <pre class="prettyprint">
 https://bpgrapher.org/after-auth
@@ -1361,7 +1361,7 @@ https://bpgrapher.org/after-auth
             <h4>5. Verify authorization results</h4>
             <p>
               To verify that the code we got is real, we request a token using the code from the token endpoint.
-              If this returns an access token (and not an error), then we know the code we used was good and that the user actually authorized for us.
+              If this returns an access token (and not an error), then we know the code we used was good and that the user actually aubbthorized for us.
               Optionally, the client can also check the scope of the returned token to ensure that the requested scopes were received.
               Below is an example of the request for this verification:
             </p>
@@ -1389,7 +1389,7 @@ http://portal.goodhealthclinic.org/token
           </div>
           
           
-          <div class="well alert-info"><h1>Alternative Push Authorization <span class="label label-warning">Push</span></h1>An alternative to this whole approach would be to have the Client be Good Health Clinit and the Provider be BP-Grapher, with the protected data being the email address to send things to. This is more in line with OAuth's REST-friendly model and the traditional definition of roles, but it doesn't fit as well with the PUSH methods we're trying to enable here.</div>
+          <div class="well alert-info"><h1>Alternative Push Authorization <span class="label label-warning">Push</span></h1>An alternative to this whole approach would be to have the Client be Good Health Clinic and the Provider be BP-Grapher, with the protected data being the email address to send things to. This is more in line with OAuth's REST-friendly model and the traditional definition of roles, but it doesn't fit as well with the PUSH methods we're trying to enable here.</div>
           
         </section>
       </div>
