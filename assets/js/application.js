@@ -9,7 +9,7 @@ $(function(){
   setTimeout(function () {
     $('.bs-docs-sidenav').affix({
       offset: {
-        top: function () { return $window.width() <= 980 ? 290 : 290 }
+        top: function () { return $window.width() <= 980 ? 290 : 210 }
         , bottom: 20
       }
     })
