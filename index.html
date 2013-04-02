@@ -382,6 +382,19 @@ Host: bbplus-provider.org
             JSON Web Signature</a> with a header and body as
             defined below.</p>
 
+	    <p>Process:
+	      <ol>
+		<li>Client class is manually pre-registered with the Trust Bundle, getting a pre-registration token and fixing some subset of its claims, to be made discoverable via the apps.json discovery mechanism on the trust bundle</li>
+		<li>Client instance presents the pre-registration token (using any valid mechanism from RFC6750) to the registration endpoint of the service provider (which is discoverable via the providers.json discovery mechanism).</li>
+		<li>Service provider validates the pre-registration token by checking the signature against the public key of the trust bundle indicated by the <code>iss</code> field of the token and/or doing token introspection from the <code>iss</code>.</li>
+		<li>Service provider does application discovery based on the <code>iss</code> and <code>sub</code> fields of the token to find the apps.json entry for this application</li>
+		<li>Service provider compares any dynamically registered client metadata fields to any fixed value fields discovered in apps.json <i>NOTE: we need good string-comparison and validation rules to be written for this step</i></li>
+		<li>Client instance receives a client_id and client_secret as well as a registration_access_token</li>
+		<li>Client instance requests user authorization and tokens</li>
+		<li>Client instance accesses protected services at service provider</li>
+	      </ol>
+	    </p>
+            
             <div class="well alert-info">
               <strong>Note</strong>: The pre-registration process allows for classes of clients to be treated together with a somewhat higher level of trust than a fully-dynamically-registered client might have. All installed copies of a native application would be considered part of the same "class". However, since an OAuth <code>client_id</code> is unique and opaque to the pairing of a client and the service provider it is communicating with, even a single installation of an application (such as a web app) would effectively have multiple "instances" on the network, as it would have multiple <code>client_id</code>s when dealing with different service providers.
             </div>
@@ -405,7 +418,7 @@ Host: bbplus-provider.org
             
             <h3>Registration</h3>
             
-            <p>This registration token is used by instances of the client during the initial call to the registration endpoint for each service provider. The service provider does application discovery (described in this document) based on the subject and issuer in the registration token to determine which client metadata fields have been set ahead of time by the pre-registration process. 
+            <p>This registration token is used by instances of the client during the initial call to the registration endpoint for each service provider. The service provider does application discovery (described in this document) based on the subject and issuer in the registration token to determine which client metadata fields have been set ahead of time by the pre-registration process. The Service provider will compare these pre-registered fields with any dynamically provided fields and determine the validity of the registration. 
             </p>
             
             <h3>Notes</h3>
