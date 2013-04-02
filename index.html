@@ -8,7 +8,8 @@
   "text/html; charset=utf-8">
   <meta charset="utf-8">
 
-  <title>BlueButton+ Pull API, Dynamic Registration and Push Authorization</title>
+  <title>BlueButton+ Pull API, Dynamic Registration and Push
+  Authorization</title>
   <meta name="viewport" content=
   "width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -27,12 +28,13 @@
     <![endif]-->
 </head>
 
-<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+<body data-spy="scroll" data-target=".bs-docs-sidebar"
+data-twttr-rendered="true">
   <div class="github-fork-ribbon-wrapper right">
     <div class="github-fork-ribbon">
       <a href=
-      "https://github.com/blue-button/blue-button-plus-pull">Fork me on
-      GitHub</a>
+      "https://github.com/blue-button/blue-button-plus-pull">Fork
+      me on GitHub</a>
     </div>
   </div><!-- Navbar
       ================================================== -->
@@ -41,9 +43,11 @@
 
   <header class="jumbotron subhead" id="overview">
     <div class="container">
-      <h1>BlueButton+ Pull API, Dynamic Registration and Push Authorization</h1>
+      <h1>BlueButton+ Pull API, Dynamic Registration and Push
+      Authorization</h1>
 
-      <p class="lead">OAuth2 API for RESTful access to patient data and bootstrapping DIRECT-based information exchange</p>
+      <p class="lead">OAuth2 API for RESTful access to patient data
+      and bootstrapping DIRECT-based information exchange</p>
     </div>
   </header>
 
@@ -53,11 +57,12 @@
 
     <div class="row">
       <div class="span3 bs-docs-sidebar">
-        <ul class="nav nav-list bs-docs-sidenav" data-offset-top="200">
+        <ul class="nav nav-list bs-docs-sidenav" data-offset-top=
+        "200">
           <li>
             <a href="#registration"><i class=
-            "icon-chevron-right"></i> App Registration
-            <span class="label section label-success">Common</span> </a>
+            "icon-chevron-right"></i> App Registration <span class=
+            "label section label-success">Common</span></a>
           </li>
 
           <li class="sidenav-indent">
@@ -73,7 +78,7 @@
           <li>
             <a href="#authorization"><i class=
             "icon-chevron-right"></i> App Authorization
-            <span class="label section label-info">Pull</span> </a>
+            <span class="label section label-info">Pull</span></a>
           </li>
 
           <li class="sidenav-indent">
@@ -88,10 +93,9 @@
 
           <li>
             <a href="#api"><i class="icon-chevron-right"></i>
-            Clinical Data API
-            <span class="label section label-info">Pull</span>
-            <span class="label section label-info">TODO</span>
-            </a>
+            Clinical Data API <span class=
+            "label section label-info">Pull</span> <span class=
+            "label section label-info">TODO</span></a>
           </li>
 
           <li class="sidenav-indent">
@@ -106,8 +110,8 @@
 
           <li>
             <a href="#discovery"><i class="icon-chevron-right"></i>
-              Endpoint Discovery
-              <span class="label section label-success">Common</span></a>
+            Endpoint Discovery <span class=
+            "label section label-success">Common</span></a>
           </li>
 
           <li class="sidenav-indent">
@@ -127,48 +131,51 @@
 
           <li>
             <a href="#push-authorization"><i class=
-            "icon-chevron-right"></i>  Push Authorization
-            <span class="label section label-warning">Push</span> </a>
+            "icon-chevron-right"></i> Push Authorization
+            <span class=
+            "label section label-warning">Push</span></a>
           </li>
         </ul>
       </div>
 
-      <div class="span9">
-      
-	<section id="explanation">
-	  <div class="well alert-info">
-    
-      <strong>Note:</strong> This page documents specifications applicable to
-      both BB+ <span class="label section label-warning">Push</span> (Direct
-      email transport) and BB+ <span class="label section
-      label-info">Pull</span> (HTTP RESTful transport) protocols. It is the
-      goal of this proposal to re-use <span class="label section
-      label-success">Common</span> components for Push and Pull apps.  In this
-      way, a system implementing both would be able to re-use the same code and
-      patterns for common activities such as end-user authorization, dynamic
-      client registration, and service discovery.
-      
-     </div>
-  </section>
-      
+      <div class="span7">
+        <section id="explanation">
+          <div class="well alert-info">
+            <strong>Note:</strong> This page documents
+            specifications applicable to both BB+ <span class=
+            "label section label-warning">Push</span> (Direct email
+            transport) and BB+ <span class=
+            "label section label-info">Pull</span> (HTTP RESTful
+            transport) protocols. It is the goal of this proposal
+            to re-use <span class=
+            "label section label-success">Common</span> components
+            for Push and Pull apps. In this way, a system
+            implementing both would be able to re-use the same code
+            and patterns for common activities such as end-user
+            authorization, dynamic client registration, and service
+            discovery.
+          </div>
+        </section>
+
         <section id="registration">
           <div class="page-header">
-            <h1>App Registration <small>an up-front, partially-automated
-            step</small> <span class="label label-success">Common</span></h1>
+            <h1>App Registration <small>up-front,
+            partially-automated</small> <span class=
+            "label label-success">Common</span></h1>
 
-            <p>Before an app connects to a BlueButton+ provider,
-            it registers with that provider as an OAuth2 Client.
-            The registration process informs the provider what the
-            app is called, where to find it, what permissions it
-            might ask patients for, and how to display an
-            authorization screen to patients.</p>
+            <p>Before an app connects to a BlueButton+ provider, it
+            registers with that provider as an OAuth2 Client. The
+            registration process informs the provider what the app
+            is called, where to find it, what permissions it might
+            ask patients for, and how to display an authorization
+            screen to patients.</p>
 
-            <p>BB+ apps register with providers using
-            <a href="http://tools.ietf.org/html/draft-ietf-oauth-dyn-reg">
-            OAuth2 Dynamic Client Registration</a>. This guide
-            walks through the process of registering a client using
-            open registration, as well as an example of using
-            trusted registration which leverages trust bundles.</p>
+            <p>BB+ apps register with providers using <a href=
+            "http://tools.ietf.org/html/draft-ietf-oauth-dyn-reg">OAuth2
+            Dynamic Client Registration</a>. This guide walks
+            through the process of registering a client using open
+            registration, as well as an example of using trusted
+            registration which leverages trust bundles.</p>
 
             <h2 id="registration-open">Open
             Registration</h2>BlueButton+ providers offer an open
@@ -185,17 +192,17 @@
               assurance, apps can perform a Trusted Registration
               (described below).
             </div>
-
             <pre class="diagram">
 Title: BlueButton+ Open Registration Process
 participant App
 participant Provider 
 
-App->Provider: Registration Request (no JWT)
-Provider-->App: client_id + secret + registration token
+App-&gt;Provider: Registration Request (no JWT)
+Provider--&gt;App: client_id + secret + registration token
 
             
-            </pre>
+            
+</pre>
 
             <h3 id="registration-parameters">Registration
             Parameters</h3>
@@ -307,8 +314,8 @@ Provider-->App: client_id + secret + registration token
                   may use.
 
                   <ul>
-                    <li>public clients:
-                    <code>["implicit"]</code> or <code>["authorization_code"]</code></li>
+                    <li>public clients: <code>["implicit"]</code>
+                    or <code>["authorization_code"]</code></li>
 
                     <li>confidential clients:
                     <code>["authorization_code"]</code></li>
@@ -396,167 +403,293 @@ Host: bbplus-provider.org
 } 
 </pre>
 
-	    <p>The client will receive a unique <code>client_id</code> for that service provider, and will also receive a <code>registration_access_token</code> that it can use to maintain its registration there, as described in OAuth Dynamic Client Registration.</p>
+            <p>The client will receive a unique
+            <code>client_id</code> for that service provider, and
+            will also receive a
+            <code>registration_access_token</code> that it can use
+            to maintain its registration there, as described in
+            OAuth Dynamic Client Registration.</p>
 
             <h2 id="registration-trusted">Trusted Registration</h2>
 
             <p>In addition to open registration, BlueButton+
             providers support a Trusted Registration option. When
             performing a Trusted Registration, apps follow the
-            protocol described above, with the addition of a
-            bearer token from a Trust Bundle that the provder trusts.
-            This trusted bearer token is a <a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token">
+            protocol described above, with the addition of a bearer
+            token from a Trust Bundle that the provder trusts. This
+            trusted bearer token is a <a href=
+            "http://tools.ietf.org/html/draft-ietf-oauth-json-web-token">
             JSON Web Token</a> signed with <a href=
             "http://tools.ietf.org/html/draft-jones-json-web-signature">
-            JSON Web Signature</a> and is verifiable by the service provider.</p>
+            JSON Web Signature</a> and is verifiable by the service
+            provider.</p>
 
             <div class="well alert-info">
-              <h4>Background: Client Classes and Client Instances</h4>
+              <h4>Background: Client Classes and Client
+              Instances</h4>
 
-              <p>BB+ expects that most apps will connect to <em>multiple BB+
-              providers</em>, and many apps will run directly from <em>multiple end-user
-              devices</em>.  This specification balances a desire for fine-grained
-              app registration (e.g.  auditing each device's access history
-              independently) with a need for coarser-grained permissions (e.g.
-              disabling a rogue app across all providers, or all devices). We
-              achieve this balance by enabling two points of control: <em>Client
-              Classes</em> and <em>Client Instances</em>.</p>
+              <p>BB+ expects that most apps will connect to
+              <em>multiple BB+ providers</em>, and many apps will
+              run directly from <em>multiple end-user devices</em>.
+              This specification balances a desire for fine-grained
+              app registration (e.g. auditing each device's access
+              history independently) with a need for
+              coarser-grained permissions (e.g. disabling a rogue
+              app across all providers, or all devices). We achieve
+              this balance by enabling two points of control:
+              <em>Client Classes</em> and <em>Client
+              Instances</em>.</p>
 
-              <p>As an example to illustrate this distinction, let's consider
-              an iOS-based Blood Pressure Grapher. This app is considered a
-              "Client Class" because it's associated with a single author,
-              homepage, logo, Terms of Service agreement, etc.  As we'll
-              describe below, this class has instances for each BB+ Provider
-              the Blood Pressure Grapher registers with, and possibly for each
-              device it runs on.</p>
-              
-              <p><strong>Client Instances per-Provider</strong> In the OAuth
-              sense, the BP Grapher app has a separate "instance" for each
-              (app, provider) pair it participates in. For example, it may use
-              a separate <code>client_id</code> to communicate with each BB+
-              provider. (Since <code>client_id</code> is assigned by each
-              provider as part of the normal OAuth Dynamic Registration
-              process, apps generally <em>will</em> have have distinct
-              identifiers for each provider.)  Still, since these instances all
-              represent "the same app", they belong to the same <strong>Client
+              <p>As an example to illustrate this distinction,
+              let's consider an iOS-based Blood Pressure Grapher.
+              This app is considered a "Client Class" because it's
+              associated with a single author, homepage, logo,
+              Terms of Service agreement, etc. As we'll describe
+              below, this class has instances for each BB+ Provider
+              the Blood Pressure Grapher registers with, and
+              possibly for each device it runs on.</p>
+
+              <p><strong>Client Instances per-Provider</strong> In
+              the OAuth sense, the BP Grapher app has a separate
+              "instance" for each (app, provider) pair it
+              participates in. For example, it may use a separate
+              <code>client_id</code> to communicate with each BB+
+              provider. (Since <code>client_id</code> is assigned
+              by each provider as part of the normal OAuth Dynamic
+              Registration process, apps generally <em>will</em>
+              have have distinct identifiers for each provider.)
+              Still, since these instances all represent "the same
+              app", they belong to the same <strong>Client
               Class</strong>.</p>
 
-              <p><strong>Client Instances per-Device</strong> Similarly, if the
-              Blood Pressure Grapher is installed on multiple iOS devices, it
-              may be assigned a separate <code>client_id</code> for each
-              (app-on-device, provider) pair it participates in. (Since
-              <code>client_id</code> is assigned by each provider as part of the
-              normal OAuth Dynamic Registration process, apps <em>may be
-              assigned</em> distinct identifiers per-device by each provider.)
-              Again, since these instances all represent "the same app," they
-              belong to the same <strong>Client Class</strong>. </p>
+              <p><strong>Client Instances per-Device</strong>
+              Similarly, if the Blood Pressure Grapher is installed
+              on multiple iOS devices, it may be assigned a
+              separate <code>client_id</code> for each
+              (app-on-device, provider) pair it participates in.
+              (Since <code>client_id</code> is assigned by each
+              provider as part of the normal OAuth Dynamic
+              Registration process, apps <em>may be assigned</em>
+              distinct identifiers per-device by each provider.)
+              Again, since these instances all represent "the same
+              app," they belong to the same <strong>Client
+              Class</strong>.</p>
 
-              <p><strong>Instance- and Class-level Controls</strong> In this
-              way, BB+ Providers are free to assign each instance of a Client
-              Class a different <code>client_id</code>, or to assign the same
-              <code>client_id</code>  to all Client Instances of a given class,
-              in accordance with local policy.  Apps simply use the identifiers
-              assigned.  No matter how identifiers are assigned, BB+ Providers
-              maintain the ability to make decisions at the Class level, so if
-              the Blood Pressure Grapher loses trust, all of its instances can
-              be disabled in one fell swoop.  </div>
- 
-      <h3>Process overview:</h3>
+              <p><strong>Instance- and Class-level
+              Controls</strong> In this way, BB+ Providers are free
+              to assign each instance of a Client Class a different
+              <code>client_id</code>, or to assign the same
+              <code>client_id</code> to all Client Instances of a
+              given class, in accordance with local policy. Apps
+              simply use the identifiers assigned. No matter how
+              identifiers are assigned, BB+ Providers maintain the
+              ability to make decisions at the Class level, so if
+              the Blood Pressure Grapher loses trust, all of its
+              instances can be disabled in one fell swoop.</p>
+            </div>
+
+            <h3>Process overview:</h3>
             <pre class="diagram">
 Title: BlueButton+ Trusted Registration Process
 participant Provider 
 participant Trust bundle
 participant App
 
-App->Trust bundle: Register for bundle membership
-Trust bundle-->Trust bundle: Verify app claims
-Trust bundle-->App: Signed Registration JWT
-App->App: Time passes...
-App->Trust bundle: Lookup provider
-Trust bundle-->App: Provider URI
-App->Provider: Registration Request + JWT
-Provider->Trust bundle: Lookup app claims
-Trust bundle-->Provider: App claims
-Provider->Provider: Verify reg matches claims
-Provider-->App: client_id, secret, registration token
+App-&gt;Trust bundle: Register for bundle membership
+Trust bundle--&gt;Trust bundle: Verify app claims
+Trust bundle--&gt;App: Signed Registration JWT
+App-&gt;App: Time passes...
+App-&gt;Trust bundle: Lookup provider
+Trust bundle--&gt;App: Provider URI
+App-&gt;Provider: Registration Request + JWT
+Provider-&gt;Trust bundle: Lookup app claims
+Trust bundle--&gt;Provider: App claims
+Provider-&gt;Provider: Verify reg matches claims
+Provider--&gt;App: client_id, secret, registration token
 
 </pre>
 
-	      <ol>
-    <li>Client Class is manually pre-registered with a Trust Bundle.
-      <ul>
-      <li>Trust Bundle collects any fixed app  <a href="#registration-parameters">registration parameters</a> including, at a minimum, <code>client_name</code> and <code>client_uri</code></li>
-      <li>Trust Bundle verifies these parameters (according to bundle-specific policy)</li>
-      <li>Trust Bundle makes these parameters discoverable via <a href="#discovery-apps">BB+ App Discovery</a></li>
-      <li>Trust Bundle supplies the Client Class with a pre-registration token (signed JWT) for subsequent dynamic registration operations</li>
-      </ul>
-    <li>Client Instance presents the pre-registration token (using an Authorization header or any valid mechanism from RFC6750) to the registration endpoint of the service provider (which is discoverable via the <a href="#discovery-providers">BB+ Provider Discovery</a>.</li>
-		<li>Service provider validates the pre-registration token by checking the signature against the public key of the trust bundle indicated by the <code>iss</code> field of the token (?and/or doing token introspection from the <code>iss</code>).</li>
-		<li>Service provider does application discovery based on the <code>iss</code> and <code>sub</code> fields of the token to find the apps.json entry for this application</li>
-		<li>Service provider compares any dynamically registered client metadata fields to any fixed value fields discovered in apps.json <i>NOTE: we need good string-comparison and validation rules to be written for this step</i></li>
-    <li>Client Instance receives a <code>client_id</code> and <code>client_secret</code> as well as a <code>registration_access_token</code></li>
-		<li>Client Instance requests user authorization and tokens</li>
-		<li>Client Instance accesses protected services at service provider</li>
-	      </ol>
-	    </p>
-            
+            <ol>
+              <li>Client Class is manually pre-registered with a
+              Trust Bundle.
+
+                <ul>
+                  <li>Trust Bundle collects any fixed app
+                    <a href="#registration-parameters">registration
+                    parameters</a> including, at a minimum,
+                    <code>client_name</code> and
+                    <code>client_uri</code>
+                  </li>
+
+                  <li>Trust Bundle verifies these parameters
+                  (according to bundle-specific policy)</li>
+
+                  <li>Trust Bundle makes these parameters
+                  discoverable via <a href="#discovery-apps">BB+
+                  App Discovery</a>
+                  </li>
+
+                  <li>Trust Bundle supplies the Client Class with a
+                  pre-registration token (signed JWT) for
+                  subsequent dynamic registration operations</li>
+                </ul>
+              </li>
+
+              <li>Client Instance presents the pre-registration
+              token (using an Authorization header or any valid
+              mechanism from RFC6750) to the registration endpoint
+              of the service provider (which is discoverable via
+              the <a href="#discovery-providers">BB+ Provider
+              Discovery</a>.
+              </li>
+
+              <li>Service provider validates the pre-registration
+              token by checking the signature against the public
+              key of the trust bundle indicated by the
+              <code>iss</code> field of the token (?and/or doing
+              token introspection from the <code>iss</code>).</li>
+
+              <li>Service provider does application discovery based
+              on the <code>iss</code> and <code>sub</code> fields
+              of the token to find the apps.json entry for this
+              application</li>
+
+              <li>Service provider compares any dynamically registered client
+              metadata fields to any fixed value fields discovered in apps.json
+              <span class="label section label-info">TODO
+              string-comparison and validation rules</span></li>
+
+              <li>Client Instance receives a <code>client_id</code>
+              and <code>client_secret</code> as well as a
+              <code>registration_access_token</code></li>
+
+              <li>Client Instance requests user authorization and
+              tokens</li>
+
+              <li>Client Instance accesses protected services at
+              service provider</li>
+            </ol>
+            <p>
+
             <h3>Pre-registration</h3>
-            
-            <p>First, the Client class is manually pre-registered with a Trust Bundle. This process may fix any of the client parameters listed above, such as the <code>client_name</code> and <code>redirect_uris</code>. At a minimum, <code>client_name</code> and <code>client_uri</code> must be fixed at pre-registration time.  All classes of a client will share any fixed parameters.
-            </p>
-            
-            <p>The pre-registered client class will receive: </p>
-            <ul>
 
-            <li>a "subject" identifier  unique within the scope of the trust bundle.
-            This "subject" identifer <strong>should</strong> be the same as the app's homepage (<code>client_uri</code>).
-            </li>
-            
-            <li>a signed registration token with the following properties:</li>
-            
+            <p>First, the Client class is manually pre-registered
+            with a Trust Bundle. This process may fix any of the
+            client parameters listed above, such as the
+            <code>client_name</code> and
+            <code>redirect_uris</code>. At a minimum,
+            <code>client_name</code> and <code>client_uri</code>
+            must be fixed at pre-registration time. All classes of
+            a client will share any fixed parameters.</p>
+
+            <p>The pre-registered client class will receive:</p>
+
             <ul>
-	      <li><code>iss</code>: issuer is the URL of the trust bundle provider</li>
-	      <li><code>sub</code>: subject is an identifier from the trust bundle (as described above)</li>
-	      <li><code>iat</code>: timestamp of when this pre-registration information was last updated (and this token was issued)</li>
-	      <li><code>exp</code>: optional timestamp of when this pre-registration token is no longer valid</li>
-        <li><em>these claims are combined in a JWT asymmetrically signed by the trust bundle. The signature can be validated from the trust bundle's published public key (published as a JWK).  
-            <span class="label section label-info">TODO add detail</span> .</em></li>
-	    </ul>
-	    </ul>
-            
-            <p>All service providers within a trust bundle must be able to validate the signature and validity of any registration tokens. It's recommended (required?) that trust bundle providers publish a <a href="http://tools.ietf.org/html/draft-richer-oauth-introspection">token introspection endpoint</a> to facilitate this.            
-            <span class="label section label-info">TODO add detail</span>.</em></li>
-            </p>
-            
+              <li>a "subject" identifier unique within the scope of
+              the trust bundle. This "subject" identifer
+              <strong>should</strong> be the same as the app's
+              homepage (<code>client_uri</code>).</li>
+
+              <li>a signed registration token with the following
+              properties:</li>
+
+              <li style="list-style: none; display: inline">
+                <ul>
+                  <li><code>iss</code>: issuer is the URL of the
+                  trust bundle provider</li>
+
+                  <li><code>sub</code>: subject is an identifier
+                  from the trust bundle (as described above)</li>
+
+                  <li><code>iat</code>: timestamp of when this
+                  pre-registration information was last updated
+                  (and this token was issued)</li>
+
+                  <li><code>exp</code>: optional timestamp of when
+                  this pre-registration token is no longer
+                  valid</li>
+
+                  <li><em>these claims are combined in a JWT
+                  asymmetrically signed by the trust bundle. The
+                  signature can be validated from the trust
+                  bundle's published public key (published as a
+                  JWK). <span class="label section label-info">TODO
+                  add detail</span> .</em></li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>All service providers within a trust bundle must be
+            able to validate the signature and validity of any
+            registration tokens. It's recommended (required?) that
+            trust bundle providers publish a <a href=
+            "http://tools.ietf.org/html/draft-richer-oauth-introspection">
+            token introspection endpoint</a> to facilitate this.
+            <span class="label section label-info">TODO add
+            detail</span>.</p>
+
             <h3>Registration</h3>
-            
-            <p>The registration token from the previous step is used by instances of the client during the initial call to the registration endpoint for each service provider. The service provider does <a href="#discovery-apps">BB+ App Discovery</a> based on the subject and issuer in the registration token to determine which client metadata fields have been set ahead of time by the pre-registration process. The Service provider will compare these pre-registered fields with any dynamically provided fields and determine the validity of the registration. 
-            </p>
-            
+
+            <p>The registration token from the previous step is
+            used by instances of the client during the initial call
+            to the registration endpoint for each service provider.
+            The service provider does <a href="#discovery-apps">BB+
+            App Discovery</a> based on the subject and issuer in
+            the registration token to determine which client
+            metadata fields have been set ahead of time by the
+            pre-registration process. The Service provider will
+            compare these pre-registered fields with any
+            dynamically provided fields and determine the validity
+            of the registration.</p>
+
             <h3>Notes</h3>
-            
+
             <div class="well alert-info">
-	      <strong>Notes:</strong>
-	      <ul>
-	      <li>The application owner/developer is responsible for pre-registering with the trust bundle.</li>
-    
-                 <li>The service provider is responsible for matching dynamic registration claims with the pre-registered claims.</li>
+              <strong>Notes:</strong>
 
-                 <li>Client Instances present the token that comes from the pre-registration process as part of a normal dynamic registration with a particular service provider.</li>
+              <ul>
+                <li>The application owner/developer is responsible
+                for pre-registering with the trust bundle.</li>
 
-                 <li>This technique allows service providers to link together multiple instances of a client based on the tokens used during registration. Service providers are responsible for linking thse client instances together if they so desire. A service provider MAY re-use the same client_id for all instance, or it may issue different client_ids for each instance.</li>
+                <li>The service provider is responsible for
+                matching dynamic registration claims with the
+                pre-registered claims.</li>
 
-                 <li>Clients are responsible (in all registration cases) for accepting and using the client_id issued to them by each service provider when talking to that service provider.</li>
+                <li>Client Instances present the token that comes
+                from the pre-registration process as part of a
+                normal dynamic registration with a particular
+                service provider.</li>
 
-                 <li>Even a web-server style client is going to need to get different client_id's from every service provider, which means that even a single installation of a client could have multiple "instances" as far as the network is concerned.</li>
+                <li>This technique allows service providers to link
+                together multiple instances of a client based on
+                the tokens used during registration. Service
+                providers are responsible for linking thse client
+                instances together if they so desire. A service
+                provider MAY re-use the same client_id for all
+                instance, or it may issue different client_ids for
+                each instance.</li>
+
+                <li>Clients are responsible (in all registration
+                cases) for accepting and using the client_id issued
+                to them by each service provider when talking to
+                that service provider.</li>
+
+                <li>Even a web-server style client is going to need
+                to get different client_id's from every service
+                provider, which means that even a single
+                installation of a client could have multiple
+                "instances" as far as the network is
+                concerned.</li>
+              </ul>
             </div>
-
+          </div>
         </section>
 
         <section id="authorization">
           <div class="page-header">
             <h1>App Authorization <small>a runtime, patient-driven
-            step</small> <span class="label label-info">Pull</span></h1>
+            step</small> <span class=
+            "label label-info">Pull</span></h1>
 
             <p>BlueButton+ providers allow apps to obtain patient
             authorization to health data using standard OAuth2
@@ -633,7 +766,9 @@ Provider-->App: client_id, secret, registration token
                 The authorization server includes this value when
                 redirecting the user-agent back to the client. The
                 parameter SHOULD be used for preventing cross-site
-                request forgery <span class="label label-warning">Should state be REQUIRED with a minimum level of entropy?</span></td>
+                request forgery <span class=
+                "label label-warning">Should state be REQUIRED with
+                a minimum level of entropy?</span></td>
               </tr>
             </table>
 
@@ -872,7 +1007,9 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth
                 The authorization server includes this value when
                 redirecting the user-agent back to the client. The
                 parameter SHOULD be used for preventing cross-site
-                request forgery <span class="label label-warning">Should state be REQUIRED with a minimum level of entropy?</span></td>
+                request forgery <span class=
+                "label label-warning">Should state be REQUIRED with
+                a minimum level of entropy?</span></td>
               </tr>
             </table>
 
@@ -964,7 +1101,8 @@ Host: bbplus-provider.org
         <section id="discovery">
           <div class="page-header">
             <h1>Provider and App Discovery <small>via Trust Bundle
-            Servers</small> <span class="label label-success">Common</span></h1>
+            Servers</small> <span class=
+            "label label-success">Common</span></h1>
 
             <p>BlueButton+ Pull uses <strong>Trust Bundle
             Servers</strong> to enable discovery of BB+ Providers
@@ -973,8 +1111,9 @@ Host: bbplus-provider.org
             well-known <code>https</code> URLs, using simple
             <a href="http://json-ld.org/">JSON-LD</a> arrays. In
             the BB+ ecosystem, apps and providers must be
-            pre-configured with a Trust Bundle Server (or
-            Servers). All discovery endpoints are organized beneath <code>.well-known/bb/</code> at the server's root.</p>
+            pre-configured with a Trust Bundle Server (or Servers).
+            All discovery endpoints are organized beneath
+            <code>.well-known/bb/</code> at the server's root.</p>
 
             <h5>Why JSON-LD?</h5>
 
@@ -999,22 +1138,26 @@ Host: bbplus-provider.org
                 </li>
               </ul>
             </div>
-            
-            <h2 id="discovery-trustbundle">Trust Bundle Discovery</h2>
-            
-            <p>A Trust Bundle Server exposes a BB+ Trust Bundle discovery endpoint at: <code>/.well-known/bb/trustbundle.json</code></p>
-            
+
+            <h2 id="discovery-trustbundle">Trust Bundle
+            Discovery</h2>
+
+            <p>A Trust Bundle Server exposes a BB+ Trust Bundle
+            discovery endpoint at:
+            <code>/.well-known/bb/trustbundle.json</code></p>
+
             <h3>trustbundle.json</h3>
-            
-            <p><code>trustbundle.json</code> is a single TrustBundle element expressed as JSON-LD with a default
+
+            <p><code>trustbundle.json</code> is a single
+            TrustBundle element expressed as JSON-LD with a default
             <code>@vocab</code> from <a href=
             "http://schema.org">http://schema.org</a> and
             additional properties defined in the <a href=
             "context-json-ld.js">BB+ JSON-LD Context</a></p>
-            
+
             <p>While any vocabulary from schema.org may be used in
-            describing a trust bundle, the <strong>following fields are
-            required:</strong></p>
+            describing a trust bundle, the <strong>following fields
+            are required:</strong></p>
 
             <table class="table table-striped">
               <tr>
@@ -1038,7 +1181,8 @@ Host: bbplus-provider.org
               <tr>
                 <td><code>jwks_uri</code></td>
 
-                <td>URL to the JSON Web Key (JWK) set for this trust bundle</td>
+                <td>URL to the JSON Web Key (JWK) set for this
+                trust bundle</td>
               </tr>
 
               <tr>
@@ -1048,11 +1192,16 @@ Host: bbplus-provider.org
               </tr>
 
               <tr>
-                <td class="subproperty"><code>introspect</code></td>
+                <td class="subproperty">
+                <code>introspect</code></td>
 
-                <td>RECOMMENDED OAuth2 introspection endpoint (As described in <a href="http://tools.ietf.org/html/draft-richer-oauth-introspection">this draft</a>)</td>
+                <td>
+                  RECOMMENDED OAuth2 introspection endpoint (As
+                  described in <a href=
+                  "http://tools.ietf.org/html/draft-richer-oauth-introspection">
+                  this draft</a>)
+                </td>
               </tr>
-              
             </table>
 
             <h5>trustbundle.json example</h5>
@@ -1070,8 +1219,8 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
 
 }
             
-</pre>            
-              
+</pre>
+
             <h2 id="discovery-providers">Provider Discovery</h2>
 
             <p>A Trust Bundle Server exposes a BB+ Provider
@@ -1136,9 +1285,15 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
               </tr>
 
               <tr>
-                <td class="subproperty"><code>introspect</code></td>
+                <td class="subproperty">
+                <code>introspect</code></td>
 
-                <td>OAuth2 introspection endpoint (As described in <a href="http://tools.ietf.org/html/draft-richer-oauth-introspection">this draft</a>)</td>
+                <td>
+                  OAuth2 introspection endpoint (As described in
+                  <a href=
+                  "http://tools.ietf.org/html/draft-richer-oauth-introspection">
+                  this draft</a>)
+                </td>
               </tr>
 
               <tr>
@@ -1238,9 +1393,12 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
                   "#registration-parameters">registration
                   parameters</a> that are fixed across all
                   instances of this app. A Trusted Registration
-                  request that fails to match (NOTE: need matching mechanisms defined here) on any
-                  parameters included here will be rejected. 
-                  This may contain any valid client metadata reistration parameters, and it is RECOMMENDED that the following ones be particularly locked down.
+                  request that fails to match (NOTE: need matching
+                  mechanisms defined here) on any parameters
+                  included here will be rejected. This may contain
+                  any valid client metadata reistration parameters,
+                  and it is RECOMMENDED that the following ones be
+                  particularly locked down.
                 </td>
               </tr>
 
@@ -1307,49 +1465,85 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 
         <section id="push-authorization">
           <div class="page-header">
-            <h1>Push Authorization <span class="label label-warning">Push</span></h1>
+            <h1>Push Authorization <span class=
+            "label label-warning">Push</span></h1>
 
-            <p> Patient data is stored with many providers, and manually
-            requesting an update from each provider can be difficult for a
-            patient.  The following workflow enables BB+ Pull apps to offer
-            patient an easy-to-use OAuth2-based mechanism for creating a BB+
-            Push connection.  In orther words, this workflow helps user find
-            providers and register for BB+ Push updates (Direct e-mail
-            messaging).  </p>
+            <p>Patient data is stored with many providers, and
+            manually requesting an update from each provider can be
+            difficult for a patient. The following workflow enables
+            BB+ Pull apps to offer patient an easy-to-use
+            OAuth2-based mechanism for creating a BB+ Push
+            connection. In orther words, this workflow helps user
+            find providers and register for BB+ Push updates
+            (Direct e-mail messaging).</p>
 
             <div class="well alert">
-              <p>In this example, assume the user is interacting with this environment:
-                <dl>
-                  <dt>Client</dt>
-                    <dd>BP-Grapher</dd>
-                  <dt>Service Provider</dt>
-                    <dd>Good Health Clinic</dd>
-                  <dt>Scope</dt>
-                    <dd><code>send-email-to</code> is a special, structured scope that is used to indicate the DIRECT email to send information to for this user</dd>
-                </dl>
-              </p>
+              <p>In this example, assume the user is interacting
+              with this environment:</p>
+
+              <dl>
+                <dt>Client</dt>
+
+                <dd>BP-Grapher</dd>
+
+                <dt>Service Provider</dt>
+
+                <dd>Good Health Clinic</dd>
+
+                <dt>Scope</dt>
+
+                <dd><code>send-email-to</code> is a special,
+                structured scope that is used to indicate the
+                DIRECT email to send information to for this
+                user</dd>
+              </dl>
+              <p>
             </div>
-            
+
             <h3>User Authorization Flow:</h3>
+
+            <p>In this section, we describe how a user can
+            authorize a service provider to send updates them
+            updates as new health data becomes available. To enable
+            this process, the client must perform the following
+            steps:</p>
+
+            <ol>
+              <li>Discovery as described above (<a href=
+              "#discovery-providers">provider discovery</a> at its
+              trust bundle).
+              </li>
+
+              <li>Search, filter, and optionally cache discovered
+              service providers. The user will select one or more
+              to authorize.</li>
+
+              <li>
+                <a href="#registration-trusted">Dynamically
+                register</a> if the client doesn't already have
+                their OAuth 2 credentials for the chosen service
+                provider.
+              </li>
+
+              <li>Send the user (in a web browser) to the service
+              provider's authorization endpoint. They have the
+              option to authorize this provider to push their
+              data.</li>
+
+              <li>Verify success by requesting a token from the
+              service provider's token endpoint to ensure the
+              user's selection succeeded.</li>
+            </ol>
             <p>
-              In this section, we describe how a user can authorize a service provider to send updates them updates as new health data becomes available.
-              To enable this process, the client must perform the following steps:
-              <ol>
-                <li>Discovery as described above (<a href="#discovery-providers">provider discovery</a> at its trust bundle).</li>
-                <li>Search, filter, and optionally cache discovered service providers. The user will select one or more to authorize.</li>
-                <li><a href="#registration-trusted">Dynamically register</a> if the client doesn't already have their OAuth 2 credentials for the chosen service provider.</li>
-                <li>Send the user (in a web browser) to the service provider's authorization endpoint. They have the option to authorize this provider to push their data.</li>
-                <li>Verify success by requesting a token from the service provider's token endpoint to ensure the user's selection succeeded.</li>
-              </ol>
-            </p>
 
             <h4>1. Discovery</h4>
-            <p>
-              Discovery for Push is the same process as shown above for <a href="#discovery-providers">provider discovery</a>.
-              A provider's information, including endpoint URIs, will be served in the following format:
-            </p>
 
-<pre class="prettyprint">
+            <p>Discovery for Push is the same process as shown
+            above for <a href="#discovery-providers">provider
+            discovery</a>. A provider's information, including
+            endpoint URIs, will be served in the following
+            format:</p>
+            <pre class="prettyprint">
 {
   "name": "Good Health Clinic",
   "description": "Serving your health needs since 1999",
@@ -1373,21 +1567,27 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 </pre>
 
             <h4>2. Search, filter, and cache</h4>
-            <p>
-              The specifics of client-side searching, filtering, caching, and selecting are out of scope for this guide.
-              Part of the rationale for delegating this task to the client is that the implementation of these tasks may vary by platform
-            </p>
+
+            <p>The specifics of client-side searching, filtering,
+            caching, and selecting are out of scope for this guide.
+            Part of the rationale for delegating this task to the
+            client is that the implementation of these tasks may
+            vary by platform</p>
 
             <h4>3. Dynamic registration</h4>
-            <p>
-              Dynamic registration for Push is the same process as <a href="#registration-trusted">shown above</a>.
-              This step retrieves a client_id and client_secret for this specific service provider. These values may and likely will vary across providers.
-              If the client has already retrieved the client's ID and secret, this step can be skipped.
-              Below is an example of the metadata sent in a request for dynamic registration and the response received.
-            </p>
 
-<p>Dynamic registration request:</p>
-<pre class="prettyprint">
+            <p>Dynamic registration for Push is the same process as
+            <a href="#registration-trusted">shown above</a>. This
+            step retrieves a client_id and client_secret for this
+            specific service provider. These values may and likely
+            will vary across providers. If the client has already
+            retrieved the client's ID and secret, this step can be
+            skipped. Below is an example of the metadata sent in a
+            request for dynamic registration and the response
+            received.</p>
+
+            <p>Dynamic registration request:</p>
+            <pre class="prettyprint">
 {
   "url": "https://bpgrapher.org",
   "name": "Blood Pressure Grapher",
@@ -1409,8 +1609,9 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
   },
 }
 </pre>
-<p>Dynamic registration response:</p>
-<pre class="prettyprint">
+
+            <p>Dynamic registration response:</p>
+            <pre class="prettyprint">
 {
   "client_id": "bp-grapher-goodhealth",
   "client_secret": "aser98uw4ijhsdfg9r4",
@@ -1433,12 +1634,14 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 </pre>
 
             <h4>4. Authorization request</h4>
-            <p>
-              By this step, the client has its OAuth 2 credentials. The client will use that data to send the user to the service provider's authorization endpoint.
-              Below is an example authorization request for the code workflow (more information is available in OAuth 2 RFC 6749 Section 4.1):
-            </p>
 
-<pre class="prettyprint">
+            <p>By this step, the client has its OAuth 2
+            credentials. The client will use that data to send the
+            user to the service provider's authorization endpoint.
+            Below is an example authorization request for the code
+            workflow (more information is available in OAuth 2 RFC
+            6749 Section 4.1):</p>
+            <pre class="prettyprint">
 http://portal.goodhealthclinic.org/authorize?
   response_type=code&amp;
   client_id=bp-grapher-goodhealth&amp;
@@ -1448,41 +1651,44 @@ http://portal.goodhealthclinic.org/authorize?
 </pre>
 
             <div class="well alert">
-              <p>
-                <strong>Note:</strong> The send_email_to scope construct above is asking for permission to send e-mail to the given address after the :, using a simple expression language as part of the structured scope.
-              </p>
+              <p><strong>Note:</strong> The send_email_to scope
+              construct above is asking for permission to send
+              e-mail to the given address after the :, using a
+              simple expression language as part of the structured
+              scope.</p>
             </div>
 
-            <p>
-              At this point, the client will receive either a positive response or a failure. Hypothetically, this response reflects the ultimate results, but
-              the next step addresses the client's ability to verify this response
-            </p>
+            <p>At this point, the client will receive either a
+            positive response or a failure. Hypothetically, this
+            response reflects the ultimate results, but the next
+            step addresses the client's ability to verify this
+            response</p>
 
-<p>Positive response:
-Client is redirected to:
-</p>
-<pre class="prettyprint">
+            <p>Positive response: Client is redirected to:</p>
+            <pre class="prettyprint">
 https://bpgrapher.org/after-auth?
   state=aliawejhwiluaq34hiuow&amp;
   code=oafea8i23n
 </pre>
 
-<p>Error response: (e.g. user clicked deny):</p>
-<pre class="prettyprint">
+            <p>Error response: (e.g. user clicked deny):</p>
+            <pre class="prettyprint">
 https://bpgrapher.org/after-auth?
   state=aliawejhwiluaq34hiuow&amp;
   error=access_denied (Other error codes are available from 4.1.2.1)
 </pre>
 
             <h4>5. Verify authorization results</h4>
-            <p>
-              To verify that the code we got is real, we request a token using the code from the token endpoint.
-              If this returns an access token (and not an error), then we know the code we used was good and that the user actually aubbthorized for us.
-              Optionally, the client can also check the scope of the returned token to ensure that the requested scopes were received.
-              Below is an example of the request for this verification:
-            </p>
 
-<pre class="prettyprint">
+            <p>To verify that the code we got is real, we request a
+            token using the code from the token endpoint. If this
+            returns an access token (and not an error), then we
+            know the code we used was good and that the user
+            actually aubbthorized for us. Optionally, the client
+            can also check the scope of the returned token to
+            ensure that the requested scopes were received. Below
+            is an example of the request for this verification:</p>
+            <pre class="prettyprint">
 http://portal.goodhealthclinic.org/token
   client_id=bp-grapher-goodhealth&amp;
   client_secret=aser98uw4ijhsdfg9r4&amp;
@@ -1491,9 +1697,9 @@ http://portal.goodhealthclinic.org/token
   code=oafea8i23n
 </pre>
 
-	  <p>The server then returns the token structure as follows:</p>
-	  
-<pre class="prettyprint">
+            <p>The server then returns the token structure as
+            follows:</p>
+            <pre class="prettyprint">
 {
   "access_token": "i8hweunweunweofiwweoijewiwe",
   "token_type": "bearer",
@@ -1501,12 +1707,19 @@ http://portal.goodhealthclinic.org/token
   "scope": "send_email_to:oip8erjoiaewjoi@direct.bp-grapher.org"
 } 
 </pre>
-
           </div>
-          
-          
-          <div class="well alert-info"><h3>Alternative Push Authorization Strategy <span class="label label-warning">Push</span></h3>An alternative to this whole approach would be to have the Client be Good Health Clinic and the Provider be BP-Grapher, with the protected data being the email address to send things to. This is more in line with OAuth's REST-friendly model and the traditional definition of roles, but it doesn't fit as well with the PUSH methods we're trying to enable here.</div>
-          
+
+          <div class="well alert-info">
+            <h3>Alternative Push Authorization Strategy
+            <span class="label label-warning">Push</span></h3>An
+            alternative to this whole approach would be to have the
+            Client be Good Health Clinic and the Provider be
+            BP-Grapher, with the protected data being the email
+            address to send things to. This is more in line with
+            OAuth's REST-friendly model and the traditional
+            definition of roles, but it doesn't fit as well with
+            the PUSH methods we're trying to enable here.
+          </div>
         </section>
       </div>
     </div>
