@@ -355,7 +355,7 @@ Host: bbplus-provider.org
 } 
 </pre>
 
-	    <p>The client will receive a unique <code>client_id</code> for that service provider, and will also receive a <code>registration_access_token</code> that it can use to maintain its registration there.</p>
+	    <p>The client will receive a unique <code>client_id</code> for that service provider, and will also receive a <code>registration_access_token</code> that it can use to maintain its registration there, as described in OAuth Dynamic Client Registration.</p>
 
             <h2 id="registration-trusted">Trusted Registration</h2>
 
@@ -383,7 +383,7 @@ Host: bbplus-provider.org
             
             <ul>
 	      <li><code>iss</code>: issuer is the URL of the trust bundle provider</li>
-	      <li><code>sub</code>: subject is an identifier from the trust bundle that uniquely identifies this class of clients</li>
+	      <li><code>sub</code>: subject is an identifier from the trust bundle that uniquely identifies this class of clients. This <strong>should</strong> be the same as a client's homepage URI</li>
 	      <li><code>iat</code>: timestamp of when this pre-registration information was last updated (and this token was issued)</li>
 	      <li>asymmetrically signed by the trust bundle, signature can be validated from the trust bundle's published public key (published as a JWK)</li>
 	    </ul>
