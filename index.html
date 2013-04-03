@@ -191,17 +191,14 @@ data-twttr-rendered="true">
               assurance, apps can perform a Trusted Registration
               (described below).
             </div>
-            <pre class="diagram">
+<div class=wsd wsd_style="napkin"><pre>
 Title: BlueButton+ Open Registration Process
 participant App
 participant Provider 
 
 App-&gt;Provider: Registration Request (no JWT)
 Provider--&gt;App: client_id + secret + registration token
-
-            
-            
-</pre>
+            </pre></div>
 
             <h3 id="registration-parameters">Registration
             Parameters</h3>
@@ -488,24 +485,27 @@ Host: bbplus-provider.org
             </div>
 
             <h3>Process overview:</h3>
-            <pre class="diagram">
+<div class=wsd wsd_style="napkin"><pre>
 Title: BlueButton+ Trusted Registration Process
 participant Provider 
 participant Trust bundle
 participant App
 
-App-&gt;Trust bundle: Register for bundle membership
-Trust bundle--&gt;Trust bundle: Verify app claims
-Trust bundle--&gt;App: Signed Registration JWT
-App-&gt;App: Time passes...
-App-&gt;Trust bundle: Lookup provider
-Trust bundle--&gt;App: Provider URI
-App-&gt;Provider: Registration Request + JWT
-Provider-&gt;Trust bundle: Lookup app claims
-Trust bundle--&gt;Provider: App claims
-Provider-&gt;Provider: Verify reg matches claims
-Provider--&gt;App: client_id, secret, registration token
+App->Trust bundle: Register for bundle membership
+Trust bundle-->Trust bundle: Verify app claims
+Trust bundle-->App: Signed Registration JWT
+App->App: Time passes...
+App->Trust bundle: Lookup provider
+Trust bundle-->App: Provider URI
+App->Provider: Registration Request + JWT
+Provider->Trust bundle: Lookup app claims
+Trust bundle-->Provider: App claims
+Provider->Provider: Verify reg matches claims
+Provider-->App: client_id, secret, registration token
+</pre></div>
 
+                
+            <pre class="diagram">
 </pre>
 
             <ol>
@@ -1748,10 +1748,8 @@ http://portal.goodhealthclinic.org/token
 </script> <script src="./assets/js/bootstrap-typeahead.js">
 </script> <script src="./assets/js/holder.js">
 </script> <script src="./assets/js/prettify.js">
-</script> <script src="./assets/js/raphael-min.js">
-</script> <script src="./assets/js/underscore-min.js">
-</script> <script src="./assets/js/sequence-diagram-min.js">
 </script> <script src="./assets/js/application.js">
 </script>
+<script type="text/javascript" src="http://www.websequencediagrams.com/service.js"></script>
 </body>
 </html>
