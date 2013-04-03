@@ -778,7 +778,7 @@ form.bs-docs-example {
 -------------------------------------------------- */
 
 .bs-docs-sidenav {
-  width: 230px \9; /* Override the previous IE8-9 hack */
+  width: 228px;
   margin: 30px 0 0;
   padding: 0;
   background-color: #fff;
@@ -822,9 +822,8 @@ form.bs-docs-example {
   margin-right: -6px;
   opacity: .25;
 }
-.bs-docs-sidenav > li.sidenav-indent a  {
-  padding-left: 30px !important;
-  width: 174px \9; /* Override the previous IE8-9 hack */
+li.sidenav-indent a  {
+  padding-left: 3em !important;
 }
 
 ul.bs-docs-sidenav li:not(.sidenav-indent) a  {
@@ -871,8 +870,6 @@ ul.bs-docs-sidenav li.active a  {
   .bs-docs-sidenav {
     width: 258px;
   }
-  .bs-docs-sidenav > li > a {
-  }
 }
 
 /* Desktop
@@ -895,6 +892,7 @@ ul.bs-docs-sidenav li.active a  {
   /* When affixed, space properly */
   .bs-docs-sidenav {
     top: 0;
+    width: 218px;
     margin-top: 30px;
     margin-right: 0;
   }
@@ -913,6 +911,7 @@ ul.bs-docs-sidenav li.active a  {
   }
   /* Adjust sidenav width */
   .bs-docs-sidenav {
+    width: 166px;
     margin-top: 20px;
   }
   .bs-docs-sidenav.affix {
