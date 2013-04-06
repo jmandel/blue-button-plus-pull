@@ -93,8 +93,7 @@ data-twttr-rendered="true">
           <li>
             <a href="#clinical-api"><i class="icon-chevron-right"></i>
             Clinical Data API <span class=
-            "label section label-info">Pull</span> <span class=
-            "label section label-info">TODO</span></a>
+            "label section label-info">Pull</span> </a>
           </li>
 
           <li class="sidenav-indent">
@@ -1113,7 +1112,8 @@ Host: bbplus-provider.org
             To access BlueButton+ Clinical API endpoints, an app:
             <ol>
             <li>Obtains Patient Authorization via <a href="#authorization">BB+ Authorization</a></li>
-            <li>Discovers a provider's clinical API endpoints via <a href="#discovery-single-provider">Single-Provider Discovery</a></li>
+            <li>Discovers a provider's clinical API endpoints via <a href="#discovery-single-provider">Single-Provider Discovery</a> <span class=
+            "label section label-info">TODO</span></li>
             <li>Issues an authenticatd request to the endpoint, supplying its OAuth bearer token</li>
             </ol>
 
@@ -1122,7 +1122,8 @@ Host: bbplus-provider.org
             Each BB+ Provider exposes a clinical summary endpoing and a
             document search endpoint.  An app discovers the URLs for these
             endpoints at runtime by performing <a
-            href="#discovery-single-provider">Single-Provider Discovery</a>.
+            href="#discovery-single-provider">Single-Provider Discovery</a> <span class=
+            "label section label-info">TODO</span>.
             The discovery process results in a JSON-LD object whose <code>bb_api.*</code>
             properties are used for the operations described below.
 
@@ -1155,7 +1156,7 @@ Host: bbplus-provider.org
             <table class="table table-striped">
 
               <tr>
-                <th>format</th>
+                <th><nobr>Accept header</th>
                 <th>description</th>
               </tr>
 
@@ -1189,8 +1190,7 @@ Host: bbplus-provider.org
     
             <pre>
 GET /bb/records/me/summary HTTP/1.1
-Content-Type: application/json
-Accept: application/json
+Accept: application/xml
 Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
 </pre>
@@ -1374,7 +1374,7 @@ Host: bbplus-provider.org
 
             <table class="table table-striped">
               <tr>
-                <th>format</th>
+                <th>Accept header</th>
                 <th>description</th>
               </tr>
 
