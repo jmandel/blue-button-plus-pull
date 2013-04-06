@@ -1213,7 +1213,7 @@ Host: bbplus-provider.org
             Atom feed (or JSON equivalent) containing document descriptors in
             the form of FHIR's XdsEntry resources.  These resources included
             basic document metadata as well as a URL that can be used to fetch
-            a document's contents (see <a href="api-document-fetch">Document
+            a document's contents (see <a href="#api-document-fetch">Document
             Retrieval</a> below.)
 
 
@@ -1437,7 +1437,7 @@ Accept: application/json                        # return a JSON feed (rather tha
 Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
 </pre>
-          <h4>Example response</h4>
+          <h4 id="example-xdsentry-feed">Example response</h4>
           <div class="well alert-info">
 
             <p><strong>Note</strong>:  FHIR's <code>XdsEntry</code> document
@@ -1527,7 +1527,7 @@ Host: bbplus-provider.org
 
       
           <h4>Example request</h4>
-          For the example JSON feed above, an app would fetch actual document contents via:
+          For the example <a href="#example-xdsentry-feed">JSON feed above</a>, an app would fetch actual document contents via:
           <pre>
 GET /bb/records/me/xdsentry/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document HTTP/1.1
 Authorization: i8hweunweunweofiwweoijewiwe
