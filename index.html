@@ -91,20 +91,26 @@ data-twttr-rendered="true">
           </li>
 
           <li>
-            <a href="#api"><i class="icon-chevron-right"></i>
+            <a href="#clinical-api"><i class="icon-chevron-right"></i>
             Clinical Data API <span class=
             "label section label-info">Pull</span> <span class=
             "label section label-info">TODO</span></a>
           </li>
 
           <li class="sidenav-indent">
-            <a href="#api-summary"><i class=
+            <a href="#clinical-summary"><i class=
             "icon-chevron-right"></i> Clinical Summary</a>
           </li>
 
           <li class="sidenav-indent">
-            <a href="#api-search"><i class=
+            <a href="#clinical-search"><i class=
             "icon-chevron-right"></i> Document Search</a>
+          </li>
+
+
+          <li class="sidenav-indent">
+            <a href="#clinical-document-retrieval"><i class=
+            "icon-chevron-right"></i> Document Retrieval</a>
           </li>
 
           <li>
@@ -1096,6 +1102,440 @@ Host: bbplus-provider.org
 </pre>
           </div>
         </section>
+
+        <section id="clinical-api">
+          <div class="page-header">
+
+            <h1>Clinical API<small>summary & search</small> <span class=
+            "label label-info">Pull</span></h1>
+
+            <h2>Using the BB+ Clinical API</h2>
+            To access BlueButton+ Clinical API endpoints, an app:
+            <ol>
+            <li>Obtains Patient Authorization via <a href="#authorization">BB+ Authorization</a></li>
+            <li>Discovers a provider's clinical API endpoints via <a href="#discovery-single-provider">Single-Provider Discovery</a></li>
+            <li>Issues an authenticatd request to the endpoint, supplying its OAuth bearer token</li>
+            </ol>
+
+            <h3>Discovering endpoint URIs</h3>
+
+            Each BB+ Provider exposes a clinical summary endpoing and a
+            document search endpoint.  An app discovers the URLs for these
+            endpoints at runtime by performing <a
+            href="#discovery-single-provider">Single-Provider Discovery</a>.
+            The discovery process results in a JSON-LD object whose <code>bb_api.*</code>
+            properties are used for the operations described below.
+
+            <h3>Issuing API calls</h3>
+
+            To issue an authenticated API call, an app requests the BB+
+            Clinical API endpoint using the appropriate HTTP method (generally
+            <code>GET</code> for read-only operations), including its OAuth
+            bearer token using an <code>Authorization</code> header or ay valid
+            mechanism from RFC6750.
+
+            <h3>Negotiating <code>Content-type</code> of the response</h3>
+
+           An app may include an <code>Accept</code> HTTP header with the
+           request.  Apps that are unable to set an <code>Accept</code> header
+           may alternatively supply a <code>_format</code> query parameter.
+           Valid <code>content-type</code> values are listed for each endpoint below.
+
+            <h2 id="clinical-summary">Clinical Summary</h2>
+
+            <h5>Endpoint URI: <code>bb_api</code>.<code>summary</code></h5>
+
+            The clinical summary endpoint returns the most recently available
+            summary document.  By default, BB+ Providers supply a clinical
+            summary document in Consolidated CDA XML format.  For convenience,
+            other MIME types may be derived from a Consolidated CDA and
+            returned to an app.  Providers SHOULD support the following
+            formats, all of which can be automatically derived from a C-CDA:
+
+            <table class="table table-striped">
+
+              <tr>
+                <th>format</th>
+                <th>description</th>
+              </tr>
+
+              <tr>
+                <td><code>text/xml</code></td>
+                <td>DEFAULT.  A Consolidated CDA in XML.</td>
+              </tr>
+
+              <tr>
+                <td><code>text/plain</code></td>
+                <td>A document rendered as a simple text file (as in the VA's "classic" BlueButton implementation.</td>
+              </tr>
+
+              <tr>
+                <td><code>text/html</code></td>
+                <td>A document rendered as HTML (as might be obtained by applying a generic stylesheet to a C-CDA).</td>
+              </tr>
+
+            </table>
+
+            <h3>Using the summary endpoint</h3>
+
+            <p>To retrieve the most recent clinical summary document, an app
+            issues an http <code>GET</code> to the <code>summary</code>
+            endpoint, including its bearer token using an Authorization
+            header or any valid mechanism from RFC6750.
+            </p>
+
+        
+            <h4>Example</h4>
+    
+            <pre>
+GET /bb/records/me/summary HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: i8hweunweunweofiwweoijewiwe
+Host: bbplus-provider.org
+</pre>
+
+            <h2 id="clinical-search">Document Search</h2>
+
+            <h5>Endpoint URI: <code>bb_api</code>.<code>search</code></h5>
+      
+            <p>The clinical document search endpoint allows an app to search for
+            clinical documents that match a set of search parameters. A core
+            set of features are described here.  For full details, see <a
+            href="http://www.hl7.org/implement/standards/fhir/xdsentry.htm">FHIR's
+            XdsEntry definition</a>.  
+            </p>
+
+            <h3>Search returns a feed of XdsEntry document descriptors</h3>
+            
+            It's important to keep in mind that the document search endpoint
+            does not return document content directly.  Rather, it returns an
+            Atom feed (or JSON equivalent) containing document descriptors in
+            the form of FHIR's XdsEntry resources.  These resources included
+            basic document metadata as well as a URL that can be used to fetch
+            a document's contents (see <a href="api-document-fetch">Document
+            Retrieval</a> below.)
+
+
+            <h5>Search Parameters</h5>
+            <table class="table table-striped">
+
+              <tr>
+                <th>Query parameter</th>
+                <th>Description</th>
+              </tr>
+
+              <tr>
+
+                <td><code>mimeType</code></td>
+
+                <td>
+                <p>Filter the available documents by MIME type. For example, this
+                parameter can be used to limit search results to XML documents
+                (<code>text/xml</code>), or PDFs
+                (<code>application/pdf</code>). </p>
+                <p>Multiple <code>mimeType</code> parameters are processed as an "or" (union).</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>format</code></td>
+
+                <td>
+                
+                Filter the available documents by information model.  For example, the <code>text/xml</code> MIME type is used for CCR, CCD 1.0, and CCDA documents.  The following values are supported:
+
+                 <dl class="dl-horizontal">
+                  <dt>CCR</dt>
+                  <dd>Content formatted using the <a href="http://www.astm.org/Standards/E2369.htm">ASTM CCR</a> Standard</dd>
+
+                  <dt>CCD</dt>
+                  <dd>Content formatted using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=6">HL7 CCD 1.0</a> Standard</dd>
+
+                  <dt>CCDA</dt>
+                  <dd>Content formatted using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=258">HL7 CCDA</a> Standard (including CCD 1.1)</dd>
+                </dl>
+                
+                Multiple <code>format</code> parameters are processed as an "or" (union).
+
+                </td>
+
+              </tr>
+
+              <tr>
+                <td><code>class</code></td>
+
+                <td>
+                
+                Filter the available documents by document class model.  The following values are supported:
+                 <dl class="dl-horizontal">
+
+                  <dt>Summary</dt>
+                  <dd>Clinical summary document</dd>
+
+                  <dt>HandP</dt>
+                  <dd>History and Physical</dd>
+
+                  <dt>Consult</dt>
+                  <dd>Consult document</dd>
+
+                  <dt>Discharge</dt>
+                  <dd>Hospital discharge summary</dd>
+
+                  <dt>Operative</dt>
+                  <dd>Operative note</dd>
+
+                  <dt>Procedure</dt>
+                  <dd>Procedure note</dd>
+
+                  <dt>Progress</dt>
+                  <dd>Progress note</dd>
+
+                  <dt>Imaging</dt>
+                  <dd>Imaging report</dd>
+
+                  <dt>Lab</dt>
+                  <dd>Lab report</dd>
+
+                  <dt>Unstructured</dt>
+                  <dd>Unstructured document</dd>
+                </dl>
+                Multiple <code>format</code> parameters are processed as an "or" (union).
+
+               </td>
+
+              </tr>
+
+              <tr>
+                <td><code>service.start-after</code></td>
+
+                <td>
+                
+                <p>Filter the available documents for encounters beginning
+                after a given time. If no time zone is specified, the server
+                may assume local time, local time of the querying system, or
+                some other fixed time zone.</p>
+
+                <p><strong>Example</strong>: <code>2012-01-01T06:00-05:00</code> (6:00am on January 1, 2012 GMT-5)</p>
+              
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>service.start-before</code></td>
+
+                <td>
+                
+                <p>Filter the available documents for encounters beginning
+                before a given time. </p>
+
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>service.stop-after</code></td>
+
+                <td>
+                <p>Filter the available documents for encounters ending
+                after a given time. </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>service.stop-before</code></td>
+
+                <td>
+                <p>Filter the available documents for encounters ending
+                before a given time. </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>created-before</code></td>
+
+                <td>
+                <p>Filter for documents authored before a given time. </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>created-after</code></td>
+
+                <td>
+                <p>Filter for documents authored after a given time. </p>
+                </td>
+              </tr>
+
+          </table>
+
+          In addition to the search paramters described above, BB+ providers
+          support Content-type negotiation to determine the format in which
+          results are returned. The following formats are available:
+
+            <table class="table table-striped">
+              <tr>
+                <th>format</th>
+                <th>description</th>
+              </tr>
+
+              <tr>
+                <td><code>application/atom+xml</code></td>
+                <td>DEFAULT. An Atom feed representation of <code>XdsEntry</code> elements.
+              </tr>
+
+              <tr>
+                <td><code>application/json</code></td>
+                <td>A JSON bundle of <code>XdsEntry</code> elements (like Atom, but in FHIR-defined JSON)</td>
+              </tr>
+
+            </table>
+
+ 
+          <div class="well alert-info">
+            <h4>Content-type vs. mimeType vs. format</h4>
+
+            Three distinct "format-related" parameters are used at the clinical document search endpoint, and it's important to keep them straight.
+
+            <dl>
+            <dt>Accept header (or _format parameter)</dt>
+            <dd>Defines the MIME type in which search results are returned.  Remember that search results are returned as a feed of XdsEntry document descriptions, and actual document content is not embedded in this feed. So this parameter simply determines whether the feed is Atom (default) or JSON.</dd>
+            <dt>mimeType parameter</dt>
+            <dd>Search parameter to filter documents by MIME type</dd>
+            <dt>format parameter</dt>
+            <dd>Search parameter to filter documents by format (for example, CCR vs. CCD vs. CCDA). Note the lack of undescore.</dd>
+            </dl>
+          </div>
+
+          <h3>Using the search endpoint</h3>
+
+            <p>To search for relevant documents, an app
+            issues an http <code>GET</code> to the <code>search</code>
+            endpoint, including its bearer token using an Authorization
+            header or any valid mechanism from RFC6750.
+            </p>
+
+        
+          <h4>Example request</h4>
+
+          <p>The following query obtains a JSON feed of C-CDA Operative notes and
+          Procedure notes pertaining to episodes of care that ended prior to
+          2013.</p>
+          
+          <p>Newlines and indentation added around URL parameters for
+          clarity</p>
+
+          <pre>
+GET /bb/records/me/search?                      # provider-supplied endpoint
+   mimeType=text%2Fxml&amp;                         # limit to XML documents
+   format=CCDA&amp;                                 # limit to Consolidated CDAs *or*
+   format=CCD&amp;                                  #          CCD 1.0 documents
+   class=Operative&amp;                             # limit to Operative notes *or*
+   class=Procedure&amp;                             #          Procedure notes
+   service.end-before=2013-01-01T00:00Z         # limit to pre-2013 services
+   HTTP/1.1
+Accept: application/json                        # return a JSON feed (rather than Atom XML)
+Authorization: i8hweunweunweofiwweoijewiwe
+Host: bbplus-provider.org
+</pre>
+          <h4>Example response</h4>
+          <div class="well alert-info">
+
+            <p><strong>Note</strong>:  FHIR's <code>XdsEntry</code> document
+            descriptor includes a lot more metadata than BB+ may need for the
+            document search endpoint.  FHIR defines many of these fields
+            (including patientId) as required.  The representation below is
+            simplified somewhat.</p>
+
+            <p>In practice, to retrieve actual document contents, app
+            developers will want to examine the <code>.entry</code> array of
+            the search result, and for each <code>XdsEntry</code> in that
+            array, the <code>url</code>.<code>value</code> can be extracted and
+            dereferenced.  For more details, see <a
+            href="api-document-fetch">Document Retrieval</a>.
+
+          </div>
+
+          <pre>
+{
+  "title": "Search results for resource type XdsEntry",
+  "id": "urn:uuid:b66d1181-a951-410a-bad5-538c20456b",
+  "updated": "2013-04-06T00:08:45Z",
+  "entry": [
+    {
+      "title": "XdsEntry Document",
+      "id": "http://bbplus-provider.org/bb/records/me/xdsentry/@830fcde0-5d03-4305-8589-a4fa8d574d0e",
+      "updated": "2013-03-04T17:15:00Z",
+      "category": [
+        {
+          "scheme": "http://hl7.org/fhir/resource-types",
+          "term": "XdsEntry"
+        }
+      ],
+      "content": {
+        "XdsEntry": {
+          "url": {
+            "value": "http://bbplus-provider.org/bb/records/me/xdsentry/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document"
+          },
+          "mimeType": {
+            "value": "text/xml"
+          },
+          "format": {
+            "system": {
+              "value": "http://ihe.net/xds/connectathon/formatCodes"
+            },
+            "code": {
+              "value": "CCDA"
+            },
+            "display": {
+              "value": "Consolidated CDA"
+            }
+          },
+          "class": {
+            "system": {
+              "value": "http://ihe.net/xds/connectathon/classCodes"
+            },
+            "code": {
+              "value": "HandP"
+            },
+            "display": {
+              "value": "History and Physical"
+            }
+          },
+          "created": {
+            "value": "2005-12-24T09:35:00+11:00"
+          }
+        }
+      }
+    }
+  ]
+}
+          </pre>
+
+            <h2 id="clinical-document-retrieval">Document Retrieval</h2>
+
+            <h5>Endpoint URI: this endpoint is document-specific</h5>
+            <h3>Retrieving an individual document</h3>
+
+            <p> By performing a <a href="#clinical-search">Document Search</a>,
+            an app obtains an Atom feed (or JSON equivalent) of
+            <code>XdsEntry</code> document descriptors.  To fetch actual
+            document contents, the app issues an authenticated,  HTTPS
+            <code>GET</code> to dereference the document URI.  This URI is
+            available in the <code>./url/@value</code> xpath for an Atom entry,
+            or the <code>url</code>.<code>value</code> field of a JSON feed
+            entry. </p>
+
+      
+          <h4>Example request</h4>
+          For the example JSON feed above, an app would fetch actual document contents via:
+          <pre>
+GET /bb/records/me/xdsentry/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document HTTP/1.1
+Authorization: i8hweunweunweofiwweoijewiwe
+Host: bbplus-provider.org
+</pre>
+ 
+        </div>
+      </section>
 
         <section id="discovery">
           <div class="page-header">
