@@ -1202,16 +1202,16 @@ Host: bbplus-provider.org
             <p>The clinical document search endpoint allows an app to search for
             clinical documents that match a set of search parameters. A core
             set of features are described here.  For full details, see <a
-            href="http://www.hl7.org/implement/standards/fhir/xdsentry.htm">FHIR's
-            XdsEntry definition</a>.  
+            href="http://www.hl7.org/implement/standards/fhir/documentreference.htm">FHIR's
+            DocumentReference definition</a>.  
             </p>
 
-            <h3>Search returns a feed of XdsEntry document descriptors</h3>
+            <h3>Search returns a feed of DocumentReferences</h3>
             
             It's important to keep in mind that the document search endpoint
             does not return document content directly.  Rather, it returns an
             Atom feed (or JSON equivalent) containing document descriptors in
-            the form of FHIR's XdsEntry resources.  These resources included
+            the form of FHIR's DocumentReference resources.  These resources included
             basic document metadata as well as a URL that can be used to fetch
             a document's contents (see <a href="#api-document-fetch">Document
             Retrieval</a> below.)
@@ -1380,12 +1380,12 @@ Host: bbplus-provider.org
 
               <tr>
                 <td><code>application/atom+xml</code></td>
-                <td>DEFAULT. An Atom feed representation of <code>XdsEntry</code> elements.
+                <td>DEFAULT. An Atom feed representation of <code>DocumentReference</code> elements.
               </tr>
 
               <tr>
                 <td><code>application/json</code></td>
-                <td>A JSON bundle of <code>XdsEntry</code> elements (like Atom, but in FHIR-defined JSON)</td>
+                <td>A JSON bundle of <code>DocumentReference</code> elements (like Atom, but in FHIR-defined JSON)</td>
               </tr>
 
             </table>
@@ -1398,7 +1398,7 @@ Host: bbplus-provider.org
 
             <dl>
             <dt>Accept header (or _format parameter)</dt>
-            <dd>Defines the MIME type in which search results are returned.  Remember that search results are returned as a feed of XdsEntry document descriptions, and actual document content is not embedded in this feed. So this parameter simply determines whether the feed is Atom (default) or JSON.</dd>
+            <dd>Defines the MIME type in which search results are returned.  Remember that search results are returned as a feed of DocumentReference document descriptions, and actual document content is not embedded in this feed. So this parameter simply determines whether the feed is Atom (default) or JSON.</dd>
             <dt>mimeType parameter</dt>
             <dd>Search parameter to filter documents by MIME type</dd>
             <dt>format parameter</dt>
@@ -1437,10 +1437,10 @@ Accept: application/json                        # return a JSON feed (rather tha
 Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
 </pre>
-          <h4 id="example-xdsentry-feed">Example response</h4>
+          <h4 id="example-documentreference-feed">Example response</h4>
           <div class="well alert-info">
 
-            <p><strong>Note</strong>:  FHIR's <code>XdsEntry</code> document
+            <p><strong>Note</strong>:  FHIR's <code>DocumentReference</code> document
             descriptor includes a lot more metadata than BB+ may need for the
             document search endpoint.  FHIR defines many of these fields
             (including patientId) as required.  The representation below is
@@ -1448,7 +1448,7 @@ Host: bbplus-provider.org
 
             <p>In practice, to retrieve actual document contents, app
             developers will want to examine the <code>.entry</code> array of
-            the search result, and for each <code>XdsEntry</code> in that
+            the search result, and for each <code>DocumentReference</code> in that
             array, the <code>url</code>.<code>value</code> can be extracted and
             dereferenced.  For more details, see <a
             href="api-document-fetch">Document Retrieval</a>.
@@ -1457,24 +1457,24 @@ Host: bbplus-provider.org
 
           <pre>
 {
-  "title": "Search results for resource type XdsEntry",
+  "title": "Search results for resource type DocumentReference",
   "id": "urn:uuid:b66d1181-a951-410a-bad5-538c20456b",
   "updated": "2013-04-06T00:08:45Z",
   "entry": [
     {
-      "title": "XdsEntry Document",
-      "id": "http://bbplus-provider.org/bb/records/me/xdsentry/@830fcde0-5d03-4305-8589-a4fa8d574d0e",
+      "title": "DocumentReference Document",
+      "id": "http://bbplus-provider.org/bb/records/me/documentreference/@830fcde0-5d03-4305-8589-a4fa8d574d0e",
       "updated": "2013-03-04T17:15:00Z",
       "category": [
         {
           "scheme": "http://hl7.org/fhir/resource-types",
-          "term": "XdsEntry"
+          "term": "DocumentReference"
         }
       ],
       "content": {
-        "XdsEntry": {
+        "DocumentReference": {
           "url": {
-            "value": "http://bbplus-provider.org/bb/records/me/xdsentry/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document"
+            "value": "http://bbplus-provider.org/bb/records/me/documentreference/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document"
           },
           "mimeType": {
             "value": "text/xml"
@@ -1518,7 +1518,7 @@ Host: bbplus-provider.org
 
             <p> By performing a <a href="#clinical-search">Document Search</a>,
             an app obtains an Atom feed (or JSON equivalent) of
-            <code>XdsEntry</code> document descriptors.  To fetch actual
+            <code>DocumentReference</code> document descriptors.  To fetch actual
             document contents, the app issues an authenticated,  HTTPS
             <code>GET</code> to dereference the document URI.  This URI is
             available in the <code>./url/@value</code> xpath for an Atom entry,
@@ -1527,9 +1527,9 @@ Host: bbplus-provider.org
 
       
           <h4>Example request</h4>
-          For the example <a href="#example-xdsentry-feed">JSON feed above</a>, an app would fetch actual document contents via:
+          For the example <a href="#example-documentreference-feed">JSON feed above</a>, an app would fetch actual document contents via:
           <pre>
-GET /bb/records/me/xdsentry/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document HTTP/1.1
+GET /bb/records/me/documentreference/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document HTTP/1.1
 Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
 </pre>
