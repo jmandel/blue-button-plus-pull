@@ -119,18 +119,18 @@ data-twttr-rendered="true">
           </li>
 
           <li class="sidenav-indent">
-            <a href="#discovery-trustbundle"><i class=
-            "icon-chevron-right"></i> BB+ Trust Bundle</a>
+            <a href="#discovery-registry"><i class=
+            "icon-chevron-right"></i> BB+ Registries</a>
           </li>
 
           <li class="sidenav-indent">
             <a href="#discovery-providers"><i class=
-            "icon-chevron-right"></i> BB+ Providers</a>
+            "icon-chevron-right"></i>Provider Discovery</a>
           </li>
 
           <li class="sidenav-indent">
             <a href="#discovery-apps"><i class=
-            "icon-chevron-right"></i> BB+ Apps</a>
+            "icon-chevron-right"></i>App Discovery</a>
           </li>
 
           <li>
@@ -179,7 +179,7 @@ data-twttr-rendered="true">
             Dynamic Client Registration</a>. This guide walks
             through the process of registering a client using open
             registration, as well as an example of using trusted
-            registration which leverages trust bundles.</p>
+            registration which leverages BB+ Registries.</p>
 
             <h2 id="registration-open">Open
             Registration</h2>BlueButton+ providers offer an open
@@ -417,7 +417,7 @@ Host: bbplus-provider.org
             providers support a Trusted Registration option. When
             performing a Trusted Registration, apps follow the
             protocol described above, with the addition of a bearer
-            token from a Trust Bundle that the provder trusts. This
+            token from a BB+ Registry that the provder trusts. This
             trusted bearer token is a <a href=
             "http://tools.ietf.org/html/draft-ietf-oauth-json-web-token">
             JSON Web Token</a> signed with <a href=
@@ -493,18 +493,18 @@ Host: bbplus-provider.org
 <div class=wsd wsd_style="napkin"><pre>
 Title: BlueButton+ Trusted Registration Process
 participant Provider 
-participant Trust bundle
+participant BB+ Registry
 participant App
 
-App->Trust bundle: Register for bundle membership
-Trust bundle-->Trust bundle: Verify app claims
-Trust bundle-->App: Signed Registration JWT
+App->BB+ Registry: Register for membership
+BB+ Registry-->BB+ Registry: Verify app claims
+BB+ Registry-->App: Signed Registration JWT
 App->App: Time passes...
-App->Trust bundle: Lookup provider
-Trust bundle-->App: Provider URI
+App->BB+ Registry: Lookup provider
+BB+ Registry-->App: Provider URI
 App->Provider: Registration Request + JWT
-Provider->Trust bundle: Lookup app claims
-Trust bundle-->Provider: App claims
+Provider->BB+ Registry: Lookup app claims
+BB+ Registry-->Provider: App claims
 Provider->Provider: Verify reg matches claims
 Provider-->App: client_id, secret, registration token
 </pre></div>
@@ -515,25 +515,25 @@ Provider-->App: client_id, secret, registration token
 
             <ol>
               <li>Client Class is manually pre-registered with a
-              Trust Bundle.
+              BB+ Registry.
 
                 <ul>
-                  <li>Trust Bundle collects any fixed app
+                  <li>BB+ Registry collects any fixed app
                     <a href="#registration-parameters">registration
                     parameters</a> including, at a minimum,
                     <code>client_name</code> and
                     <code>client_uri</code>
                   </li>
 
-                  <li>Trust Bundle verifies these parameters
-                  (according to bundle-specific policy)</li>
+                  <li>BB+ Registry verifies these parameters
+                  (according to registry-specific policy)</li>
 
-                  <li>Trust Bundle makes these parameters
+                  <li>BB+ Registry makes these parameters
                   discoverable via <a href="#discovery-apps">BB+
                   App Discovery</a>
                   </li>
 
-                  <li>Trust Bundle supplies the Client Class with a
+                  <li>BB+ Registry supplies the Client Class with a
                   pre-registration token (signed JWT) for
                   subsequent dynamic registration operations</li>
                 </ul>
@@ -549,7 +549,7 @@ Provider-->App: client_id, secret, registration token
 
               <li>Service provider validates the pre-registration
               token by checking the signature against the public
-              key of the trust bundle indicated by the
+              key of the BB+ Registry indicated by the
               <code>iss</code> field of the token (?and/or doing
               token introspection from the <code>iss</code>).</li>
 
@@ -578,7 +578,7 @@ Provider-->App: client_id, secret, registration token
             <h3>Pre-registration</h3>
 
             <p>First, the Client class is manually pre-registered
-            with a Trust Bundle. This process may fix any of the
+            with a BB+ Registry. This process may fix any of the
             client parameters listed above, such as the
             <code>client_name</code> and
             <code>redirect_uris</code>. At a minimum,
@@ -590,7 +590,7 @@ Provider-->App: client_id, secret, registration token
 
             <ul>
               <li>a "subject" identifier unique within the scope of
-              the trust bundle. This "subject" identifer
+              the BB+ Registry. This "subject" identifer
               <strong>should</strong> be the same as the app's
               homepage (<code>client_uri</code>).</li>
 
@@ -600,10 +600,10 @@ Provider-->App: client_id, secret, registration token
               <li style="list-style: none; display: inline">
                 <ul>
                   <li><code>iss</code>: issuer is the URL of the
-                  trust bundle provider</li>
+                  BB+ Registry</li>
 
                   <li><code>sub</code>: subject is an identifier
-                  from the trust bundle (as described above)</li>
+                  from the BB+ Registry (as described above)</li>
 
                   <li><code>iat</code>: timestamp of when this
                   pre-registration information was last updated
@@ -614,19 +614,19 @@ Provider-->App: client_id, secret, registration token
                   valid</li>
 
                   <li><em>these claims are combined in a JWT
-                  asymmetrically signed by the trust bundle. The
-                  signature can be validated from the trust
-                  bundle's published public key (published as a
+                  asymmetrically signed by the BB+ Registry. The
+                  signature can be validated from the BB+ Registry's 
+                  published public key (published as a
                   JWK). <span class="label section label-info">TODO
                   add detail</span> .</em></li>
                 </ul>
               </li>
             </ul>
 
-            <p>All service providers within a trust bundle must be
+            <p>All service providers within a BB+ Registry must be
             able to validate the signature and validity of any
             registration tokens. It's recommended (required?) that
-            trust bundle providers publish a <a href=
+            BB+ Registries publish a <a href=
             "http://tools.ietf.org/html/draft-richer-oauth-introspection">
             token introspection endpoint</a> to facilitate this.
             <span class="label section label-info">TODO add
@@ -653,7 +653,7 @@ Provider-->App: client_id, secret, registration token
 
               <ul>
                 <li>The application owner/developer is responsible
-                for pre-registering with the trust bundle.</li>
+                for pre-registering with the BB+ Registry.</li>
 
                 <li>The service provider is responsible for
                 matching dynamic registration claims with the
@@ -1539,18 +1539,18 @@ Host: bbplus-provider.org
 
         <section id="discovery">
           <div class="page-header">
-            <h1>Provider and App Discovery <small>via Trust Bundle
-            Servers</small> <span class=
+            <h1>Provider and App Discovery <small>via BB+ Registries</small>
+            <span class=
             "label label-success">Common</span></h1>
 
-            <p>BlueButton+ Pull uses <strong>Trust Bundle
+            <p>BlueButton+ Pull uses <strong>BB+ Registry
             Servers</strong> to enable discovery of BB+ Providers
-            and BB+ Apps. Each Trust Bundle Server exposes a set of
+            and BB+ Apps. Each BB+ Registry Server exposes a set of
             trusted providers and a set of trusted apps at
             well-known <code>https</code> URLs, using simple
             <a href="http://json-ld.org/">JSON-LD</a> arrays. In
             the BB+ ecosystem, apps and providers must be
-            pre-configured with a Trust Bundle Server (or Servers).
+            pre-configured with a BB+ Registry Server (or Servers).
             All discovery endpoints are organized beneath
             <code>.well-known/bb/</code> at the server's root.</p>
 
@@ -1578,24 +1578,24 @@ Host: bbplus-provider.org
               </ul>
             </div>
 
-            <h2 id="discovery-trustbundle">Trust Bundle
+            <h2 id="discovery-registry">BB+ Registry 
             Discovery</h2>
 
-            <p>A Trust Bundle Server exposes a BB+ Trust Bundle
+            <p>A BB+ Registry Server exposes a BB+ Registry
             discovery endpoint at:
-            <code>/.well-known/bb/trustbundle.json</code></p>
+            <code>/.well-known/bb/registry.json</code></p>
 
-            <h3>trustbundle.json</h3>
+            <h3>registry.json</h3>
 
-            <p><code>trustbundle.json</code> is a single
-            TrustBundle element expressed as JSON-LD with a default
+            <p><code>registry.json</code> is a single
+            Registry element expressed as JSON-LD with a default
             <code>@vocab</code> from <a href=
             "http://schema.org">http://schema.org</a> and
             additional properties defined in the <a href=
             "context-json-ld.js">BB+ JSON-LD Context</a></p>
 
             <p>While any vocabulary from schema.org may be used in
-            describing a trust bundle, the <strong>following fields
+            describing a BB+ Registry, the <strong>following fields
             are required:</strong></p>
 
             <table class="table table-striped">
@@ -1608,20 +1608,20 @@ Host: bbplus-provider.org
               <tr>
                 <td><code>name</code></td>
 
-                <td>Human-readable Name of the Trust Bundle</td>
+                <td>Human-readable Name of the BB+ Registry</td>
               </tr>
 
               <tr>
                 <td><code>url</code></td>
 
-                <td>Root URL of the Trust Bundle</td>
+                <td>Root URL of the BB+ Registry</td>
               </tr>
 
               <tr>
                 <td><code>jwks_uri</code></td>
 
                 <td>URL to the JSON Web Key (JWK) set for this
-                trust bundle</td>
+                 BB+ Registry</td>
               </tr>
 
               <tr>
@@ -1643,17 +1643,17 @@ Host: bbplus-provider.org
               </tr>
             </table>
 
-            <h5>trustbundle.json example</h5>
+            <h5>registry.json example</h5>
             <pre class="prettyprint">
 Content-Type: application/json
 Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
 
 {
-  "name": "The Trust Bundle Foundation",
-  "url": "http://trustbundle.org/",
-  "jwks_uri": "https://trustbundle.org/public_key.jwks",
+  "name": "The BB+ Registry Foundation",
+  "url": "http://registry.org/",
+  "jwks_uri": "https://registry.org/public_key.jwks",
   "oauth2": {
-    "introspect": "https://trustbundle.org/oauth/introspect",
+    "introspect": "https://registry.org/oauth/introspect",
   }
 
 }
@@ -1662,7 +1662,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
 
             <h2 id="discovery-providers">Provider Discovery</h2>
 
-            <p>A Trust Bundle Server exposes a BB+ Provider
+            <p>A BB+ Registry Server exposes a BB+ Provider
             Discovery endpoint at:
             <code>/.well-known/bb/providers.json</code></p>
 
@@ -1788,7 +1788,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 
             <h2 id="discovery-apps">App Discovery</h2>
 
-            <p>A Trust Bundle Server exposes a <strong>BB+ App
+            <p>A BB+ Registry Server exposes a <strong>BB+ App
             Discovery</strong> endpoint at:
             <code>/.well-known/bb/apps.json</code></p>
 
@@ -1950,7 +1950,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
             <ol>
               <li>Discovery as described above (<a href=
               "#discovery-providers">provider discovery</a> at its
-              trust bundle).
+              BB+ Registry ).
               </li>
 
               <li>Search, filter, and optionally cache discovered
