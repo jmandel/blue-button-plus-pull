@@ -1527,27 +1527,30 @@ Host: bbplus-provider.org
             <table class="table table-striped">
               <tr>
                 <th>Property</th>
-
                 <th>Description</th>
               </tr>
 
               <tr>
                 <td><code>name</code></td>
-
                 <td>Human-readable Name of the BB+ Registry</td>
               </tr>
 
               <tr>
                 <td><code>url</code></td>
-
-                <td>Root URL of the BB+ Registry</td>
+                <td>Root URL of the BB+ Registry (to which <code>.well-known/bb/registry.json</code> can be appended)</td>
               </tr>
 
               <tr>
                 <td><code>jwks_uri</code></td>
+                <td>URL of the JSON Web Key (JWK) set for this BB+ Registry</td>
+              </tr>
 
-                <td>URL to the JSON Web Key (JWK) set for this
-                 BB+ Registry</td>
+              <tr>
+                <td><code>trust_bundle_uri</code></td>
+
+                <td>URL of the BB+ Push Trust Bundle (<code>.p7b</code>, <code>.p7c</code>, or <code>.p7m</code> file).
+                    Only used for BB+ Registries that also act as BB+ Push Trust Bundles.
+                </td>
               </tr>
 
               <tr>
@@ -1614,19 +1617,12 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
 
               <tr>
                 <td><code>name</code></td>
-
-                <td>Name of the BB+ Data Provider organization</td>
+                <td>Name of the BB+ Provider organization</td>
               </tr>
 
               <tr>
                 <td><code>url</code></td>
-
-                <td>Primary url of the provider organization</td>
-              </tr>
-
-              <tr>
-                <td><code>bb_url</code></td>
-                <td>Base URL of the provider's BB+ server</td>
+                <td>Base URL of the provider's BB+ server (to which <code>.well-known/bb/provider.json</code> can be appended)</td>
               </tr>
             </table>
 
@@ -1639,15 +1635,13 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 {
   "name": "Good Health Clinic",
   "description": "Serving your health needs since 1999",
-  "url": "http://goodhealthclinic.org",
-  "patient_signin": "http://portal.goodhealthclinic.org",
+  "url": "http://api.goodhealthclinic.org",
   "location": {
     "geo": {                       
       "latitude": 42.3591,            # just making the point that we can
       "longitude": -71.0934           # use arbitrary schema.org properties
     }
-  },
-  "bb_url": "https://api.goodhealthclinic.org"
+  }
 },
 {
  ... (more providers here) ...
@@ -1691,7 +1685,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
               <tr>
                 <td><code>url</code></td>
 
-                <td>Primary url of the provider organization</td>
+                <td>Primary url of the BB+ App</td>
               </tr>
 
               <tr>
@@ -1978,20 +1972,11 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
   "name": "Good Health Clinic",
   "description": "Serving your health needs since 1999",
   "url": "http://goodhealthclinic.org",
-  "patient_signin": "http://portal.goodhealthclinic.org",
   "location": {
     "geo": {                       
       "latitude": 42.3591,            # just making the point that we can
       "longitude": -71.0934           # use arbitrary schema.org properties
     }
-  },
-  "oauth2": {
-    "authorize_uri": "http://portal.goodhealthclinic.org/authorize",
-    "token_uri": "http://portal.goodhealthclinic.org/token"
-  },
-  "bb_api": {
-    "summary": "http://api.goodhealthclinic.org/patient/documents/summary",
-    "search": "http://api.goodhealthclinic.org/patient/documents/search"
   }
 }
 </pre>
