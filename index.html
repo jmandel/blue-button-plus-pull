@@ -1201,7 +1201,23 @@ Host: bbplus-provider.org
       
             <p>The clinical document search endpoint allows an app to search for
             clinical documents that match a set of search parameters. A core
-            set of features are described here.  For full details, see <a
+            set of features are described here. </p>
+            
+            <p>
+            The following five fields of a <code>DocumentReference</code> must be defined to support
+            BB+ Document Search:
+
+            <ul>
+              <li> <code>url</code> to support <a href="#clinical-document-retrieval">Document Retrieval</a></li>
+              <li> <code>standard</code> to distinguish CCDA vs. CCD 1.0 vs. CCR (see below)</li>
+              <li> <code>format</code> to describe MIME type </li>
+              <li> <code>type</code> to describe clinical content</li>
+              <li> <code>context.period</code> to describe period of care</li>
+            </ul>
+            
+            </p>
+            
+            <p>For full details, see <a
             href="http://www.hl7.org/implement/standards/fhir/documentreference.htm">FHIR's
             DocumentReference definition</a>.  
             </p>
