@@ -1226,34 +1226,21 @@ Host: bbplus-provider.org
               </tr>
 
               <tr>
-
-                <td><code>mimeType</code></td>
-
-                <td>
-                <p>Filter the available documents by MIME type. For example, this
-                parameter can be used to limit search results to XML documents
-                (<code>text/xml</code>), or PDFs
-                (<code>application/pdf</code>). </p>
-                <p>Multiple <code>mimeType</code> parameters are processed as an "or" (union).</p>
-                </td>
-              </tr>
-
-              <tr>
                 <td><code>format</code></td>
 
                 <td>
                 
-                Filter the available documents by information model.  For example, the <code>text/xml</code> MIME type is used for CCR, CCD 1.0, and CCDA documents.  The following values are supported:
+                Filter the available documents by a MIME type representing the information model. The following values are supported:
 
-                 <dl class="dl-horizontal">
-                  <dt>CCR</dt>
+                 <dl class="">
+                  <dt>application/astm-ccr+xml</dt>
                   <dd>Content formatted using the <a href="http://www.astm.org/Standards/E2369.htm">ASTM CCR</a> Standard</dd>
 
-                  <dt>CCD</dt>
+                  <dt>application/hl7-ccd-1+xml</dt>
                   <dd>Content formatted using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=6">HL7 CCD 1.0</a> Standard</dd>
 
-                  <dt>CCDA</dt>
-                  <dd>Content formatted using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=258">HL7 CCDA</a> Standard (including CCD 1.1)</dd>
+                  <dt>application/hl7-ccda-1.1+xml</dt>
+                  <dd>Content formatted using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=258">HL7 CCDA 1.1</a> Standard (including CCD 1.1)</dd>
                 </dl>
                 
                 Multiple <code>format</code> parameters are processed as an "or" (union).
@@ -1263,106 +1250,47 @@ Host: bbplus-provider.org
               </tr>
 
               <tr>
-                <td><code>class</code></td>
+                <td><code>type</code></td>
 
                 <td>
                 
-                Filter the available documents by document class.  The following values are supported:
+                Filter the available documents by document type.  The following values are supported:
                  <dl class="dl-horizontal">
-
-                  <dt>Summary</dt>
-                  <dd>Clinical summary document</dd>
-
-                  <dt>HandP</dt>
-                  <dd>History and Physical</dd>
-
-                  <dt>Consult</dt>
-                  <dd>Consult document</dd>
-
-                  <dt>Discharge</dt>
-                  <dd>Hospital discharge summary</dd>
-
-                  <dt>Operative</dt>
-                  <dd>Operative note</dd>
-
-                  <dt>Procedure</dt>
-                  <dd>Procedure note</dd>
-
-                  <dt>Progress</dt>
-                  <dd>Progress note</dd>
-
-                  <dt>Imaging</dt>
-                  <dd>Imaging report</dd>
-
-                  <dt>Lab</dt>
-                  <dd>Lab report</dd>
-
-                  <dt>Unstructured</dt>
-                  <dd>Unstructured document</dd>
-                </dl>
-                Multiple <code>class</code> parameters are processed as an "or" (union).
+                  <dt>34133-9</dt><dd>Continuity of Care Document</dd>
+                  <dt>11488-4</dt><dd>Consultation Note</dd>
+                  <dt>18748-4</dt><dd>Diagnostic Imaging Report</dd>
+                  <dt>18842-5</dt><dd>Discharge summary</dd>
+                  <dt>34117-2</dt><dd>History and Physical Note</dd>
+                  <dt>11504-8</dt><dd>Operative Note</dd>
+                  <dt>28570-0</dt><dd>Procedure Note</dd>
+                  <dt>11506-3</dt><dd>Progress Note</dd>
+                  <dt>34109-9</dt><dd>Unstructured document</dd>
+                  <dt>11502-2</dt><dd>Lab report</dd>
+               </dl>
+                Multiple <code>type</code> parameters are processed as an "or" (union).
 
                </td>
 
               </tr>
 
               <tr>
-                <td><code>service.start-after</code></td>
+                <td><code>period-before</code></td>
 
                 <td>
-                
-                <p>Filter the available documents for encounters beginning
-                after a given time. If no time zone is specified, the server
+                <p>Filter for documents describing a period before a given time. If no time zone is specified, the server
                 may assume local time, local time of the querying system, or
                 some other fixed time zone.</p>
 
                 <p><strong>Example</strong>: <code>2012-01-01T06:00-05:00</code> (6:00am on January 1, 2012 GMT-5)</p>
-              
-                </td>
-              </tr>
-
-              <tr>
-                <td><code>service.start-before</code></td>
-
-                <td>
-                
-                <p>Filter the available documents for encounters beginning
-                before a given time. </p>
 
                 </td>
               </tr>
 
               <tr>
-                <td><code>service.stop-after</code></td>
+                <td><code>period-after</code></td>
 
                 <td>
-                <p>Filter the available documents for encounters ending
-                after a given time. </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td><code>service.stop-before</code></td>
-
-                <td>
-                <p>Filter the available documents for encounters ending
-                before a given time. </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td><code>created-before</code></td>
-
-                <td>
-                <p>Filter for documents authored before a given time. </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td><code>created-after</code></td>
-
-                <td>
-                <p>Filter for documents authored after a given time. </p>
+                <p>Filter for documents describiing a period after a given time. </p>
                 </td>
               </tr>
 
@@ -1392,17 +1320,15 @@ Host: bbplus-provider.org
 
  
           <div class="well alert-info">
-            <h4>Content-type vs. mimeType vs. format</h4>
+            <h4>Content-type (_format) vs. format</h4>
 
-            Three distinct "format-related" parameters are used at the clinical document search endpoint, and it's important to keep them straight.
+            Two distinct "format-related" parameters are used at the clinical document search endpoint, and it's important to keep them straight.
 
             <dl>
             <dt>Accept header (or _format parameter)</dt>
             <dd>Defines the MIME type in which search results are returned.  Remember that search results are returned as a feed of DocumentReference document descriptions, and actual document content is not embedded in this feed. So this parameter simply determines whether the feed is Atom (default) or JSON.</dd>
-            <dt>mimeType parameter</dt>
-            <dd>Search parameter to filter documents by MIME type</dd>
             <dt>format parameter</dt>
-            <dd>Search parameter to filter documents by format (for example, CCR vs. CCD vs. CCDA). Note the lack of undescore.</dd>
+            <dd>Search parameter to filter documents by format (for example, <code>application/hl7-ccda-1.1+xml</code> for CCDA). Note the lack of undescore.</dd>
             </dl>
           </div>
 
@@ -1426,14 +1352,14 @@ Host: bbplus-provider.org
 
           <pre>
 GET /bb/records/me/search?                      # provider-supplied endpoint
-   mimeType=text%2Fxml&amp;                         # limit to XML documents
-   format=CCDA&amp;                                 # limit to Consolidated CDAs *or*
-   format=CCD&amp;                                  #          CCD 1.0 documents
-   class=Operative&amp;                             # limit to Operative notes *or*
-   class=Procedure&amp;                             #          Procedure notes
-   service.end-before=2013-01-01T00:00Z         # limit to pre-2013 services
-   HTTP/1.1
-Accept: application/json                        # return a JSON feed (rather than Atom XML)
+   format=application%2Fhl7-ccda-1.1%2Bxml&amp;     # limit to Consolidated CDAs *or*
+   format=application%2Fhl7-ccd-1%2Bxml&amp;        #          CCD 1.0 documents
+   type=11504-8&amp;                                # limit to Operative notes *or*
+   type=28570-0&amp;                                #          Procedure notes
+   period.before=2013-01-01T00:00Z              # limit to care episodes that
+   HTTP/1.1                                     #   (partially) occurred pre-2013
+   Accept: application/json                     # return a JSON feed 
+                                                #   (rather than Atom XML)
 Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
 </pre>
@@ -1444,7 +1370,7 @@ Host: bbplus-provider.org
             descriptor includes a lot more metadata than BB+ may need for the
             document search endpoint.  FHIR defines many of these fields
             (including patientId) as required.  The representation below is
-            simplified somewhat.</p>
+            simplified.</p>
 
             <p>In practice, to retrieve actual document contents, app
             developers will want to examine the <code>.entry</code> array of
@@ -1457,59 +1383,59 @@ Host: bbplus-provider.org
 
           <pre>
 {
-  "title": "Search results for resource type DocumentReference",
-  "id": "urn:uuid:b66d1181-a951-410a-bad5-538c20456b",
-  "updated": "2013-04-06T00:08:45Z",
-  "entry": [
+  "title" : "Search results for resource type DocumentReference",
+  "id" : "urn:uuid:aa421641-7ccf-4efe-8ec4-e1f726ae33",
+  "updated" : "2013-04-23T22:20:45Z",
+  "entry" : [
     {
-      "title": "DocumentReference Document",
-      "id": "http://bbplus-provider.org/bb/records/me/documentreference/@830fcde0-5d03-4305-8589-a4fa8d574d0e",
-      "updated": "2013-03-04T17:15:00Z",
-      "category": [
+      "title" : "Resource example Version 1",
+      "id" : "https://bbplus-provider.org/bb/records/me/documentreference/@123",
+      "updated" : "2013-04-22T04:15:10Z",
+      "category" : [
         {
-          "scheme": "http://hl7.org/fhir/resource-types",
-          "term": "DocumentReference"
+          "scheme" : "http://hl7.org/fhir/resource-types",
+          "term" : "DocumentReference"
         }
       ],
-      "content": {
-        "DocumentReference": {
-          "url": {
-            "value": "http://bbplus-provider.org/bb/records/me/documentreference/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document"
+      "content" : {
+        "DocumentReference" : {
+          "type" : {
+            "coding" : [
+              {
+                "system" : {
+                  "value" : "http://loinc.org"
+                },
+                "code" : {
+                  "value" : "11488-4"
+                },
+                "display" : {
+                  "value" : "Consultation Note"
+                }
+              }
+            ]
           },
-          "mimeType": {
-            "value": "text/xml"
+          "created" : {
+            "value" : "2005-12-24T09:35:00+11:00"
           },
-          "format": {
-            "system": {
-              "value": "http://ihe.net/xds/connectathon/formatCodes"
-            },
-            "code": {
-              "value": "CCDA"
-            },
-            "display": {
-              "value": "Consolidated CDA"
-            }
+          "indexed" : {
+            "value" : "2005-12-24T09:43:41+11:00"
           },
-          "class": {
-            "system": {
-              "value": "http://ihe.net/xds/connectathon/classCodes"
-            },
-            "code": {
-              "value": "HandP"
-            },
-            "display": {
-              "value": "History and Physical"
-            }
+          "status" : {
+            "value" : "current"
           },
-          "created": {
-            "value": "2005-12-24T09:35:00+11:00"
-          }
+          "format" : {
+            "value" : "application/hl7-ccda+xml"
+          },
+          "location" : {
+            "value" : "http://example.org/xds/mhd/binary/@07a6483f-732b-461e-86b6-edb665c45510"
+          },
         }
-      }
+      },
+      "summary" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">Text</div>\r\n"
     }
   ]
 }
-          </pre>
+</pre>
 
             <h2 id="clinical-document-retrieval">Document Retrieval</h2>
 
