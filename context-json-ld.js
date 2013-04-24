@@ -1,5 +1,6 @@
 {
   "@vocab": "http://schema.org/",
+  "bb_url": "http://siframework.org/ABBI/bbplus_url",
   "oauth2": "http://siframework.org/ABBI/oauth2_endpoints",
   "bb_api": "http://siframework.org/ABBI/bbplus_data_endpoints",
   "authorize": "http://siframework.org/ABBI/endpoint/authorize",

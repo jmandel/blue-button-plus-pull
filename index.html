@@ -125,14 +125,16 @@ data-twttr-rendered="true">
 
           <li class="sidenav-indent">
             <a href="#discovery-providers"><i class=
-            "icon-chevron-right"></i>Provider Discovery</a>
+            "icon-chevron-right"></i>Registered Providers</a>
           </li>
 
-          <li class="sidenav-indent">
+         <li class="sidenav-indent">
             <a href="#discovery-apps"><i class=
-            "icon-chevron-right"></i>App Discovery</a>
+            "icon-chevron-right"></i>Registered Apps</a>
           </li>
-
+          <li class="sidenav-indent">
+            <a href="#discovery-single-provider">Single Provider</a>
+          </li>
           <li>
             <a href="#push-authorization"><i class=
             "icon-chevron-right"></i> Push Authorization
@@ -1112,8 +1114,7 @@ Host: bbplus-provider.org
             To access BlueButton+ Clinical API endpoints, an app:
             <ol>
             <li>Obtains Patient Authorization via <a href="#authorization">BB+ Authorization</a></li>
-            <li>Discovers a provider's clinical API endpoints via <a href="#discovery-single-provider">Single-Provider Discovery</a> <span class=
-            "label section label-info">TODO</span></li>
+            <li>Discovers a provider's clinical API endpoints via <a href="#discovery-single-provider">Single-Provider Discovery</a> </li>
             <li>Issues an authenticatd request to the endpoint, supplying its OAuth bearer token</li>
             </ol>
 
@@ -1122,8 +1123,7 @@ Host: bbplus-provider.org
             Each BB+ Provider exposes a clinical summary endpoing and a
             document search endpoint.  An app discovers the URLs for these
             endpoints at runtime by performing <a
-            href="#discovery-single-provider">Single-Provider Discovery</a> <span class=
-            "label section label-info">TODO</span>.
+            href="#discovery-single-provider">Single-Provider Discovery</a>.
             The discovery process results in a JSON-LD object whose <code>bb_api.*</code>
             properties are used for the operations described below.
 
@@ -1586,7 +1586,7 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
             
 </pre>
 
-            <h2 id="discovery-providers">Provider Discovery</h2>
+            <h2 id="discovery-providers">Registered Providers</h2>
 
             <p>A BB+ Registry Server exposes a BB+ Provider
             Discovery endpoint at:
@@ -1625,58 +1625,8 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
               </tr>
 
               <tr>
-                <td><code>patient_signin</code></td>
-
-                <td>URL where a patient can sign in to the
-                Provider</td>
-              </tr>
-
-              <tr>
-                <td><code>oauth2</code></td>
-
-                <td>Collection of OAuth2 endpoints</td>
-              </tr>
-
-              <tr>
-                <td class="subproperty"><code>authorize</code></td>
-
-                <td>OAuth2 authorization endpoint</td>
-              </tr>
-
-              <tr>
-                <td class="subproperty"><code>token</code></td>
-
-                <td>OAuth2 token endpoint</td>
-              </tr>
-
-              <tr>
-                <td class="subproperty">
-                <code>introspect</code></td>
-
-                <td>
-                  OAuth2 introspection endpoint (As described in
-                  <a href=
-                  "http://tools.ietf.org/html/draft-richer-oauth-introspection">
-                  this draft</a>)
-                </td>
-              </tr>
-
-              <tr>
-                <td><code>bb_api</code></td>
-
-                <td>Collection of BB+ API endpoints</td>
-              </tr>
-
-              <tr>
-                <td class="subproperty"><code>summary</code></td>
-
-                <td>BlueButton+ Clinical Summary endpoint</td>
-              </tr>
-
-              <tr>
-                <td class="subproperty"><code>search</code></td>
-
-                <td>BlueButton+ Document Search endpoint</td>
+                <td><code>bb_url</code></td>
+                <td>Base URL of the provider's BB+ server</td>
               </tr>
             </table>
 
@@ -1697,14 +1647,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
       "longitude": -71.0934           # use arbitrary schema.org properties
     }
   },
-  "oauth2": {
-    "authorize_uri": "http://portal.goodhealthclinic.org/authorize",
-    "token_uri": "http://portal.goodhealthclinic.org/token"
-  },
-  "bb_api": {
-    "summary": "http://api.goodhealthclinic.org/patient/documents/summary",
-    "search": "http://api.goodhealthclinic.org/patient/documents/search"
-  }
+  "bb_url": "https://api.goodhealthclinic.org"
 },
 {
  ... (more providers here) ...
@@ -1712,7 +1655,8 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 ] 
 </pre>
 
-            <h2 id="discovery-apps">App Discovery</h2>
+
+            <h2 id="discovery-apps">Registered Apps</h2>
 
             <p>A BB+ Registry Server exposes a <strong>BB+ App
             Discovery</strong> endpoint at:
@@ -1824,6 +1768,127 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
  ... (more apps here) ...
 }
 ] 
+</pre>
+            <h2 id="discovery-single-provider">Single Provider</h2>
+
+            <p>Each BB+ Provider hosts its own 
+            Discovery endpoint at:
+            <code>/.well-known/bb/provider.json</code></p>
+
+            <h3>provider.json</h3>
+
+            <p><code>provider.json</code> is a single JSON object
+            expressing Authorization and BB+ Endpoint URLs,
+            expressed as JSON-LD with a default
+            <code>@vocab</code> from <a href=
+            "http://schema.org">http://schema.org</a> and
+            additional properties defined in the <a href=
+            "context-json-ld.js">BB+ JSON-LD Context</a></p>
+
+            <p>While any vocabulary from schema.org may be used in
+            describing a provider, the <strong>following fields are
+            required:</strong></p>
+
+            <table class="table table-striped">
+              <tr>
+                <th>Property</th>
+
+                <th>Description</th>
+              </tr>
+
+              <tr>
+                <td><code>name</code></td>
+
+                <td>Name of the BB+ Data Provider organization</td>
+              </tr>
+
+              <tr>
+                <td><code>url</code></td>
+
+                <td>Primary url of the provider organization</td>
+              </tr>
+
+              <tr>
+                <td><code>patient_signin</code></td>
+
+                <td>URL where a patient can sign in to the
+                Provider</td>
+              </tr>
+
+              <tr>
+                <td><code>oauth2</code></td>
+
+                <td>Collection of OAuth2 endpoints</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>authorize</code></td>
+
+                <td>OAuth2 authorization endpoint</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>token</code></td>
+
+                <td>OAuth2 token endpoint</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty">
+                <code>introspect</code></td>
+
+                <td>
+                  OAuth2 introspection endpoint (As described in
+                  <a href=
+                  "http://tools.ietf.org/html/draft-richer-oauth-introspection">
+                  this draft</a>)
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>bb_api</code></td>
+
+                <td>Collection of BB+ API endpoints</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>summary</code></td>
+
+                <td>BlueButton+ Clinical Summary endpoint</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>search</code></td>
+
+                <td>BlueButton+ Document Search endpoint</td>
+              </tr>
+            </table>
+
+            <h5>provider.json example</h5>
+            <pre class="prettyprint">
+Content-Type: application/json
+Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js&gt;; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
+
+{
+  "name": "Good Health Clinic",
+  "description": "Serving your health needs since 1999",
+  "url": "http://goodhealthclinic.org",
+  "patient_signin": "http://portal.goodhealthclinic.org",
+  "location": {
+    "geo": {                       
+      "latitude": 42.3591,            # just making the point that we can
+      "longitude": -71.0934           # use arbitrary schema.org properties
+    }
+  },
+  "oauth2": {
+    "authorize_uri": "http://portal.goodhealthclinic.org/authorize",
+    "token_uri": "http://portal.goodhealthclinic.org/token"
+  },
+  "bb_api":{
+    "summary": "http://api.goodhealthclinic.org/patient/documents/summary",
+    "search": "http://api.goodhealthclinic.org/patient/documents/search"
+  }
+}
 </pre>
           </div>
         </section>
