@@ -1230,18 +1230,7 @@ Host: bbplus-provider.org
 
                 <td>
                 
-                Filter the available documents by a MIME type representing the information model. The following values are supported:
-
-                 <dl class="">
-                  <dt>application/astm-ccr+xml</dt>
-                  <dd>Content formatted using the <a href="http://www.astm.org/Standards/E2369.htm">ASTM CCR</a> Standard</dd>
-
-                  <dt>application/hl7-ccd-1+xml</dt>
-                  <dd>Content formatted using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=6">HL7 CCD 1.0</a> Standard</dd>
-
-                  <dt>application/hl7-ccda-1.1+xml</dt>
-                  <dd>Content formatted using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=258">HL7 CCDA 1.1</a> Standard (including CCD 1.1)</dd>
-                </dl>
+                <p>Filter the available documents by a MIME type. Most clinical documents today have MIME type <code>text/xml</code>.</p>
                 
                 Multiple <code>format</code> parameters are processed as an "or" (union).
 
@@ -1249,6 +1238,29 @@ Host: bbplus-provider.org
 
               </tr>
 
+
+              <tr>
+                <td><code>standard</code></td>
+
+                <td>
+                Filter by standards-based information model (e.g. CCD 1.0, C-CDA, CCR).  
+
+                 <dl class="dl-horizontal">
+                  <dt>CCR</dt>
+                  <dd>Content expressed using the <a href="http://www.astm.org/Standards/E2369.htm">ASTM CCR</a> Standard</dd>
+
+                  <dt>CCD</dt>
+                  <dd>Content expressed using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=6">HL7 CCD 1.0</a> Standard</dd>
+
+                  <dt>CCDA</dt>
+                  <dd>Content expressed using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=258">HL7 CCDA</a> Standard (including CCD 1.1)</dd>
+                </dl>
+                
+                Multiple <code>standard</code> parameters are processed as an "or" (union).
+
+                </td>
+
+              </tr>
               <tr>
                 <td><code>type</code></td>
 
@@ -1256,16 +1268,16 @@ Host: bbplus-provider.org
                 
                 Filter the available documents by document type.  The following values are supported:
                  <dl class="dl-horizontal">
-                  <dt>34133-9</dt><dd>Continuity of Care Document</dd>
-                  <dt>11488-4</dt><dd>Consultation Note</dd>
-                  <dt>18748-4</dt><dd>Diagnostic Imaging Report</dd>
-                  <dt>18842-5</dt><dd>Discharge summary</dd>
-                  <dt>34117-2</dt><dd>History and Physical Note</dd>
-                  <dt>11504-8</dt><dd>Operative Note</dd>
-                  <dt>28570-0</dt><dd>Procedure Note</dd>
-                  <dt>11506-3</dt><dd>Progress Note</dd>
-                  <dt>34109-9</dt><dd>Unstructured document</dd>
-                  <dt>11502-2</dt><dd>Lab report</dd>
+                  <dt>Summary</dt><dd>Continuity of Care Document</dd>
+                  <dt>Consult</dt><dd>Consultation Note</dd>
+                  <dt>Imaging</dt><dd>Diagnostic Imaging Report</dd>
+                  <dt>Discharge</dt><dd>Discharge summary</dd>
+                  <dt>HandP</dt><dd>History and Physical Note</dd>
+                  <dt>Operative</dt><dd>Operative Note</dd>
+                  <dt>Procedure</dt><dd>Procedure Note</dd>
+                  <dt>Progress</dt><dd>Progress Note</dd>
+                  <dt>Lab</dt><dd>Lab report</dd>
+                  <dt>Unstructured</dt><dd>Unstructured document</dd>
                </dl>
                 Multiple <code>type</code> parameters are processed as an "or" (union).
 
@@ -1328,7 +1340,7 @@ Host: bbplus-provider.org
             <dt>Accept header (or _format parameter)</dt>
             <dd>Defines the MIME type in which search results are returned.  Remember that search results are returned as a feed of DocumentReference document descriptions, and actual document content is not embedded in this feed. So this parameter simply determines whether the feed is Atom (default) or JSON.</dd>
             <dt>format parameter</dt>
-            <dd>Search parameter to filter documents by format (for example, <code>application/hl7-ccda-1.1+xml</code> for CCDA). Note the lack of undescore.</dd>
+            <dd>Search parameter to filter documents by format (typically <code>text/xml</code>). Note the lack of undescore.</dd>
             </dl>
           </div>
 
@@ -1352,10 +1364,10 @@ Host: bbplus-provider.org
 
           <pre>
 GET /bb/records/me/search?                      # provider-supplied endpoint
-   format=application%2Fhl7-ccda-1.1%2Bxml&amp;     # limit to Consolidated CDAs *or*
-   format=application%2Fhl7-ccd-1%2Bxml&amp;        #          CCD 1.0 documents
-   type=11504-8&amp;                                # limit to Operative notes *or*
-   type=28570-0&amp;                                #          Procedure notes
+   format=text%2Fxml&amp;                             # limit to XML files
+   standard=CCDA&amp;                               # limit to Consolidated CDAs
+   type=Operative&amp;                              # limit to Operative notes *or*
+   type=Procedure&amp;                              #          Procedure notes
    period.before=2013-01-01T00:00Z              # limit to care episodes that
    HTTP/1.1                                     #   (partially) occurred pre-2013
    Accept: application/json                     # return a JSON feed 
@@ -1402,14 +1414,23 @@ Host: bbplus-provider.org
           "type" : {
             "coding" : [
               {
-                "system" : {
-                  "value" : "http://loinc.org"
-                },
                 "code" : {
-                  "value" : "11488-4"
+                  "value" : "Consult"
                 },
                 "display" : {
                   "value" : "Consultation Note"
+                }
+              }
+            ]
+          },
+          "standard" : {
+            "coding" : [
+              {
+                "code" : {
+                  "value" : "CCDA"
+                },
+                "display" : {
+                  "value" : "Consolidated CDA"
                 }
               }
             ]
