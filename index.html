@@ -1209,7 +1209,7 @@ Host: bbplus-provider.org
 
             <ul>
               <li> <code>url</code> to support <a href="#clinical-document-retrieval">Document Retrieval</a></li>
-              <li> <code>standard</code> to distinguish CCDA vs. CCD 1.0 vs. CCR (see below)</li>
+              <li> <code>conformsTo</code> to distinguish CCDA vs. CCD 1.0 vs. CCR (see below)</li>
               <li> <code>format</code> to describe MIME type </li>
               <li> <code>type</code> to describe clinical content</li>
               <li> <code>context.period</code> to describe period of care</li>
@@ -1256,10 +1256,10 @@ Host: bbplus-provider.org
 
 
               <tr>
-                <td><code>standard</code></td>
+                <td><code>conformsTo</code></td>
 
                 <td>
-                Filter by standards-based information model (e.g. CCD 1.0, C-CDA, CCR).  
+                Filter by information model (e.g. CCD 1.0, C-CDA, CCR).  
 
                  <dl class="dl-horizontal">
                   <dt>CCR</dt>
@@ -1272,7 +1272,7 @@ Host: bbplus-provider.org
                   <dd>Content expressed using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=258">HL7 CCDA</a> Standard (including CCD 1.1)</dd>
                 </dl>
                 
-                Multiple <code>standard</code> parameters are processed as an "or" (union).
+                Multiple <code>conformsTo</code> parameters are processed as an "or" (union).
 
                 </td>
 
@@ -1381,7 +1381,7 @@ Host: bbplus-provider.org
           <pre>
 GET /bb/records/me/search?                      # provider-supplied endpoint
    format=text%2Fxml&amp;                             # limit to XML files
-   standard=CCDA&amp;                               # limit to Consolidated CDAs
+   conformsTo=CCDA&amp;                               # limit to Consolidated CDAs
    type=Operative&amp;                              # limit to Operative notes *or*
    type=Procedure&amp;                              #          Procedure notes
    period.before=2013-01-01T00:00Z              # limit to care episodes that
@@ -1439,7 +1439,7 @@ Host: bbplus-provider.org
               }
             ]
           },
-          "standard" : {
+          "conformsTo" : {
             "coding" : [
               {
                 "code" : {
