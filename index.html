@@ -213,7 +213,7 @@ data-twttr-rendered="true">
 	      
             </table>
             
-            <p>When deciding whether and how to register with a Registrar, a client application developer MUST determine which of the above categories are appropriate for their application. Application developers must take care to select the appropriate category for their application based on its runtime capabilites as well as policies around the data. A registrar should help enable these distinctions by explicitly asking application develoeprs about the capabilities of their applications in order to determine which policies to apply.</p>
+            <p>When deciding whether and how to register with a Registry Service, a client application developer MUST determine which of the above categories are appropriate for their application. Application developers must take care to select the appropriate category for their application based on its runtime capabilites as well as policies around the data. A Registry should help enable these distinctions by explicitly asking application develoeprs about the capabilities of their applications in order to determine which policies to apply.</p>
             
             <h3><span class="badge">A1</span>: Trusted Confidential Application</h3>
             
@@ -240,7 +240,7 @@ data-twttr-rendered="true">
 	    Policies:
 	    <ul>
 	    <li>Users trusted registration</li>
-	    <li>An application MUST pre-register its <code>redirect_uri</code>s at the Registrar and the authorization server MUST enforce them.</li>
+	    <li>An application MUST pre-register its <code>redirect_uri</code>s at the Registry Service and the authorization server MUST enforce them.</li>
 	    <li>On the authorization page, the authorization server should disclose the name and URI of the application for users to confirm that it matches what they think they're using</li>
 	    <li>If the <code>registration_jwt</code> is exposed, it should be considered a major security breach and system-wide invalidation of the application's instances (and re-provisioning of its <code>registration_jwt</code>) are reasonable and expected countermeasures.</li>
 	    </ul>
@@ -256,8 +256,8 @@ data-twttr-rendered="true">
 	    <li>Users trusted registration</li>
 	    <li>The <code>registration_jwt</code> is packaged in with the application and is therefore available to all end-users. This means that any holder of this JWT could try to register with this application's parameters and it must not be trusted for access without a user's explicit consent.</li>
 	    <li>Authorizations servers MUST present users with the name and URI of the application that is being authorized and appropriately caution users.</li>
-	    <li>An application MUST pre-register its <code>redirect_uri</code>s at the Registrar and the authorization server MUST enforce them.</li>
-	    <li>An application SHOULD pre-register as many parameters as possible at the Registrar and the authorization server MUST enforce them.</li>
+	    <li>An application MUST pre-register its <code>redirect_uri</code>s at the Registry Service and the authorization server MUST enforce them.</li>
+	    <li>An application SHOULD pre-register as many parameters as possible at the Registry Service and the authorization server MUST enforce them.</li>
 	    </ul>
 
 	    <h3><span class="badge">B2</span>: Semi-Trusted Public Application</h3>
@@ -271,7 +271,7 @@ data-twttr-rendered="true">
 	    <li>Users trusted registration</li>
 	    <li>The <code>registration_jwt</code> is packaged in with the application and is therefore available to all end-users. This means that any holder of this JWT could try to register with this application's parameters and it must not be trusted for access without a user's explicit consent.</li>
 	    <li>Authorizations servers MUST present users with the name and URI of the application that is being authorized and appropriately caution users.</li>
-	    <li>An application SHOULD pre-register as many parameters as possible at the Registrar and the authorization server MUST enforce them.</li>
+	    <li>An application SHOULD pre-register as many parameters as possible at the Registry Service and the authorization server MUST enforce them.</li>
 	    <li>This is likely to be a rare case in BB+.</li>
 	    </ul>
 
@@ -321,7 +321,7 @@ data-twttr-rendered="true">
 <div class=wsd wsd_style="napkin"><pre>
 Title: BlueButton+ Open Registration Process
 participant App
-participant Provider 
+participant Provider
 
 App-&gt;Provider: Registration Request (no JWT)
 Provider--&gt;App: client_id + secret + registration token
