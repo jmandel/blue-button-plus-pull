@@ -730,46 +730,116 @@ Provider-->App: client_id, secret, registration token
                   pre-registration information was last updated
                   (and this token was issued)</li>
 
-                  <li><code>exp</code>: optional timestamp of when
+                  <li><code>exp</code>: OPTIONAL timestamp of when
                   this pre-registration token is no longer
                   valid</li>
+                  
+                  <li><code>kid</code>: identifier for which key was 
+                  used to sign this token at the BB+ Registray</li>
 
                   <li><em>these claims are combined in a JWT
-                  asymmetrically signed by the BB+ Registry. The
-                  signature can be validated from the BB+ Registry's 
-                  published public key (published as a
-                  JWK). <span class="label section label-info">TODO
-                  add detail</span> .</em></li>
+                  asymmetrically signed by the BB+ Registry.</em></li>
                 </ul>
               </li>
             </ul>
 
-            <p>All service providers within a BB+ Registry must be
-            able to validate the signature and validity of any
-            registration tokens. It's recommended (required?) that
-            BB+ Registries publish a <a href=
-            "http://tools.ietf.org/html/draft-richer-oauth-introspection">
-            token introspection endpoint</a> to facilitate this.
-            <span class="label section label-info">TODO add
-            detail</span>.</p>
-
             <h3>Registration</h3>
 
-            <p>The registration token from the previous step is
+            <p>The registration JWT from the previous step is
             used by instances of the client during the initial call
-            to the registration endpoint for each service provider.
-            The service provider does <a href="#discovery-apps">BB+
-            App Discovery</a> based on the subject and issuer in
+            to the registration endpoint for each service provider.            
+            The service provider now needs to validate the registration
+            JWT, compare the client's pre-registered attributes to
+            the ones requested dynamically, and proceed with the registration.</p>
+            
+            <p>For example, a client may send:</p>
+            <pre class="prettyprint">
+POST /register HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: ey...{JWT token omitted for brevity}...q48d
+Host: bbplus-provider.org
+
+{
+  "client_name": "Blood Pressure Grapher",
+  "contacts": [
+    "plot-master@bpgrapher.org"
+  ],
+  "tos_uri": "https://bpgrapher.org/tos",
+  "response_types": ["code"],
+  "grant_types": ["authorization_code"],
+  "token_endpoint_auth_method": "client_secret_basic",
+  "scope":  "single-patient http://siframework.org/ABBI/endpoint/summary"
+} 
+</pre>
+
+	    <h4>Validating the JWT</h4>            
+
+            <p>All service providers within a BB+ Registry must be
+            able to validate the signature and validity of any
+            registration tokens. First, the provdier must parse
+            the JWT and extract its <code>iss</code> (issuer) field
+            and determine if the issuer is trusted. This trust decision
+            will generally be a configuration option on the provider, which
+            will have a list of Registry Services that it trusts (identified
+            by their issuer URLs).</p>
+            
+            <p>If the <code>iss</code> is from a trusted source, the provider
+            then does <a href="#discovery-registry">discovery against the registry</a>
+            and finds the <code>jwks_uri</code> of the registry. The provider
+            downloads the key set from this URL (using an HTTPS GET request)
+            and extracts the key with the <code>kid</code> that is named in the
+            JWT. Using that key, the provider can then validate the signature
+            of the JWT as described in JSON Web Signatures.</p>
+            
+            <p class="alert-info">It's recommended <em>(required?)</em> that
+            BB+ Registries publish a <a href=
+            "http://tools.ietf.org/html/draft-richer-oauth-introspection">
+            token introspection endpoint</a> to facilitate token
+            validation by service providers. In addition to being able to check
+            the validity of the signature on a JWT, an introspection
+            endpoint can let a service provider determine if a JWT
+            is still valid (or has been revoked). 
+            </p>
+            
+            <h4>Validating the Registration</h4>
+
+            <p>The service provider does <a href="#discovery-apps">BB+
+            App Discovery</a> based on the <code>sub</code> (subject) and <code>iss</code> (issuer) in
             the registration token to determine which client
             metadata fields have been set ahead of time by the
-            pre-registration process. The Service provider will
+            pre-registration process. The provider
+            MUST abide by and enforce all pre-registered client values.
+            The Service provider will
             compare these pre-registered fields with any
             dynamically provided fields and determine the validity
-            of the registration.</p>
+            of the registration. It is RECOMMENDED that providers 
+            perform a direct string comparison between pre-registered 
+            values and the values provided by the client. If there is a
+            mismatch in any field, the provider MUST either return 
+            an <code>invalid_client_metadata</code> error (as described
+            in OAuth 2 Dynamic Registration) or replace the dynamically
+            requested value with the pre-registered value. 
+            </p>
 
+            <h4>Completing the Registration</h4>
+            
+            <p>Once the provider has determined that the client registration
+            request is valid, it will generate and issue a unique <code>client_id</code>
+            and <code>registration_access_token</code>, and if applicable, a unique <code>client_secret</code>.
+            The provider MUST NOT re-use the same <code>client_id</code>, <code>registration_access_token</code>,
+            or <code>client_secret</code> for different client instances, even
+            if these instances are part of the same client class.</p>
+            
+            <p>The provider MAY link together different client instances that
+            are part of the same Client Class to facilitate logging, auditing,
+            and emergency deprovisioning of compromised applications. The
+            method for the provider doign this is out of scope of this 
+            specification.</p>
+            
             <h3>Notes</h3>
 
-            <div class="well alert-info">
+            <div class="well alert alert-info">
               <strong>Notes:</strong>
 
               <ul>
@@ -1700,7 +1770,7 @@ Host: bbplus-provider.org
 
               <tr>
                 <td><code>jwks_uri</code></td>
-                <td>URL of the JSON Web Key (JWK) set for this BB+ Registry</td>
+                <td>URL of the JSON Web Key (JWK) set for this BB+ Registry. This URL MUST be protected by HTTPS or equivalent.</td>
               </tr>
 
               <tr>
