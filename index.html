@@ -182,6 +182,126 @@ data-twttr-rendered="true">
             through the process of registering a client using open
             registration, as well as an example of using trusted
             registration which leverages BB+ Registries.</p>
+            
+            <h2 id="client-types">Client Types</h2>
+            
+            <p>BlueButton+ allows for several different types of clients and use cases that are differentiated along two axes: whether or not a client can reasonably guard its <code>client_secret</code> at runtime, and whether or not it can guard its <code>registration_jwt</code> at runtime (if it has one). The OAuth 2 specification defines the former class distinction as "confidential" and "public" clients, but there is not existing terminology for the latter classification. This combination leads us to a matrix of six possible application styles:</p>
+            
+            <table class="table table-bordered table-hover">
+                        
+	      <tr>
+		<td></td>
+		<th><span class="badge">A</span> Can guard <code>client_secret</code></th>
+		<th><span class="badge">B</span> Can <strong>NOT</strong> guard <code>client_secret</code></th>
+	      </tr>
+	      
+	      <tr>
+		<th><span class="badge">1</span> Can guard <code>registration_jwt</code></th>
+		<td><span class="badge">A1</span>: Trusted Confidential Application</td>
+		<td><span class="badge">B1</span>: Trusted Public Application</td>
+	      </tr>
+	      <tr>
+		<th><span class="badge">2</span> Can <strong>NOT</strong> guard <code>registration_jwt</code></th>
+		<td><span class="badge">A2</span>: Semi-Trusted Confidential Application</td>
+		<td><span class="badge">B2</span>: Semi-Trusted Public Application</td>
+	      </tr>
+	      <tr>
+		<th><span class="badge">3</span> No <code>registration_jwt</code></th>
+		<td><span class="badge">A3</span>: Experimental Confidential Application</td>
+		<td><span class="badge">B3</span>: Experimental Public Application</td>
+	      </tr>
+	      
+            </table>
+            
+            <p>When deciding whether and how to register with a Registrar, a client application developer MUST determine which of the above categories are appropriate for their application. Application developers must take care to select the appropriate category for their application based on its runtime capabilites as well as policies around the data. A registrar should help enable these distinctions by explicitly asking application develoeprs about the capabilities of their applications in order to determine which policies to apply.</p>
+            
+            <h3><span class="badge">A1</span>: Trusted Confidential Application</h3>
+            
+            Examples:
+            <ul>
+            <li>Web application where all API interactions between client and provider happen in the back channel ("server-side, away from the end-user"). This is the recommended mode for web-server based applications.</li>
+            <li>Native applications that can be issued a per-instance <code>registration_jwt</code> (using mechanisms outside the scope of this specification)</li>
+            </ul>
+            
+            Policies:
+            <ul>
+	    <li>Users trusted registration</li>
+            <li>This is the setup with the highest assurance. Therefore authorization server can present the user with its least-scary authorization screen.</li>
+            <li>If the <code>registration_jwt</code> or <code>client_secret</code> are exposed, it should be considered a major security breach and system-wide invalidation of the application's instances (and re-provisioning of its <code>registration_jwt</code>) are reasonable and expected countermeasures.</li>
+            </ul>
+            
+	    <h3><span class="badge">B1</span>: Trusted Public Application</h3>
+	    
+	    Examples:
+	    <ul>
+	    <li>Split server-side/in-browser application that handles dynamic registration in the back-end (server-side) but performs authorization in the browser (likely using implicit flow)</li>
+	    </ul>
+	    
+	    Policies:
+	    <ul>
+	    <li>Users trusted registration</li>
+	    <li>An application MUST pre-register its <code>redirect_uri</code>s at the Registrar and the authorization server MUST enforce them.</li>
+	    <li>On the authorization page, the authorization server should disclose the name and URI of the application for users to confirm that it matches what they think they're using</li>
+	    <li>If the <code>registration_jwt</code> is exposed, it should be considered a major security breach and system-wide invalidation of the application's instances (and re-provisioning of its <code>registration_jwt</code>) are reasonable and expected countermeasures.</li>
+	    </ul>
+	    
+	    <h3><span class="badge">A2</span>: Semi-Trusted Confidential Application</h3>
+	    Examples:
+	    <ul>
+	    <li>Self-sufficient native applications that register themselves separately per installation instance based on their pre-registered parameters.</li>
+	    </ul>
+	    
+	    Policies:
+	    <ul>
+	    <li>Users trusted registration</li>
+	    <li>The <code>registration_jwt</code> is packaged in with the application and is therefore available to all end-users. This means that any holder of this JWT could try to register with this application's parameters and it must not be trusted for access without a user's explicit consent.</li>
+	    <li>Authorizations servers MUST present users with the name and URI of the application that is being authorized and appropriately caution users.</li>
+	    <li>An application MUST pre-register its <code>redirect_uri</code>s at the Registrar and the authorization server MUST enforce them.</li>
+	    <li>An application SHOULD pre-register as many parameters as possible at the Registrar and the authorization server MUST enforce them.</li>
+	    </ul>
+
+	    <h3><span class="badge">B2</span>: Semi-Trusted Public Application</h3>
+	    Examples:
+	    <ul>
+	    <li>In-browser javascript applications that handle dynamic registration and authorization (using the implicit flow) on their own</li>
+	    </ul>
+	    
+	    Policies:
+	    <ul>
+	    <li>Users trusted registration</li>
+	    <li>The <code>registration_jwt</code> is packaged in with the application and is therefore available to all end-users. This means that any holder of this JWT could try to register with this application's parameters and it must not be trusted for access without a user's explicit consent.</li>
+	    <li>Authorizations servers MUST present users with the name and URI of the application that is being authorized and appropriately caution users.</li>
+	    <li>An application SHOULD pre-register as many parameters as possible at the Registrar and the authorization server MUST enforce them.</li>
+	    <li>This is likely to be a rare case in BB+.</li>
+	    </ul>
+
+	    <h3><span class="badge">A3</span>: Experimental Confidential Application</h3>
+	    Examples:
+	    <ul>
+	    <li>Weekend project / prototype of a web or native client to be used by app developers, their friends, and family</li>
+	    </ul>
+	    
+	    Policies:
+	    <ul>
+	    <li>Users open registration</li>
+	    <li>Authorization page MUST display a warning to users that the identity of the application is unverified and MUST state that users should proceed only if they trust the app's presented <code>redirect_uri</code></li>
+	    <li>An authorization server MAY display statistics such as how many other users have authorized this application in order to help the user make their decision.</li>
+	    </ul>
+	    
+	    <h3><span class="badge">B3</span>: Experimental Public Application</h3>
+	    Examples:
+	    <ul>
+	    <li>Weekend project / prototype of an in-browser or native client to be used by app developers, their friends, and family</li>
+	    </ul>
+	    
+	    Policies:
+	    <ul>
+	    <li>Users open registration</li>
+	    <li>Authorization page MUST display a warning to users that the identity of the application is unverified and MUST state that users should proceed only if they trust the app's presented <code>redirect_uri</code></li>
+	    <li>An authorization server MAY display statistics such as how many other users have authorized this application in order to help the user make their decision.</li>
+	    </ul>
+
+            
 
             <h2 id="registration-open">Open
             Registration</h2>BlueButton+ providers offer an open
@@ -407,10 +527,11 @@ Host: bbplus-provider.org
 </pre>
 
             <p>The client will receive a unique
-            <code>client_id</code> for that service provider, and
-            will also receive a
+            <code>client_id</code> for that service provider, 
+            a <client_secret> that it can use to authorize at
+            the token endpoint, as well as a
             <code>registration_access_token</code> that it can use
-            to maintain its registration there, as described in
+            to maintain its registration at the registration endpoint, as described in
             OAuth Dynamic Client Registration.</p>
 
             <h2 id="registration-trusted">Trusted Registration</h2>
@@ -455,7 +576,7 @@ Host: bbplus-provider.org
               <p><strong>Client Instances per-Provider</strong> In
               the OAuth sense, the BP Grapher app has a separate
               "instance" for each (app, provider) pair it
-              participates in. For example, it may use a separate
+              participates in. For example, it will likely use a distinct
               <code>client_id</code> to communicate with each BB+
               provider. (Since <code>client_id</code> is assigned
               by each provider as part of the normal OAuth Dynamic
@@ -467,24 +588,22 @@ Host: bbplus-provider.org
 
               <p><strong>Client Instances per-Device</strong>
               Similarly, if the Blood Pressure Grapher is installed
-              on multiple iOS devices, it may be assigned a
+              on multiple iOS devices, it will be assigned a
               separate <code>client_id</code> for each
               (app-on-device, provider) pair it participates in.
               (Since <code>client_id</code> is assigned by each
               provider as part of the normal OAuth Dynamic
-              Registration process, apps <em>may be assigned</em>
+              Registration process, apps <em>MUST be assigned</em>
               distinct identifiers per-device by each provider.)
               Again, since these instances all represent "the same
               app," they belong to the same <strong>Client
               Class</strong>.</p>
 
               <p><strong>Instance- and Class-level
-              Controls</strong> In this way, BB+ Providers are free
-              to assign each instance of a Client Class a different
-              <code>client_id</code>, or to assign the same
-              <code>client_id</code> to all Client Instances of a
-              given class, in accordance with local policy. Apps
-              simply use the identifiers assigned. No matter how
+              Controls</strong> In this way, BB+ Providers MUST assign 
+              each instance of a Client Class a different
+              <code>client_id</code>, as stated in <a href="http://tools.ietf.org/html/draft-ietf-oauth-dyn-reg">OAuth 2 Dynamic Registration section 5.1</a>. Apps
+              MUST simply use the identifiers assigned. No matter which instance
               identifiers are assigned, BB+ Providers maintain the
               ability to make decisions at the Class level, so if
               the Blood Pressure Grapher loses trust, all of its
@@ -671,17 +790,18 @@ Provider-->App: client_id, secret, registration token
                 the tokens used during registration. Service
                 providers are responsible for linking thse client
                 instances together if they so desire. A service
-                provider MAY re-use the same client_id for all
-                instance, or it may issue different client_ids for
-                each instance.</li>
+                provider MUST assign a unique <code>client_id</code>
+                for each registered instance and MUST NOT re-use 
+                the same <code>client_id</code> for 
+                other instances in the class.</li>
 
                 <li>Clients are responsible (in all registration
-                cases) for accepting and using the client_id issued
+                cases) for accepting and using the <code>client_id</code> issued
                 to them by each service provider when talking to
                 that service provider.</li>
 
                 <li>Even a web-server style client is going to need
-                to get different client_id's from every service
+                to get different <code>client_id</code>'s from every service
                 provider, which means that even a single
                 installation of a client could have multiple
                 "instances" as far as the network is
@@ -879,7 +999,8 @@ Host: bpgrapher.org
                 <td><code>client_id</code></td>
 
                 <td>REQUIRED for public clients. May be omitted by
-                confidential clients.</td>
+                confidential clients where the client_id is communicated
+                via the client's authentication to the token endpoint.</td>
               </tr>
             </table>
 
