@@ -225,7 +225,7 @@ data-twttr-rendered="true">
             
             Policies:
             <ul>
-	    <li>Users trusted registration</li>
+	    <li>Uses trusted registration</li>
             <li>This is the setup with the highest assurance. Therefore authorization server can present the user with its least-scary authorization screen.</li>
             <li>If the <code>registration_jwt</code> or <code>client_secret</code> are exposed, it should be considered a major security breach and system-wide invalidation of the application's instances (and re-provisioning of its <code>registration_jwt</code>) are reasonable and expected countermeasures.</li>
             </ul>
@@ -239,7 +239,7 @@ data-twttr-rendered="true">
 	    
 	    Policies:
 	    <ul>
-	    <li>Users trusted registration</li>
+	    <li>Uses trusted registration</li>
 	    <li>An application MUST pre-register its <code>redirect_uri</code>s at the Registry Service and the authorization server MUST enforce them.</li>
 	    <li>On the authorization page, the authorization server should disclose the name and URI of the application for users to confirm that it matches what they think they're using</li>
 	    <li>If the <code>registration_jwt</code> is exposed, it should be considered a major security breach and system-wide invalidation of the application's instances (and re-provisioning of its <code>registration_jwt</code>) are reasonable and expected countermeasures.</li>
@@ -253,7 +253,7 @@ data-twttr-rendered="true">
 	    
 	    Policies:
 	    <ul>
-	    <li>Users trusted registration</li>
+	    <li>Uses trusted registration</li>
 	    <li>The <code>registration_jwt</code> is packaged in with the application and is therefore available to all end-users. This means that any holder of this JWT could try to register with this application's parameters and it must not be trusted for access without a user's explicit consent.</li>
 	    <li>Authorizations servers MUST present users with the name and URI of the application that is being authorized and appropriately caution users.</li>
 	    <li>An application MUST pre-register its <code>redirect_uri</code>s at the Registry Service and the authorization server MUST enforce them.</li>
@@ -268,7 +268,7 @@ data-twttr-rendered="true">
 	    
 	    Policies:
 	    <ul>
-	    <li>Users trusted registration</li>
+	    <li>Uses trusted registration</li>
 	    <li>The <code>registration_jwt</code> is packaged in with the application and is therefore available to all end-users. This means that any holder of this JWT could try to register with this application's parameters and it must not be trusted for access without a user's explicit consent.</li>
 	    <li>Authorizations servers MUST present users with the name and URI of the application that is being authorized and appropriately caution users.</li>
 	    <li>An application SHOULD pre-register as many parameters as possible at the Registry Service and the authorization server MUST enforce them.</li>
@@ -283,7 +283,7 @@ data-twttr-rendered="true">
 	    
 	    Policies:
 	    <ul>
-	    <li>Users open registration</li>
+	    <li>Uses open registration</li>
 	    <li>Authorization page MUST display a warning to users that the identity of the application is unverified and MUST state that users should proceed only if they trust the app's presented <code>redirect_uri</code></li>
 	    <li>An authorization server MAY display statistics such as how many other users have authorized this application in order to help the user make their decision.</li>
 	    </ul>
@@ -296,7 +296,7 @@ data-twttr-rendered="true">
 	    
 	    Policies:
 	    <ul>
-	    <li>Users open registration</li>
+	    <li>Uses open registration</li>
 	    <li>Authorization page MUST display a warning to users that the identity of the application is unverified and MUST state that users should proceed only if they trust the app's presented <code>redirect_uri</code></li>
 	    <li>An authorization server MAY display statistics such as how many other users have authorized this application in order to help the user make their decision.</li>
 	    </ul>
