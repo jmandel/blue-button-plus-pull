@@ -1124,3 +1124,7 @@ pre {
   word-wrap: normal;
   white-space: pre;
 }
+
+.badge-head {
+  vertical-align: middle;
+}
