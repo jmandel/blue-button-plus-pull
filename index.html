@@ -318,13 +318,13 @@ data-twttr-rendered="true">
               assurance, apps can perform a Trusted Registration
               (described below).
             </div>
-<div class=wsd wsd_style="napkin"><pre>
+<div class="wsd" wsd_style="napkin"><pre>
 Title: BlueButton+ Open Registration Process
 participant App
 participant Provider
 
 App-&gt;Provider: Registration Request (no JWT)
-Provider--&gt;App: client_id + secret + registration token
+Provider-&gt;App: client_id + secret + registration token
             </pre></div>
 
             <h3 id="registration-parameters">Registration
@@ -611,23 +611,31 @@ Host: bbplus-provider.org
             </div>
 
             <h3>Process overview:</h3>
-<div class=wsd wsd_style="napkin"><pre>
+<div class="wsd" wsd_style="napkin"><pre>
 Title: BlueButton+ Trusted Registration Process
-participant Provider 
-participant BB+ Registry
 participant App
+participant Provider 
+participant "BB+ Registry"
 
-App->BB+ Registry: Register for membership
+note over App,"BB+ Registry": Manual pre-registration
+App-->BB+ Registry: Register for membership
 BB+ Registry-->BB+ Registry: Verify app claims
+BB+ Registry-->BB+ Registry: Store app claims,\nmake available for discovery
 BB+ Registry-->App: Signed Registration JWT
-App->App: Time passes...
+note over App: Time passes... time to register
 App->BB+ Registry: Lookup provider
-BB+ Registry-->App: Provider URI
+BB+ Registry->App: Provider information
 App->Provider: Registration Request + JWT
+Provider->Provider: Validate issuer
+Provider->BB+ Registry: Get Registry discovery information
+BB+ Registry->Provider: Registry discovery information
+Provider->BB+ Registry: Lookup signing key
+BB+ Registry->Provider: JWK Set
+Provider->Provider: Validate signature
 Provider->BB+ Registry: Lookup app claims
-BB+ Registry-->Provider: App claims
+BB+ Registry->Provider: Pre-registered app claims
 Provider->Provider: Verify reg matches claims
-Provider-->App: client_id, secret, registration token
+Provider->App: client_id, secret, registration token
 </pre></div>
 
                 
@@ -671,7 +679,7 @@ Provider-->App: client_id, secret, registration token
               <li>Service provider validates the pre-registration
               token by checking the signature against the public
               key of the BB+ Registry indicated by the
-              <code>iss</code> field of the token (?and/or doing
+              <code>iss</code> field of the token (and/or doing
               token introspection from the <code>iss</code>).</li>
 
               <li>Service provider does application discovery based
@@ -681,8 +689,7 @@ Provider-->App: client_id, secret, registration token
 
               <li>Service provider compares any dynamically registered client
               metadata fields to any fixed value fields discovered in apps.json
-              <span class="label section label-info">TODO
-              string-comparison and validation rules</span></li>
+              </li>
 
               <li>Client Instance receives a <code>client_id</code>
               and <code>client_secret</code> as well as a
