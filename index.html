@@ -1749,6 +1749,8 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
 
             <h2 id="discovery-providers">Registered Providers</h2>
 
+            <p>A BB+ <strong>Provider</strong> is defined as the unique combination of a data service provider (a service that serves the BB+ data API) and an authorization provider (an OAuth2 authorization server and related components). Therefore, if a given data provider allows for two different authorization services, there will be two different BB+ Providers listed at the Registry Server. Likewise, if an authorization server is used for two different data providers, it will be listed separately in two different BB+ Providers at the Registry.</p>
+            
             <p>A BB+ Registry Server exposes a BB+ Provider
             Discovery endpoint at:
             <code>/.well-known/bb/providers.json</code></p>
