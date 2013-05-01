@@ -216,18 +216,18 @@ data-twttr-rendered="true">
 	      
 	      <tr>
 		<th> Can guard <code>registration_jwt</code></th>
-		<td> Trusted Confidential App</td>
-		<td> Trusted Public App</td>
+    <td><a href="#clients-trusted-confidential"> Trusted Confidential App</a></td>
+    <td><a href="#clients-trusted-public"> Trusted Public App</a></td>
 	      </tr>
 	      <tr>
 		<th> Can <strong>NOT</strong> guard <code>registration_jwt</code></th>
-		<td> Semi-Trusted Confidential App</td>
-		<td> Semi-Trusted Public App</td>
+    <td><a href="#clients-semitrusted-confidential"> Semi-Trusted Confidential App</a></td>
+    <td><a href="#clients-semitrusted-public"> Semi-Trusted Public App</a></td>
 	      </tr>
 	      <tr>
 		<th> No <code>registration_jwt</code></th>
-		<td> Experimental Confidential App</td>
-		<td> Experimental Public App</td>
+    <td><a href="#clients-experimental-confidential"> Experimental Confidential App</a></td>
+    <td><a href="#clients-experimental-public"> Experimental Public App</a></td>
 	      </tr>
 	      
             </table>
@@ -235,22 +235,22 @@ data-twttr-rendered="true">
             
             <p>When deciding whether and how to register with a Registry Service, a client application developer MUST determine which of the above categories are appropriate for their application. Application developers must take care to select the appropriate category for their application based on its runtime capabilites as well as policies around the data. A Registry should help enable these distinctions by explicitly asking application develoeprs about the capabilities of their applications in order to determine which policies to apply.</p>
             
-            <h3> Trusted Confidential Application</h3>
-            
-            <h5>Examples:</h5>
-            <ul>
-            <li>Web application where all API interactions between client and provider happen in the back channel ("server-side, away from the end-user"). This is the recommended mode for web-server based applications.</li>
-            <li>Native applications that can be issued a per-instance <code>registration_jwt</code> (using mechanisms outside the scope of this specification)</li>
-            </ul>
-            
-            <h5>Policies:</h5>
-            <ul>
-	    <li>Uses trusted registration</li>
-            <li>This is the setup with the highest assurance. Therefore authorization server can present the user with its least-scary authorization screen.</li>
-            <li>If the <code>registration_jwt</code> or <code>client_secret</code> are exposed, it should be considered a major security breach and system-wide invalidation of the application's instances (and re-provisioning of its <code>registration_jwt</code>) are reasonable and expected countermeasures.</li>
-            </ul>
-            
-	    <h3> Trusted Public Application</h3>
+      <h3 id="clients-trusted-confidential"> Trusted Confidential Application</h3>
+      
+      <h5>Examples:</h5>
+      <ul>
+      <li>Web application where all API interactions between client and provider happen in the back channel ("server-side, away from the end-user"). This is the recommended mode for web-server based applications.</li>
+      <li>Native applications that can be issued a per-instance <code>registration_jwt</code> (using mechanisms outside the scope of this specification)</li>
+      </ul>
+      
+      <h5>Policies:</h5>
+      <ul>
+<li>Uses trusted registration</li>
+      <li>This is the setup with the highest assurance. Therefore authorization server can present the user with its least-scary authorization screen.</li>
+      <li>If the <code>registration_jwt</code> or <code>client_secret</code> are exposed, it should be considered a major security breach and system-wide invalidation of the application's instances (and re-provisioning of its <code>registration_jwt</code>) are reasonable and expected countermeasures.</li>
+      </ul>
+      
+	    <h3 id="clients-trusted-public" > Trusted Public Application</h3>
 	    
       <h5>Examples:</h5>
 	    <ul>
@@ -265,7 +265,7 @@ data-twttr-rendered="true">
 	    <li>If the <code>registration_jwt</code> is exposed, it should be considered a major security breach and system-wide invalidation of the application's instances (and re-provisioning of its <code>registration_jwt</code>) are reasonable and expected countermeasures.</li>
 	    </ul>
 	    
-	    <h3> Semi-Trusted Confidential Application</h3>
+	    <h3 id="clients-semitrusted-confidential" > Semi-Trusted Confidential Application</h3>
       <h5>Examples:</h5>
 	    <ul>
 	    <li>Self-sufficient native applications that register themselves separately per installation instance based on their pre-registered parameters.</li>
@@ -280,7 +280,7 @@ data-twttr-rendered="true">
 	    <li>An application SHOULD pre-register as many parameters as possible at the Registry Service and the authorization server MUST enforce them.</li>
 	    </ul>
 
-	    <h3> Semi-Trusted Public Application</h3>
+	    <h3 id="clients-semitrusted-public" > Semi-Trusted Public Application</h3>
       <h5>Examples:</h5>
 	    <ul>
 	    <li>In-browser javascript applications that handle dynamic registration and authorization (using the implicit flow) on their own</li>
@@ -295,7 +295,7 @@ data-twttr-rendered="true">
 	    <li>This is likely to be a rare case in BB+.</li>
 	    </ul>
 
-	    <h3> Experimental Confidential Application</h3>
+	    <h3 id="clients-experimental-confidential" > Experimental Confidential Application</h3>
       <h5>Examples:</h5>
 	    <ul>
 	    <li>Weekend project / prototype of a web or native client to be used by app developers, their friends, and family</li>
@@ -308,7 +308,7 @@ data-twttr-rendered="true">
 	    <li>An authorization server MAY display statistics such as how many other users have authorized this application in order to help the user make their decision.</li>
 	    </ul>
 	    
-	    <h3> Experimental Public Application</h3>
+	    <h3 id="clients-experimental-public" > Experimental Public Application</h3>
       <h5>Examples:</h5>
 	    <ul>
 	    <li>Weekend project / prototype of an in-browser or native client to be used by app developers, their friends, and family</li>
