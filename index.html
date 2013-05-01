@@ -1333,6 +1333,69 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 	  <div class="page-header">
 	    <h1>Standard Scopes <small>structured values for conveying authorization information</small> <span class="label label-success">Common</span></h1></div>
 	   
+	   <p>In APIs protected by OAuth 2, the <code>scope</code> mechanism allows the Authorization Server, Client, and Protected Resource to communicate the level of access that the client has been authorized for. These scopes are expressed at different times throughout the process:</p>
+	   
+	   <ol>
+	    <li>At pre-registration with a Registry, an application class may pre-register the set of scopes that its instances will be able to ask for in future steps</li>
+	    <li>At registration, a client instance may ask for a set of scopes to be tied to its registration</li>
+	    <li>At registration, an authorization server will register a client instance with a set of scopes that the client instance may ask for at the authorization endpoint</li>
+	    <li>At authorization, a client may ask for a set of scopes to be tied to the issued token</li>
+	    <li>At authorization, an end-user and authorization server will determine which scopes are associated with the issued token</li>
+	    <li>At token issuance, a token is associated with a set of authorized scopes expressed in the return from the token endpoint</li>
+	    <li>At access time, the protected resource compares the scopes associated with the token to the scopes required to access the data API in question</li>
+	   </ol>
+	   
+	   <p>The <code>scope</code> paramter in OAuth 2 is a space-separated list of strings, and the values, syntax, and sematnics of the individual scopes are service specific. In the context of Blue Button+, there are several scopes that are defined by the BB+ Push and Pull protocols. These scopes fall into two main categories: simple scopes  and structured scopes. </p>
+	   
+	   <h2>Simple Scopes</h2>
+	   
+	   <p>Simple scopes are plain, static string values (that do not include the space " " character). For these scopes, the entire string is used as-is in all steps listed above. These scopes are to be compared using exact string matching when determining</p>
+	   
+	   <table class="table table-striped table-hover">
+	    <thead>
+	      <tr>
+		<th>Scope Value</th>
+		<th>Description</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td><code>http://siframework.org/ABBI/endpoint/search</code>
+		<td>Access to the BB+ Search API</td>
+	      </tr>
+	      <tr>
+		<td><code>http://siframework.org/ABBI/endpoint/summary</code>
+		<td>Access to the BB+ Summary API</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	   
+	   </table>
+	   
+	   <h2>Structured Scopes</h2>
+	   
+	   <p>In BB+, structured scopes have two parts, a root scope value and an optional parameter value, separated by the colon ":" character. In general, the root scope value is used in the pre-registration and registration steps above (steps 1-3), and the full scope value (root:parameter) are used in the authorization, token, and access steps above (4-7), though the root used without its parameter MAY have special meaning in these later steps. Registration for the root scope value implies permission for the client instance to ask for authorization for any fully parameterized scope based on that root. (Note that as with all OAuth 2 scopes, the permission to ask for authorization in no way guarantees or implies that authorization will be granted.)</p>
+	   
+	   <table class="table table-striped table-hover">
+	    <thead>
+	      <tr>
+		<th>Root Value</th>
+		<th>Parameter</th>
+		<th>Description</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td><code>single-patient</code></td>
+		<td><code>patient record pseudonymous identifier</code></td>
+		<td>In the Pull protocol, this scope represents read/write access to the records for a single patient, identified by the parameter value, such as <code>single-patient:12413</code>. An authorization server need not understand the value of the parameter in order to let the user grant access, but the resource server MUST understand and enforce the value. Access to multiple different patient records is represented by multiple scopes, such as <code>single-patient:12413 single-patient:143132</code>. In step 5, the authorization server MAY prompt the user to authorize a set of parameterized scopes based on this scope by prompting the end-user to enter a code directly or picking from a list. How these parameter values are communicated between the protected resource, client, end-user, and authorization server are out of scope for this proposal and often out of band, such as the user being given a short code and being asked to type it in. When used in steps 5-7 without a paramter value as <code>single-patient</code>, this scope stands in for the record representing the end-user who authorized the token. </td>
+	      </tr>
+	      <tr>
+		<td><code>send-email-to</code></td>
+		<td><code>DIRECT email address</code></td>
+		<td>In the Push authorization protocol, this scope represents end-user authorization for the provider to send email to the DIRECT email address stated in the parameter value, such as <code>send-email-to:oip8erjoiaewjoi@direct.bp-grapher.org</code>. When used without a parameter in step 4, the authorization server MUST prompt the end user for the DIRECT email address to use. In steps 5-7, the semantics of this scope without the parameter value are undefined and out of scope for this protocol.</td>
+	    </tbody>
+	  </table>
 	
 	</section>
         
