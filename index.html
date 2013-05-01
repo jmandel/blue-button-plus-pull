@@ -1345,11 +1345,11 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 	    <li>At access time, the protected resource compares the scopes associated with the token to the scopes required to access the data API in question</li>
 	   </ol>
 	   
-	   <p>The <code>scope</code> paramter in OAuth 2 is a space-separated list of strings, and the values, syntax, and sematnics of the individual scopes are service specific. In the context of Blue Button+, there are several scopes that are defined by the BB+ Push and Pull protocols. These scopes fall into two main categories: simple scopes  and structured scopes. </p>
+	   <p>The <code>scope</code> paramter in OAuth 2 is a space-separated list of strings, and the values, syntax, and sematnics of the individual scopes are service specific. In the context of Blue Button+, scopes that are defined by the BB+ Push and Pull protocols. These scopes fall into two categories: simple scopes and structured scopes. </p>
 	   
 	   <h2>Simple Scopes</h2>
 	   
-	   <p>Simple scopes are plain, static string values (that do not include the space " " character). For these scopes, the entire string is used as-is in all steps listed above. These scopes are to be compared using exact string matching when determining</p>
+	   <p>Simple scopes are plain, static string values that do not include the space " " character. For these scopes, the entire string is used as-is in all steps listed above. These scopes are to be compared using exact string matching when determining</p>
 	   
 	   <table class="table table-striped table-hover">
 	    <thead>
@@ -1374,7 +1374,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 	   
 	   <h2>Structured Scopes</h2>
 	   
-	   <p>In BB+, structured scopes have two parts, a root scope value and an optional parameter value, separated by the colon ":" character. In general, the root scope value is used in the pre-registration and registration steps above (steps 1-3), and the full scope value (root:parameter) are used in the authorization, token, and access steps above (4-7), though the root used without its parameter MAY have special meaning in these later steps. Registration for the root scope value implies permission for the client instance to ask for authorization for any fully parameterized scope based on that root. (Note that as with all OAuth 2 scopes, the permission to ask for authorization in no way guarantees or implies that authorization will be granted.)</p>
+	   <p>In BB+, structured scopes have two parts: a root scope value and an optional parameter value, separated by the colon ":" character. In general, the root scope value is used in the pre-registration and registration steps above (steps 1-3), and the fully-specified scope value (root:parameter) is used in the authorization, token, and access steps above (4-7).  Registration for the root scope value implies permission for the client instance to ask for authorization for any fully parameterized scope based on that root. (Note that as with all OAuth 2 scopes, the permission to ask for authorization in no way guarantees or implies that authorization will be granted.)</p>
 	   
 	   <table class="table table-striped table-hover">
 	    <thead>
@@ -1388,7 +1388,15 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 	      <tr>
 		<td><code>single-patient</code></td>
 		<td><code>patient record pseudonymous identifier</code></td>
-		<td>In the Pull protocol, this scope represents read/write access to the records for a single patient, identified by the parameter value, such as <code>single-patient:12413</code>. An authorization server need not understand the value of the parameter in order to let the user grant access, but the resource server MUST understand and enforce the value. Access to multiple different patient records is represented by multiple scopes, such as <code>single-patient:12413 single-patient:143132</code>. In step 5, the authorization server MAY prompt the user to authorize a set of parameterized scopes based on this scope by prompting the end-user to enter a code directly or picking from a list. How these parameter values are communicated between the protected resource, client, end-user, and authorization server are out of scope for this proposal and often out of band, such as the user being given a short code and being asked to type it in. When used in steps 5-7 without a paramter value as <code>single-patient</code>, this scope stands in for the record representing the end-user who authorized the token. </td>
+    <td>
+    
+    <p>In the Pull authorization protocol, this scope represents read/write access to a single patient record identified by a parameter value, such as <code>single-patient:me</code> or <code>single-patient:123</code>.  The scope is parameterized because in some cases the authorizing user may not be the same as the patient (for example, a parent authorizing access to her child's record).  This parameter allows each party to keep track of how access tokens map to individual patients, rather than invidiual authorizing users. The fixed parameter value <code>single-patient:me</code> represents the common case where a patient is authorizing access to her own record.
+    </p>
+
+    <p> An authorization server need not understand the value of the parameter in order to let the user grant access, but the resource server MUST understand and enforce the value. At this time, each BB+ Pull authorization MUST be associated with <em>exactly one</em> <code>single-patient:</code> scope. In other words, <em>a given access token may only be used to access one patient's data</em>.  In step 5, the authorization server MAY prompt the user to choose a signel patient record: for example, by asking the end-user to enter a code directly or choose from a list. The details of how these parameter values are defined and communicated between the protected resource, client, end-user, and authorization server are out of scope for this proposal and often out of band. (For example a pediatrician's office may provide a parent with a print-out including a short code to type in at authorization time for authorizing access to each child's record.) 
+    </p>
+    </td>
+
 	      </tr>
 	      <tr>
 		<td><code>send-email-to</code></td>
@@ -1493,7 +1501,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 response_type=code&amp;
 client_id=bp-grapher&amp;
 redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth&amp;
-scope=single-patient%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
+scope=single-patient%3Ame%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
 state=98wrghuwuogerg97
 
 Host: bbplus-provider.org
@@ -1664,7 +1672,7 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth
   "access_token": "i8hweunweunweofiwweoijewiwe",
   "token_type": "bearer",
   "expires_in": "3600",
-  "scope": "single-patient http://siframework.org/ABBI/endpoint/summary"
+  "scope": "single-patient:me http://siframework.org/ABBI/endpoint/summary"
 } 
 </pre>
 
@@ -1735,7 +1743,7 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth
 response_type=token&amp;
 client_id=bp-grapher&amp;
 redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth&amp;
-scope=single-patient%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
+scope=single-patient%3Ame%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
 state=98wrghuwuogerg97
 
 Host: bbplus-provider.org 
@@ -1805,7 +1813,7 @@ Host: bbplus-provider.org
 access_token=i8hweunweunweofiwweoijewiwe&amp;
 token_type=bearer&amp;
 expires_in=3600&amp;
-scope=single-patient%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
+scope=single-patient%3Ame%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
 state=98wrghuwuogerg97
 
 Host: bbplus-provider.org 
@@ -1897,7 +1905,7 @@ Host: bbplus-provider.org
             <h4>Example</h4>
     
             <pre>
-GET /bb/records/me/summary HTTP/1.1
+GET /bb/record/summary HTTP/1.1
 Accept: application/xml
 Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
@@ -2085,7 +2093,7 @@ Host: bbplus-provider.org
           clarity</p>
 
           <pre>
-GET /bb/records/me/search?                      # provider-supplied endpoint
+GET /bb/record/search?                      # provider-supplied endpoint
    format=text%2Fxml&amp;                             # limit to XML files
    conformsTo=CCDA&amp;                               # limit to Consolidated CDAs
    type=Operative&amp;                              # limit to Operative notes *or*
@@ -2123,7 +2131,7 @@ Host: bbplus-provider.org
   "entry" : [
     {
       "title" : "Resource example Version 1",
-      "id" : "https://bbplus-provider.org/bb/records/me/documentreference/@123",
+      "id" : "https://bbplus-provider.org/bb/record/documentreference/@123",
       "updated" : "2013-04-22T04:15:10Z",
       "category" : [
         {
@@ -2198,7 +2206,7 @@ Host: bbplus-provider.org
           <h4>Example request</h4>
           For the example <a href="#example-documentreference-feed">JSON feed above</a>, an app would fetch actual document contents via:
           <pre>
-GET /bb/records/me/documentreference/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document HTTP/1.1
+GET /bb/record/documentreference/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document HTTP/1.1
 Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
 </pre>
