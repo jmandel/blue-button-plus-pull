@@ -96,7 +96,8 @@ data-twttr-rendered="true">
           </li>
 
           <li class="sidenav-indent">
-            <a href="#discovery-single-provider">Single Provider</a>
+            <a href="#discovery-single-provider"><i class=
+            "icon-chevron-right"></i>Single Provider</a>
           </li>
 
          <li class="sidenav-indent">
@@ -185,7 +186,7 @@ data-twttr-rendered="true">
           <div class="page-header">
             <h1>App Registration <small>up-front,
             partially-automated</small> <span class=
-            "label label-success">Common</span></h1>
+            "label label-success">Common</span></h1></div>
 
             <p>Before an app connects to a BlueButton+ provider, it
             registers with that provider as an OAuth2 Client. The
@@ -656,10 +657,6 @@ Provider->Provider: Verify reg matches claims
 Provider->App: client_id, secret, registration token
 </pre></div>
 
-                
-            <pre class="diagram">
-</pre>
-
             <ol>
               <li>Client Class is manually pre-registered with a
               BB+ Registry.
@@ -903,14 +900,13 @@ Host: bbplus-provider.org
                 concerned.</li>
               </ul>
             </div>
-          </div>
         </section>
 
         <section id="discovery">
           <div class="page-header">
             <h1>Provider and App Discovery <small>via BB+ Registries</small>
             <span class=
-            "label label-success">Common</span></h1>
+            "label label-success">Common</span></h1></div>
 
             <p>BlueButton+ Pull uses <strong>BB+ Registry
             Servers</strong> to enable discovery of BB+ Providers
@@ -1216,7 +1212,6 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
   }
 }
 </pre>
-          </div>
 
           
           <h2 id="discovery-apps">Registered Apps</h2>
@@ -1336,7 +1331,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 
 	<section id="scopes">
 	  <div class="page-header">
-	    <h1>Standard Scopes <small>structured values for conveying authorization information</small> <span class="label label-success">Common</span></h1>
+	    <h1>Standard Scopes <small>structured values for conveying authorization information</small> <span class="label label-success">Common</span></h1></div>
 	   
 	
 	</section>
@@ -1345,7 +1340,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
           <div class="page-header">
             <h1>App Authorization <small>a runtime, patient-driven
             step</small> <span class=
-            "label label-info">Pull</span></h1>
+            "label label-info">Pull</span></h1></div>
 
             <p>BlueButton+ providers allow apps to obtain patient
             authorization to health data using standard OAuth2
@@ -1752,14 +1747,13 @@ state=98wrghuwuogerg97
 
 Host: bbplus-provider.org 
 </pre>
-          </div>
         </section>
 
         <section id="clinical-api">
           <div class="page-header">
 
             <h1>Clinical API<small>summary & search</small> <span class=
-            "label label-info">Pull</span></h1>
+            "label label-info">Pull</span></h1></div>
 
             <h2>Using the BB+ Clinical API</h2>
             To access BlueButton+ Clinical API endpoints, an app:
@@ -1856,7 +1850,7 @@ Host: bbplus-provider.org
             
             <p>
             The following five fields of a <code>DocumentReference</code> must be defined to support
-            BB+ Document Search:
+            BB+ Document Search:</p>
 
             <ul>
               <li> <code>url</code> to support <a href="#clinical-document-retrieval">Document Retrieval</a></li>
@@ -1865,8 +1859,6 @@ Host: bbplus-provider.org
               <li> <code>type</code> to describe clinical content</li>
               <li> <code>context.period</code> to describe period of care</li>
             </ul>
-            
-            </p>
             
             <p>For full details, see <a
             href="http://www.hl7.org/implement/standards/fhir/documentreference.htm">FHIR's
@@ -2148,13 +2140,12 @@ Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
 </pre>
  
-        </div>
       </section>
 
         <section id="push-authorization">
           <div class="page-header">
             <h1>Push Authorization <span class=
-            "label label-warning">Push</span></h1>
+            "label label-warning">Push</span></h1></div>
 
             <p>Patient data is stored with many providers, and
             manually requesting an update from each provider can be
@@ -2386,7 +2377,6 @@ http://portal.goodhealthclinic.org/token
   "scope": "send_email_to:oip8erjoiaewjoi@direct.bp-grapher.org"
 } 
 </pre>
-          </div>
 
           <div class="well alert-info">
             <h3>Alternative Push Authorization Strategy
