@@ -1588,7 +1588,7 @@ Host: bpgrapher.org
               <tr>
                 <td><code>redirect_uri</code></td>
 
-                <td>REQIRED. The same redirect_uri used in the
+                <td>REQUIRED. The same redirect_uri used in the
                 initial authorization request</td>
               </tr>
 
@@ -1837,7 +1837,7 @@ Host: bbplus-provider.org
 
             <h3>Discovering endpoint URIs</h3>
 
-            Each BB+ Provider exposes a clinical summary endpoing and a
+            Each BB+ Provider exposes a clinical summary endpoint and a
             document search endpoint.  An app discovers the URLs for these
             endpoints at runtime by performing <a
             href="#discovery-single-provider">Single-Provider Discovery</a>.
@@ -1849,7 +1849,7 @@ Host: bbplus-provider.org
             To issue an authenticated API call, an app requests the BB+
             Clinical API endpoint using the appropriate HTTP method (generally
             <code>GET</code> for read-only operations), including its OAuth
-            bearer token using an <code>Authorization</code> header or ay valid
+            bearer token using an <code>Authorization</code> header or any valid
             mechanism from RFC6750.
 
             <h3>Negotiating <code>Content-type</code> of the response</h3>
@@ -2254,7 +2254,7 @@ Host: bbplus-provider.org
             <h3>User Authorization Flow:</h3>
 
             <p>In this section, we describe how a user can
-            authorize a service provider to send updates them
+            authorize a service provider to send
             updates as new health data becomes available. To enable
             this process, the client must perform the following
             steps:</p>
@@ -2426,7 +2426,7 @@ https://bpgrapher.org/after-auth?
             token using the code from the token endpoint. If this
             returns an access token (and not an error), then we
             know the code we used was good and that the user
-            actually aubbthorized for us. Optionally, the client
+            actually authorized for us. Optionally, the client
             can also check the scope of the returned token to
             ensure that the requested scopes were received. Below
             is an example of the request for this verification:</p>
