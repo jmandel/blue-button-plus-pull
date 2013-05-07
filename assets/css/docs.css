@@ -855,7 +855,11 @@ ul.bs-docs-sidenav li.active a  {
   bottom: 270px;
 }
 
-
+.affix-bust {
+    position: static;
+    width: auto;
+    top: 0;
+}
 
 
 /* Responsive
