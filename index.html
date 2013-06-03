@@ -1261,12 +1261,16 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
                   "#registration-parameters">registration
                   parameters</a> that are fixed across all
                   instances of this app. A Trusted Registration
-                  request that fails to match (NOTE: need matching
-                  mechanisms defined here) on any parameters
-                  included here will be rejected. This may contain
+                  request must match on all parameters
+                  defined in the <code>fixed_registration_parameters</code>
+                  structure. (Note:  matching requiest
+                  that <code>JSON.stringify</code> return identical 
+                  values for a given fixed registration parameter.
+                  Failure to match on any parameter results in a rejected
+                  Trusted Registration request. This structure may include
                   any valid client metadata reistration parameters,
-                  and it is RECOMMENDED that the following ones be
-                  particularly locked down.
+                  and it is RECOMMENDED that the following properties be
+                  locked down.
                 </td>
               </tr>
 
