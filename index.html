@@ -95,11 +95,6 @@ data-twttr-rendered="true">
             "icon-chevron-right"></i>Registered Providers</a>
           </li>
 
-          <li class="sidenav-indent">
-            <a href="#discovery-single-provider"><i class=
-            "icon-chevron-right"></i>Single Provider</a>
-          </li>
-
          <li class="sidenav-indent">
             <a href="#discovery-apps"><i class=
             "icon-chevron-right"></i>Registered Apps</a>
@@ -1060,74 +1055,22 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
                 <td><code>name</code></td>
                 <td>Name of the BB+ Provider organization</td>
               </tr>
-
               <tr>
                 <td><code>url</code></td>
-                <td>Base URL of the provider's BB+ server (to which <code>.well-known/bb/provider.json</code> can be appended)</td>
+
+                <td>Primary url of the provider organization</td>
               </tr>
+
+
             </table>
 
-            <h5>providers.json example</h5>
-            <pre class="prettyprint">
-Content-Type: application/json
-Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js&gt;; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
-
-[
-{
-  "name": "Good Health Clinic",
-  "description": "Serving your health needs since 1999",
-  "url": "http://api.goodhealthclinic.org",
-  "location": {
-    "geo": {                       
-      "latitude": 42.3591,            # just making the point that we can
-      "longitude": -71.0934           # use arbitrary schema.org properties
-    }
-  }
-},
-{
- ... (more providers here) ...
-}
-] 
-</pre>
-
-
-            <h2 id="discovery-single-provider">Single Provider</h2>
-
-            <p>Each BB+ Provider hosts its own 
-            Discovery endpoint at:
-            <code>/.well-known/bb/provider.json</code></p>
-
-            <h3>provider.json</h3>
-
-            <p><code>provider.json</code> is a single JSON object
-            expressing Authorization and BB+ Endpoint URLs,
-            expressed as JSON-LD with a default
-            <code>@vocab</code> from <a href=
-            "http://schema.org">http://schema.org</a> and
-            additional properties defined in the <a href=
-            "context-json-ld.js">BB+ JSON-LD Context</a></p>
-
-            <p>While any vocabulary from schema.org may be used in
-            describing a provider, the <strong>following fields are
-            required:</strong></p>
+            <p> Each provider also exposes its endpoint URIs via the following properties:</p>
 
             <table class="table table-striped">
               <tr>
                 <th>Property</th>
 
                 <th>Description</th>
-              </tr>
-
-              <tr>
-                <td><code>name</code></td>
-
-                <td>Name of the BB+ Data Provider organization</td>
-              </tr>
-
-              <tr>
-                <td><code>url</code></td>
-
-                <td>Primary url of the provider organization</td>
               </tr>
 
               <tr>
@@ -1186,11 +1129,13 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
               </tr>
             </table>
 
-            <h5>provider.json example</h5>
+
+            <h5>providers.json example</h5>
             <pre class="prettyprint">
 Content-Type: application/json
 Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js&gt;; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
 
+[
 {
   "name": "Good Health Clinic",
   "description": "Serving your health needs since 1999",
@@ -1210,8 +1155,14 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
     "summary": "http://api.goodhealthclinic.org/patient/documents/summary",
     "search": "http://api.goodhealthclinic.org/patient/documents/search"
   }
+},
+{
+ ... (more providers here) ...
 }
+] 
 </pre>
+
+
 
           
           <h2 id="discovery-apps">Registered Apps</h2>
