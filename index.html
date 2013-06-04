@@ -1087,20 +1087,26 @@ Link: &lt;http://jmandel.github.com/blue-button-plus-pull/context-json-ld.js&gt;
               </tr>
 
               <tr>
-                <td class="subproperty"><code>authorize</code></td>
+                <td class="subproperty"><code>registration_uri</code></td>
+
+                <td>OAuth2 dynamic registration endpoint</td>
+              </tr>
+
+              <tr>
+                <td class="subproperty"><code>authorize_uri</code></td>
 
                 <td>OAuth2 authorization endpoint</td>
               </tr>
 
               <tr>
-                <td class="subproperty"><code>token</code></td>
+                <td class="subproperty"><code>token_uri</code></td>
 
                 <td>OAuth2 token endpoint</td>
               </tr>
 
               <tr>
                 <td class="subproperty">
-                <code>introspect</code></td>
+                <code>introspect_uri</code></td>
 
                 <td>
                   OAuth2 introspection endpoint (As described in
@@ -1148,6 +1154,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
     }
   },
   "oauth2": {
+    "registration_uri": "http://portal.goodhealthclinic.org/register",
     "authorize_uri": "http://portal.goodhealthclinic.org/authorize",
     "token_uri": "http://portal.goodhealthclinic.org/token"
   },
