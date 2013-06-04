@@ -1220,13 +1220,13 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
                   instances of this app. A Trusted Registration
                   request must match on all parameters
                   defined in the <code>fixed_registration_parameters</code>
-                  structure. (Note:  matching requiest
+                  structure. (Note:  matching requires
                   that <code>JSON.stringify</code> return identical 
                   values for a given fixed registration parameter.
                   Failure to match on any parameter results in a rejected
-                  Trusted Registration request. This structure may include
+                  Trusted Registration request.) This structure may include
                   any valid client metadata reistration parameters,
-                  and it is RECOMMENDED that the following properties be
+                  and the following properties MUST be
                   locked down.
                 </td>
               </tr>
@@ -1440,7 +1440,7 @@ Link: &lt;http://blue-button.github.com/blue-button-plus-pull/context-json-ld.js
 response_type=code&amp;
 client_id=bp-grapher&amp;
 redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth&amp;
-scope=search%3A%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
+scope=search%3A+search%3A&amp;
 state=98wrghuwuogerg97
 
 Host: bbplus-provider.org
@@ -1681,7 +1681,7 @@ redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth
 response_type=token&amp;
 client_id=bp-grapher&amp;
 redirect_uri=https%3A%2F%2Fbpgrapher.org%2Fafter-auth&amp;
-scope=search%3A%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
+scope=search%3A+summary%3A&amp;
 state=98wrghuwuogerg97
 
 Host: bbplus-provider.org 
@@ -1751,7 +1751,7 @@ Host: bbplus-provider.org
 access_token=i8hweunweunweofiwweoijewiwe&amp;
 token_type=bearer&amp;
 expires_in=3600&amp;
-scope=search%3A%20http%3A%2F%2Fsiframework.org%2FABBI%2Fendpoint%2Fsummary&amp;
+scope=search%3A+summary%3A&amp;
 state=98wrghuwuogerg97
 
 Host: bbplus-provider.org 
