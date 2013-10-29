@@ -1865,15 +1865,15 @@ Host: bbplus-provider.org
             BB+ Document Search:</p>
 
             <ul>
-              <li> <code>url</code> to support <a href="#clinical-document-retrieval">Document Retrieval</a></li>
-              <li> <code>conformsTo</code> to distinguish CCDA vs. CCD 1.0 vs. CCR (see below)</li>
-              <li> <code>format</code> to describe MIME type </li>
+              <li> <code>location</code> to support <a href="#clinical-document-retrieval">Document Retrieval</a></li>
+              <li> <code>format</code> to distinguish CCDA vs. CCD 1.0 vs. CCR (see below)</li>
+              <li> <code>mimeType</code> to describe MIME type </li>
               <li> <code>type</code> to describe clinical content</li>
-              <li> <code>context.period</code> to describe period of care</li>
+              <li> <code>period</code> to describe period of care</li>
             </ul>
             
             <p>For full details, see <a
-            href="http://www.hl7.org/implement/standards/fhir/documentreference.htm">FHIR's
+            href="http://www.hl7.org/implement/standards/fhir/documentreference.html">FHIR's
             DocumentReference definition</a>.  
             </p>
 
@@ -1897,13 +1897,14 @@ Host: bbplus-provider.org
               </tr>
 
               <tr>
-                <td><code>format</code></td>
+                <td><code>mimeType</code></td>
 
                 <td>
                 
                 <p>Filter the available documents by a MIME type. Most clinical documents today have MIME type <code>text/xml</code>.</p>
                 
-                Multiple <code>format</code> parameters are processed as an "or" (union).
+                To match more than one <code>mimeType</code>, separate values with <code>,</code> </p>
+                E.g. <code>mimeType=text/xml,text/plain</code>
 
                 </td>
 
@@ -1911,7 +1912,7 @@ Host: bbplus-provider.org
 
 
               <tr>
-                <td><code>conformsTo</code></td>
+                <td><code>format</code></td>
 
                 <td>
                 Filter by information model (e.g. CCD 1.0, C-CDA, CCR).  
@@ -1927,7 +1928,8 @@ Host: bbplus-provider.org
                   <dd>Content expressed using the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=258">HL7 CCDA</a> Standard (including CCD 1.1)</dd>
                 </dl>
                 
-                Multiple <code>conformsTo</code> parameters are processed as an "or" (union).
+                To match more than one <code>format</code>, separate values with <code>,</code></p>
+                E.g. <code>format=CCD,CCR</code>
 
                 </td>
 
@@ -1950,14 +1952,15 @@ Host: bbplus-provider.org
                   <dt>Lab</dt><dd>Lab report</dd>
                   <dt>Unstructured</dt><dd>Unstructured document</dd>
                </dl>
-                Multiple <code>type</code> parameters are processed as an "or" (union).
+                To match more than one <code>type</code>, separate values with <code>,</code></p>
+                E.g. <code>type=Summary,Discharge</code>
 
                </td>
 
               </tr>
 
               <tr>
-                <td><code>period-before</code></td>
+                <td><code>period:before</code></td>
 
                 <td>
                 <p>Filter for documents describing a period before a given time. If no time zone is specified, the server
@@ -1970,7 +1973,7 @@ Host: bbplus-provider.org
               </tr>
 
               <tr>
-                <td><code>period-after</code></td>
+                <td><code>period:after</code></td>
 
                 <td>
                 <p>Filter for documents describiing a period after a given time. </p>
@@ -1990,7 +1993,7 @@ Host: bbplus-provider.org
               </tr>
 
               <tr>
-                <td><code>application/atom+xml</code></td>
+                <td><code>text/xml</code></td>
                 <td>DEFAULT. An Atom feed representation of <code>DocumentReference</code> elements.
               </tr>
 
@@ -2011,7 +2014,7 @@ Host: bbplus-provider.org
             <dt>Accept header (or _format parameter)</dt>
             <dd>Defines the MIME type in which search results are returned.  Remember that search results are returned as a feed of DocumentReference document descriptions, and actual document content is not embedded in this feed. So this parameter simply determines whether the feed is Atom (default) or JSON.</dd>
             <dt>format parameter</dt>
-            <dd>Search parameter to filter documents by format (typically <code>text/xml</code>). Note the lack of undescore.</dd>
+            <dd>Search parameter to filter documents by format (e.g. CCDA vs. CCR). Note the lack of undescore.</dd>
             </dl>
           </div>
 
@@ -2034,12 +2037,11 @@ Host: bbplus-provider.org
           clarity</p>
 
           <pre>
-GET /bb/record/search?                      # provider-supplied endpoint
-   format=text%2Fxml&amp;                             # limit to XML files
-   conformsTo=CCDA&amp;                               # limit to Consolidated CDAs
-   type=Operative&amp;                              # limit to Operative notes *or*
-   type=Procedure&amp;                              #          Procedure notes
-   period.before=2013-01-01T00:00Z              # limit to care episodes that
+GET /bb/record/documentreference?                      # provider-supplied endpoint
+   mimeType=text%2Fxml&amp;                             # limit to XML files
+   format=CCDA&amp;                               # limit to Consolidated CDAs
+   type=Operative,Procedure&amp;                              # limit to Operative notes *or* Procedure notes
+   period:before=2013-01-01T00:00Z              # limit to care episodes that
    HTTP/1.1                                     #   (partially) occurred pre-2013
    Accept: application/json                     # return a JSON feed 
                                                 #   (rather than Atom XML)
@@ -2056,78 +2058,47 @@ Host: bbplus-provider.org
             simplified.</p>
 
             <p>In practice, to retrieve actual document contents, app
-            developers will want to examine the <code>.entry</code> array of
+            developers will want to examine the <code>entry</code> array of
             the search result, and for each <code>DocumentReference</code> in that
-            array, the <code>url</code>.<code>value</code> can be extracted and
+            array, the <code>location</code> can be extracted and
             dereferenced.  For more details, see <a
             href="api-document-fetch">Document Retrieval</a>.
 
           </div>
 
-          <pre>
-{
-  "title" : "Search results for resource type DocumentReference",
-  "id" : "urn:uuid:aa421641-7ccf-4efe-8ec4-e1f726ae33",
-  "updated" : "2013-04-23T22:20:45Z",
-  "entry" : [
+          <pre>{
+  "title": "Search results for resource type DocumentReference",
+  "entry": [
     {
-      "title" : "Resource example Version 1",
-      "id" : "https://bbplus-provider.org/bb/record/documentreference/@123",
-      "updated" : "2013-04-22T04:15:10Z",
-      "category" : [
-        {
-          "scheme" : "http://hl7.org/fhir/resource-types",
-          "term" : "DocumentReference"
-        }
-      ],
-      "content" : {
-        "DocumentReference" : {
-          "type" : {
-            "coding" : [
-              {
-                "code" : {
-                  "value" : "Consult"
-                },
-                "display" : {
-                  "value" : "Consultation Note"
-                }
-              }
-            ]
-          },
-          "conformsTo" : {
-            "coding" : [
-              {
-                "code" : {
-                  "value" : "CCDA"
-                },
-                "display" : {
-                  "value" : "Consolidated CDA"
-                }
-              }
-            ]
-          },
-          "created" : {
-            "value" : "2005-12-24T09:35:00+11:00"
-          },
-          "indexed" : {
-            "value" : "2005-12-24T09:43:41+11:00"
-          },
-          "status" : {
-            "value" : "current"
-          },
-          "format" : {
-            "value" : "text/xml"
-          },
-          "location" : {
-            "value" : "http://example.org/xds/mhd/binary/@07a6483f-732b-461e-86b6-edb665c45510"
-          },
-        }
-      },
-      "summary" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">Text</div>\r\n"
+      "id": "https://bbplus-provider.org/bb/record/documentreference/123",
+      "updated": "2013-04-22T04:15:10Z",
+      "content": {
+        "resourceType": "DocumentReference",
+        "type": {
+          "coding": [
+            {
+              "code": "Consult",
+              "display": "Consultation Note"
+            }
+          ]
+        },
+        "conformsTo": {
+          "coding": [
+            {
+              "code": "CCDA",
+              "display": "Consolidated CDA"
+            }
+          ]
+        },
+        "created": "2005-12-24T09:35:00+11:00",
+        "indexed": "2005-12-24T09:43:41+11:00",
+        "status": "current",
+        "mimeType": "text/xml",
+        "location": "https://bbplus-provider.org/bb/record/binary/9n9283829f"
+      }
     }
   ]
-}
-</pre>
+}</pre>
 
             <h2 id="clinical-document-retrieval">Document Retrieval</h2>
 
@@ -2139,15 +2110,15 @@ Host: bbplus-provider.org
             <code>DocumentReference</code> document descriptors.  To fetch actual
             document contents, the app issues an authenticated,  HTTPS
             <code>GET</code> to dereference the document URI.  This URI is
-            available in the <code>./url/@value</code> xpath for an Atom entry,
-            or the <code>url</code>.<code>value</code> field of a JSON feed
+            available in the <code>./location/@value</code> xpath for an Atom entry,
+            or the <code>location</code> field of a JSON feed
             entry. </p>
 
       
           <h4>Example request</h4>
           For the example <a href="#example-documentreference-feed">JSON feed above</a>, an app would fetch actual document contents via:
           <pre>
-GET /bb/record/documentreference/@830fcde0-5d03-4305-8589-a4fa8d574d0e/document HTTP/1.1
+GET /bb/record/binary/9n9283829f HTTP/1.1
 Authorization: i8hweunweunweofiwweoijewiwe
 Host: bbplus-provider.org
 </pre>
